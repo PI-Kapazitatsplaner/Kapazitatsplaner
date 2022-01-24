@@ -2,13 +2,13 @@ import express from 'express';
 import createError from 'http-errors';
 import path from 'path';
 
-import indexRouter from "./routes/index";
+import indexRouter from "./Routes/index";
 
 const app: express.Application = express();
 const port: number = 3000;
 
 //Use ejs as view engine
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'Views'));
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'Public')));
