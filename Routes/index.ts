@@ -6,7 +6,8 @@ const prisma = new PrismaClient()
 let router = express.Router();
 
 router.get('/', async (req, res) => {
-    res.json(prisma.users.findMany({}));
+    await prisma.user.create({ data: { email: 'test' } })
+    res.json(await prisma.user.findMany({}));
 });
 
 

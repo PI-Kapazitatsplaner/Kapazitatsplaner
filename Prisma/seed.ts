@@ -3,17 +3,17 @@ const prisma = new PrismaClient()
 
 //Add data here to seed the database
 const main = async () => {
-    prisma.users.create({
+    await prisma.user.deleteMany({})
+    await prisma.user.createMany({
         data: [
             {
-                name: 'Alice',
-                email: 'a@b.ch'
+                email: 'd'
             },
             {
-                name: 'Bob',
-                email: 'b@a.ch'
+                email: 'q'
             }
-        ]
+        ]     
+    })
 };
 
 main()
