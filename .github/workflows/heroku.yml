@@ -1,8 +1,5 @@
 name: Publish To Heroku With Git
-on:
-  push:
-    branches: 
-      - /*
+on: push
 
 jobs:
   publish:
