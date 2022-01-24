@@ -6,9 +6,10 @@
   "scripts": {
     "predev": "docker compose -f ./db/docker-compose.yml up -d --force-recreate && prisma migrate reset ",
     "dev": "tsnd --respawn --rs app.ts",
-    "prestart": "npx prisma db push --schema ./prisma/schema.prisma",
+    "prestart": "ls && prisma db push",
     "start": "ts-node-transpile-only app.ts",
     "docker": "docker build . -t ejs-prisma-ts/poc && docker run -p 8080:3000 -d ejs-prisma-ts/poc && echo \"Container Port mapped to \"http://localhost:8080/\"",
+    "prisma:push": "prisma db push",
     "pg": "prisma generate",
     "prisma:generate": "prisma generate",
     "ps": "prisma studio",

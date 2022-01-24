@@ -3,6 +3,17 @@ const prisma = new PrismaClient()
 
 //Add data here to seed the database
 const main = async () => {
+    prisma.users.create({
+        data: [
+            {
+                name: 'Alice',
+                email: 'a@b.ch'
+            },
+            {
+                name: 'Bob',
+                email: 'b@a.ch'
+            }
+        ]
 };
 
 main()
