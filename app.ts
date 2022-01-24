@@ -5,7 +5,7 @@ import path from 'path';
 import indexRouter from "./Routes/index";
 
 const app: express.Application = express();
-const port: number = 3000;
+const port: number = Number(process.env.PORT) || 3000;
 
 //Use ejs as view engine
 app.set('views', path.join(__dirname, 'Views'));
