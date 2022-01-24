@@ -1,1 +1,1 @@
-# -PI-Planning-Kapazitaetsplaner
+# PI-Planning-Kapazitaetsplaner
