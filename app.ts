@@ -2,9 +2,7 @@ import express from 'express';
 import createError from 'http-errors';
 import path from 'path';
 import bodyParser from 'body-parser';
-import Server from 'http'
 import indexRouter from "./Routes/index";
-import testRouter from "./Routes/t";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -19,11 +17,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'Public')));
 
-app.get("/", (req, res) => {
-    res.json({ hope: "loop" });
-});
-  
-  app.use('/test', testRouter);
+ app.use('/', indexRouter);
 
 
 app.use(function(req, res, next) {
@@ -42,9 +36,11 @@ app.use(function(err:any, req:any, res:any, next:any) {
 });
  
 // Server setup
-app.listen(port, () => {
-    console.log(`App listening on: http://localhost:${port}/`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`App listening on: http://localhost:${port}/`);
+    });
+}
 
 // Export the app for testing
-export default app.listen;
+export default app;

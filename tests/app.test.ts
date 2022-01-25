@@ -1,22 +1,13 @@
-// Import the dependencies for testing
-import chai from 'chai';
-import chaiHttp from 'chai-http';
-import app from '../app';
+import request from "supertest";
+import app from "../app";
 
-// Configure chai
-chai.use(chaiHttp);
-chai.should();
-describe("Students", () => {
-    describe("GET /", () => {
-        // Test to get all students record
-        it("should get all students record", (done) => {
-             chai.request(app)
-                 .get('/')
-                 .end((err, res) => {
-                     res.should.have.status(200);
-                     res.body.should.be.a('object');
-                     done();
-                  });
-         });
+describe("GET /random-url", () => {
+    it("should return 404", (done) => {
+        request(app).get("/random-url")
+            .expect(404)
+            .expect("<h1>Not Found</h1>\r\n<h2></h2>\r\n<pre></pre>")
+            .end(done);
     });
 });
+
+
