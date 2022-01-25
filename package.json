@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "startTestDb": "docker compose -f ./db/docker-compose.yml up -d && prisma migrate dev && prisma db seed",
-    "pretest": "npm run startTestDb",
+    "startTestDb": "docker compose -f ./db/docker-compose.yml up -d",
+    "pretest": "npx prisma db push && npx prisma generate && npx prisma db seed",
     "test": "jest --coverage --verbose",
     "posttest": "docker-compose -f ./db/docker-compose.yml down",
     "test-dev": "jest --coverage --verbose --watch",
