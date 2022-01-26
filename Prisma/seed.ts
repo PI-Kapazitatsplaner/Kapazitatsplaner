@@ -28,3 +28,14 @@ if(process.env.seed?.toLowerCase() === 'true') {
 }else{
     console.log('\nSeeding is disabled. Set the "seed" environment variable to "true" to enable.')
 }
+
+export default function seedDB(){
+    main()    
+        .catch((error) => {
+            console.error(error);
+            process.exit(1);
+        })
+        .finally(async () => {
+            await prisma.$disconnect();
+        });
+}

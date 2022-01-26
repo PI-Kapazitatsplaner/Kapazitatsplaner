@@ -1,0 +1,41 @@
+name: pull-request
+on:
+  push:
+    branches:
+    - 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:      
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dbname
+        options:
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+        - 5432:5432
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up node 
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: use cache 
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests 
+        run: npm test
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports['5432'] }}/dbname
+          seed: true
