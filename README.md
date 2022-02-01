@@ -1,3 +1,1 @@
-# PI-Planning-Kapazitaetsplaner
-
-[Jira](https://kapazitaetsplaner.atlassian.net/)
+# [PI-Planning-Kapazitaetsplaner](https://kapazitaetsplaner.atlassian.net/)
