@@ -3,6 +3,7 @@ import createError from 'http-errors';
 import path from 'path';
 import bodyParser from 'body-parser';
 import indexRouter from "./Routes/index";
+import settingsRouter from "./Routes/settings"
 import userRouter from "./Routes/user";
 import teamRouter from "./Routes/team";
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'Public')));
 
 //Routers
 app.use('/', indexRouter);
+app.use('/settings', settingsRouter);
 app.use('/mein_kalender', userRouter);
 app.use('/team_kalender', teamRouter);
 

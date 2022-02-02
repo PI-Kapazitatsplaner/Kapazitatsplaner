@@ -1,3 +1,39 @@
-h1.header{
-    color: red;
+body{
+    --main-gray: #666666;
+    --main-orange: #FF8200;
 }
+.titles{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items : center;
+    justify-content : center;
+    gap: 15px;
+}
+.title{
+    text-decoration: none;
+    color: var(--main-gray);
+    font-size: 30px;
+}
+.title:hover{
+    color: var(--main-orange);
+}
+.bar{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: right;
+    gap: 10px;
+    margin-right: 80px;
+    margin-top: 15px;
+}
+.bar button {
+    background-color: white;
+    color: var(--main-gray);
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    font-size: 15px;
+  }
+.bar button:hover {
+    color: var(--main-orange);
+  }
