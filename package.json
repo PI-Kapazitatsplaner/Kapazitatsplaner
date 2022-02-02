@@ -9,7 +9,7 @@
     "test": "jest --coverage --verbose",
     "pretest-dev": "npx prisma db push && npx prisma generate && npx prisma db seed",
     "test-dev": "jest --coverage --verbose --watch",
-    "predev": "npm run startTestDb",
+    "predev": "npm run startTestDb && npx prisma db push && npx prisma generate && npx prisma db seed",
     "dev": "tsnd --respawn --rs app.ts",
     "prestart": "npx prisma db push && npx prisma generate && npx prisma db seed",
     "start": "ts-node-transpile-only app.ts",

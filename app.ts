@@ -3,6 +3,8 @@ import createError from 'http-errors';
 import path from 'path';
 import bodyParser from 'body-parser';
 import indexRouter from "./Routes/index";
+import userRouter from "./Routes/user";
+import teamRouter from "./Routes/team";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -17,8 +19,10 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'Public')));
 
- app.use('/', indexRouter);
-
+//Routers
+app.use('/', indexRouter);
+app.use('/mein_kalender', userRouter);
+app.use('/team_kalender', teamRouter);
 
 app.use(function(req, res, next) {
     next(createError(404));
