@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/PI-Kapazitatsplaner/Kapazitaetsplaner#readme",
   "dependencies": {
-    "@prisma/client": "^3.8.1",
+    "@prisma/client": "^3.9.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "ts-jest": "^27.1.3",
