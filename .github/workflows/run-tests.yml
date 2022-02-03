@@ -1,8 +1,6 @@
-name: pull-request
+name: run tests
 on:
-  push:
-    branches:
-    - 
+  push
 
 jobs:
   build:
