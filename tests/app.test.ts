@@ -7,7 +7,7 @@ describe("GET /random-url", () => {
         request(app).get("/random-url")
             .expect(404)
             .end(function (err, res) {
-                expect(res.text).to.contains("Not Found");
+                expect(res.text).to.contain("Not Found");
                 done();
             });
     });

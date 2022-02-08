@@ -9,10 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="common.css">
+    <script src="controller.js"></script>
     <title>Document</title>
 </head>
-<body>
+<body id="body" class="content">
     <%- header %>
-    <p>abcdefg</p>
+    <div class="mainContent" id="mainContent">
+        <h1 class="text">Mein Kalender</h1>
+        <div class="calendar">
+            
+        </div>
+    </div>
 </body>
+<script>
+    setColors("dark");
+</script>
 </html>
