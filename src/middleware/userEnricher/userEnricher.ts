@@ -22,6 +22,8 @@ export default async function enrichUser(req: express.Request, res: express.Resp
         content = req.kauth.grant.access_token.content;
     }
 
+    console.log("hallo rouven");
+    
     const user = await prisma.user.findUnique({ where: { sub: content.sub } })
         || await prisma.user.create({ data: { sub: content.sub } });
 
