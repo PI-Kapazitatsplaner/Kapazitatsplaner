@@ -15,7 +15,13 @@
 </head>
 <body id="body" class="content">
     <div class="nav">
-        <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+        <% if (parent == 1){ %>
+            <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+        <% }else if (parent == 2) { %>
+            <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
+        <% } %>
+         
+
         <h1 class="text titleR">Settings</h1>
     </div>
     <div class="mainContent" id="mainContent">
