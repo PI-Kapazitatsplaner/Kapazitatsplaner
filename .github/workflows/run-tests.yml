@@ -33,10 +33,12 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        uses: dkershner6/jest-coverage-commenter-action@v1
+        id: testCoverage
+        uses: anuraag016/Jest-Coverage-Diff@master
         with:
-          github_token: ${{ secrets.JESTCOVER }}
-          test_command: "npm run test"
+          fullCoverageDiff: false // defaults to false, if made true whole coverage report is commented with the diff
+          runCommand: "npm run test"
+          delta: 0.5
         env:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports['5432'] }}/dbname
           seed: true
