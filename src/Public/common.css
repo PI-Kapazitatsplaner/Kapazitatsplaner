@@ -1,0 +1,30 @@
+body{
+    --background: #ffffff;
+    --background2: #f7f7f7;
+    --text: #666666;
+    --text-hover: #FF8200;
+
+    font-family: 'Roboto', sans-serif;
+}
+.content{
+    background-color: var(--background);
+}
+.text{
+    color: var(--text);
+    font-size: 30px;
+    color: var(--text);
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.mainContent{
+    background-color: var(--background2);
+    display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+}
+.mainContent h1{
+    color: var(--text-hover);
+    
+}

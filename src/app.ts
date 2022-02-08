@@ -6,6 +6,9 @@ import keycloak, { memoryStore } from './middleware/keycloak/keycloak';
 import session from 'express-session';
 import userEnricher from './middleware/userEnricher/userEnricher';
 import indexRouter from "./Routes/index";
+import settingsRouter from "./Routes/settings"
+import userRouter from "./Routes/user";
+import teamRouter from "./Routes/team";
 
 
 const app = express();
@@ -33,8 +36,11 @@ app.all("*", keycloak.protect()) //Protect all routes with keycloak
 
 app.use(userEnricher);
 
+//Routers
 app.use('/', indexRouter);
-
+app.use('/settings', settingsRouter);
+app.use('/mein_kalender', userRouter);
+app.use('/team_kalender', teamRouter);
 
 
 app.use(function (req, res, next) {
