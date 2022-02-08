@@ -7,7 +7,7 @@ describe("GET /settings", () => {
         request(app).get("/settings")
             .expect(200)
             .end(function (err, res) {
-                expect(res.text).includes("<h1 class=\"title\">Settings</h1>")
+                expect(res.text).to.contain("Settings</h1>")
                 done();
             });
     });

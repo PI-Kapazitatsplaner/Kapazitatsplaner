@@ -7,7 +7,7 @@ describe("GET /mein_kalender", () => {
         request(app).get("/mein_kalender")
             .expect(200)
             .end(function (err, res) {
-                expect(res.text).includes("<b><p><a href=\"/mein_kalender\" class=\"title\">Mein Kalender</a></p></b>")
+                expect(res.text).to.contain('Mein Kalender</a></p></b>')
                 done();
             });
     });
