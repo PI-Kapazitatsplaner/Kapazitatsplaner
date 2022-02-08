@@ -1,17 +1,17 @@
 <div class="bar">
-    <button class="text id" type="submit">Login</button>
-    <button class="text id" type="submit" onclick="location.href='/settings'">Settings</button>
+    <button class="text" type="submit">Login</button>
+    <button class="text" type="submit" onclick="location.href='/settings'">Settings</button>
 </div>
 
 <div class="titles">   
     <% if (currSite == 1) { %>
         <!--Team Kalender-->
-        <p><a href="/mein_kalender" class="text title id">Mein Kalender</a></p>
-        <b><p><a href="/team_kalender" class="text title id">Team Kalender</a></p></b>
+        <p><a href="/mein_kalender" class="title text">Mein Kalender</a></p>
+        <b><p><a href="/team_kalender" class="title text">Team Kalender</a></p></b>
     <% }else if (currSite == 2){ %>
         <!--Mein Kalender-->
-        <b><p><a href="/mein_kalender" class="text title id">Mein Kalender</a></p></b>
-        <p><a href="/team_kalender" class="text title id">Team Kalender</a></p>
+        <b><p><a href="/mein_kalender" class="title text">Mein Kalender</a></p></b>
+        <p><a href="/team_kalender" class="title text">Team Kalender</a></p>
     <% } %>
 </div>
 

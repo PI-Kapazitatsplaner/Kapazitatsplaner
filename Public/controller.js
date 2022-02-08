@@ -1,49 +1,32 @@
-//const { text } = require("express");
+var darkBg      = "#121212";
+var darkBg2     = "#1c1c1c";
+var darkText    = "#d3d3d3";
 
-const { text } = require("express");
+var lightBg     = "#ffffff";
+var lightBg2    = "#f7f7f7";
+var lightText   = "#666666";
 
 function setColors(val){
-    text = document.getElementsByClassName("text");
-    if (val == "dark"){
-        document.getElementById("body").style.setProperty("--background", "#121212");
-        for (let i = 0; i < text.length; i++) {
-            text.item(i).style.setProperty("--text", "#121212");
-        }
-    }
-    else if (val == "light"){
-        document.getElementById("body").style.setProperty("--background", "#ffffff");
-    }
-    /*
     var body = document.getElementById("body");
-    var text = document.getElementsByClassName("id");
-    var content = document.getElementsByClassName("mainContent");
-    if (val == "dark") {
-        body.classList.remove("content");
-        body.classList.add("content-dark");
+    var text = document.getElementsByClassName("text");
+    var content = document.getElementById("mainContent");
+
+    if (val == "dark"){
+        //Hintergrundfarbe ändern
+        body.style.setProperty("--background", darkBg);
+        content.style.setProperty("--background2", darkBg2);
         for (let i = 0; i < text.length; i++) {
-            text.item(i).classList.add("text-dark");
-            text.item(i).classList.remove("text");
-        }
-        for (let i = 0; i < content.length; i++) {
-            content.item(i).classList.add("mainContent-dark");            
-            content.item(i).classList.remove("mainContent");            
+            //Textfarbe ändern
+            text.item(i).style.setProperty("--text", darkText);
         }
     }
     else if (val == "light"){
-        body.classList.remove("content-dark");
-        body.classList.add("content");
+        //Hintergrundfarben ändern
+        body.style.setProperty("--background", lightBg);
+        content.style.setProperty("--background2", lightBg2);
         for (let i = 0; i < text.length; i++) {
-            text.item(i).classList.add("text");
-            text.item(i).classList.remove("text-dark");
-        }
-        for (let i = 0; i < content.length; i++) {
-            content.item(i).classList.add("mainContent");            
-            content.item(i).classList.remove("mainContent-dark");            
+            //Textfarbe ändern
+            text.item(i).style.setProperty("--text", lightText);
         }
     }
-    */
-
-}
-function getCurrentColorMode(){
-    return document.getElementById("colorMode").value;
 }

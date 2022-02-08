@@ -16,26 +16,17 @@
 <body id="body" class="content">
     <div class="nav">
         <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
-        <h1 id="text" class="text">Settings</h1>
+        <h1 class="text">Settings</h1>
     </div>
-    <div class="main">
-        <select name="colorMode" id="colorMode" onchange="setColors(getCurrentColorMode()), setArrowColors(getCurrentColorMode())">
-            <option value="light">Light mode</option>
-            <option value="dark">Dark mode</option>
-        </select>
+    <div class="mainContent" id="mainContent">
+        <h1 class="text">Settings</h1>
     </div>
 </body>
 <script>
-    function setArrowColors(val){
+    setColors("dark");
     var arrow = document.getElementById('arrow');
-    if (val == "dark") {
-        arrow.classList.remove('arrow');
-        arrow.classList.add('arrow-dark');
-    }
-    else if (val == "light"){
-        arrow.classList.remove('arrow-dark');
-        arrow.classList.add('arrow');
-    }
-}
+    arrow.classList.add('arrow-dark');
+    arrow.classList.remove('arrow');
+    
 </script>
 </html>
