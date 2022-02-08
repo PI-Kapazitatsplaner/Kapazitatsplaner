@@ -6,7 +6,7 @@
   "scripts": {
     "startTestDb": "docker compose -f ./db/docker-compose.yml up -d",
     "pretest": "npx prisma db push && npx prisma generate && npx prisma db seed",
-    "test": "jest --coverage --verbose",
+    "test": "jest --collectCoverageFrom='[\"/**/*.{js,ts}\"]' --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters='json-summary' --forceExit --verbose",
     "pretest-dev": "npx prisma db push && npx prisma generate && npx prisma db seed",
     "test-dev": "jest --coverage --verbose --watch",
     "predev": "npm run startTestDb",
