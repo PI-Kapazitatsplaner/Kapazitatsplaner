@@ -32,9 +32,11 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm install
-      - name: Run tests 
-        uses: mattallty/jest-github-action@v1
+      - name: Run tests
+        uses: ziishaned/jest-reporter-action@v0.0.1
+        with:
+          github-token: ${{ secrets.JESTCOVER }}
+          test-command: "npm run test"
         env:
-          GITHUB_TOKEN: ${{ secrets.JESTCOVER }}
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports['5432'] }}/dbname
           seed: true
