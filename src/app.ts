@@ -31,6 +31,8 @@ app.use(session({
     store: memoryStore
 }));
 
+app.set( 'trust proxy', true );
+
 app.use(keycloak.middleware());
 app.all("*", keycloak.protect()) //Protect all routes with keycloak
 
