@@ -1,0 +1,22 @@
+body{
+    --main-gray: #666666;
+    --main-orange: #FF8200;
+}
+.nav{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 80%;
+    margin-left: 70px;
+    margin-top: 50px;
+}
+.arrow{
+    height: 30px;
+    padding-top: 23px;
+}
+.arrow:hover{
+    filter: brightness(0) contrast(100%) invert(50%) sepia(92%) saturate(1629%) hue-rotate(359deg) brightness(100%) contrast(109%);
+}
+.title{
+    color: var(--main-gray);
+    font-size: 30px;
+}
