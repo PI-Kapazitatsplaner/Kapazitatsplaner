@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        uses: ziishaned/jest-reporter-action@v0.0.1
+        uses: dkershner6/jest-coverage-commenter-action@v1
         with:
           github-token: ${{ secrets.JESTCOVER }}
           test-command: "npm run test"
