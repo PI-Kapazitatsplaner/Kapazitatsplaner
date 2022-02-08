@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  
-  name  String?
+  sub                  String  @id //The subject Presentet by Keycloak
+  preferencesWhiteMode Boolean @default(false)
+  productivityDecimal  Int     @default(1)
 }

@@ -4,7 +4,9 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import keycloak, { memoryStore } from './middleware/keycloak/keycloak';
 import session from 'express-session';
+import userEnricher from './middleware/userEnricher/userEnricher';
 import indexRouter from "./Routes/index";
+
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -18,7 +20,6 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'Public')));
 
-
 //session
 app.use(session({
     secret: 'thisShouldBeLongAndSecretSoSecretThatNotEvenPythagorasCouldCalculateIt',
@@ -29,6 +30,8 @@ app.use(session({
 
 app.use(keycloak.middleware());
 app.all("*", keycloak.protect()) //Protect all routes with keycloak
+
+app.use(userEnricher);
 
 app.use('/', indexRouter);
 
