@@ -1,9 +1,12 @@
 .nav{
     display: flex;
     flex-wrap: nowrap;
-    gap: 80%;
-    margin-left: 70px;
-    margin-top: 50px;
+    justify-content: space-around;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.nav .titleR{
+    margin-left: auto;
 }
 .arrow{
     height: 30px;
