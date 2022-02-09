@@ -39,9 +39,9 @@ declare namespace Express {
       sub: string;
       prefersWhiteMode: boolean;
       name: string;
-      preferred_username: string;
-      given_name: string;
-      family_name: string;
+      preferredUsername: string;
+      givenName: string;
+      familyName: string;
       email: string;
     };
   }

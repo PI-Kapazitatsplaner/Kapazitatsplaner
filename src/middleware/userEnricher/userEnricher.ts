@@ -1,14 +1,14 @@
+import { log } from 'console';
 import express from 'express'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import prisma from '../../prisma/client';
+import { getTestUserSub } from '../../prisma/client';
 
 export default async function enrichUser(req: express.Request, res: express.Response, next: express.NextFunction) {
     let content;
     if (process.env.NODE_ENV === 'test'|| process.env.mockKeycloak === 'true') {
         console.log('Mocking Userenricher');
         content = {
-            sub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
+            sub: getTestUserSub(),
             name: 'mock',
             preferred_username: 'mtm',
             given_name: 'test',
@@ -21,15 +21,19 @@ export default async function enrichUser(req: express.Request, res: express.Resp
         }
         content = req.kauth.grant.access_token.content;
     }
+
+    console.log(content);
+    
+
     const user = await prisma.user.findUnique({ where: { sub: content.sub } })
         || await prisma.user.create({ data: { sub: content.sub } });
 
     req.user = {
         sub: content.sub,
         name: content.name,
-        preferred_username: content.preferred_username,
-        given_name: content.given_name,
-        family_name: content.family_name,
+        preferredUsername: content.preferred_username,
+        givenName: content.given_name,
+        familyName: content.family_name,
         email: content.email,
         prefersWhiteMode: user.preferencesWhiteMode,
     }

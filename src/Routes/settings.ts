@@ -2,10 +2,8 @@ import express from 'express';
 
 let router = express.Router();
 
-router.get('/:pi', async (req, res) => {
-    console.log(req.params.pi);
-    
-    res.render("settings");
+router.get('/', async (req, res) => {
+    res.render("settings", { prefersWhiteMode: req.user.prefersWhiteMode })
 });
 
 
