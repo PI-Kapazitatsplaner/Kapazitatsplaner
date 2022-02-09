@@ -37,7 +37,7 @@ declare namespace Express {
     };
     user: {
       sub: string;
-      preferencesWhiteMode: boolean;
+      prefersWhiteMode: boolean;
       name: string;
       preferred_username: string;
       given_name: string;
