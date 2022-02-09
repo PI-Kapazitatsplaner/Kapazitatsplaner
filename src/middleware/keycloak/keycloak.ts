@@ -9,9 +9,7 @@ let keycloak = new Keycloak({ store: memoryStore }, {
     "ssl-required": "external",
     "resource": "suva-ppk",
     "confidential-port": 0,
-    "credentials": {
-        "secret": 'IeL5phqeckr5jRDgfAV5nFJMEV3qZkn9'
-    },
+    "public-client": true,
 }as any);
 
 //Mocking Keycloak for Testing
