@@ -7,7 +7,7 @@ let keycloak = new Keycloak({ store: memoryStore }, {
     "realm": "staging",
     "auth-server-url": "https://auth.wuersch.cloud/auth/",
     "ssl-required": "external",
-    "bearer-only": true,
+    
     "resource": "suva-ppk",
     "confidential-port": 0
 });
