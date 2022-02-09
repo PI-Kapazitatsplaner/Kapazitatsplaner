@@ -7,10 +7,12 @@ let keycloak = new Keycloak({ store: memoryStore }, {
     "realm": "staging",
     "auth-server-url": "https://auth.wuersch.cloud/auth/",
     "ssl-required": "external",
-    
     "resource": "suva-ppk",
-    "confidential-port": 0
-});
+    "confidential-port": 0,
+    "credentials": {
+        "secret": 'IeL5phqeckr5jRDgfAV5nFJMEV3qZkn9'
+    },
+}as any);
 
 //Mocking Keycloak for Testing
 if (process.env.NODE_ENV === 'test') {
