@@ -10,6 +10,12 @@ import settingsRouter from "./Routes/settings"
 import userRouter from "./Routes/user";
 import teamRouter from "./Routes/team";
 
+import fs from 'fs';
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync(path.join('__dirname', '../example.key'), 'utf8');
+var certificate = fs.readFileSync(path.join('__dirname', '../example.crt'), 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -60,12 +66,13 @@ app.use(function (err:any, req: any, res: any, next: any) {
     res.render('error');
 });
 
-// Server setup
-if (process.env.NODE_ENV !== 'test') {
-    app.listen(port, () => {
-        console.log(`App listening on: http://localhost:${port}/`);
-    });
-}
+
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+
+httpsServer.listen(8443);
+httpServer.listen(8080);
 
 // Export the app for testing
 export default app;

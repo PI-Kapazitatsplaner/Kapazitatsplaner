@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export default async function enrichUser(req: express.Request, res: express.Response, next: express.NextFunction) {
     let content;
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV === 'test'|| process.env.mockKeycloak === 'true') {
         console.log('Mocking Userenricher');
         content = {
             sub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
