@@ -18,7 +18,6 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'Public')));
 
-
 //session
 app.use(session({
     secret: 'thisShouldBeLongAndSecretSoSecretThatNotEvenPythagorasCouldCalculateIt',
@@ -31,8 +30,6 @@ app.use(keycloak.middleware());
 app.all("*", keycloak.protect()) //Protect all routes with keycloak
 
 app.use('/', indexRouter);
-
-
 
 app.use(function (req, res, next) {
     next(createError(404));
