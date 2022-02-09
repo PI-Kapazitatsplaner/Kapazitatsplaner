@@ -20,7 +20,7 @@ export default async function enrichUser(req: express.Request, res: express.Resp
             res.status(500).send('Error in Keycloak middleware');
         }
         content = req.kauth.grant.access_token.content;
-    }    
+    }
     const user = await prisma.user.findUnique({ where: { sub: content.sub } })
         || await prisma.user.create({ data: { sub: content.sub } });
 

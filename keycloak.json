@@ -6,3 +6,5 @@
     "confidential-port": 0,
     "public-client": true
 }
+
+http://localhost:3000/?auth_callback=1&state=7fdc2325-f5ac-4e29-86f9-71c0c6a99de1&session_state=149563cd-d326-4527-9b71-13bdf6b51f99&code=8f8b40ea-a1e0-4524-aef3-c1e789e0847f.149563cd-d326-4527-9b71-13bdf6b51f99.1afc1513-1315-44d0-a85e-8c1d9ab84ac6
