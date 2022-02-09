@@ -1,0 +1,37 @@
+.titles{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items : center;
+    justify-content : center;
+    gap: 15px;
+    font-size: 30px;
+}
+.title{
+    font-size: 30px;
+    color: var(--text);
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.title:hover{
+    color: var(--text-hover);
+}
+.bar{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: right;
+    gap: 10px;
+    margin-right: 80px;
+    margin-top: 15px;
+}
+.bar button {
+    background-color: var(--background);
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    font-size: 15px;
+  }
+.bar button:hover {
+    color: var(--text-hover);
+}

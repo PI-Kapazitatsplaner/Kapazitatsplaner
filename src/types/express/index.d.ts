@@ -10,7 +10,7 @@ declare namespace Express {
             typ: string;
             kid: string;
           };
-          content: {
+            content: {
             exp: number;
             iat: number;
             auth_time: number;
@@ -30,9 +30,19 @@ declare namespace Express {
             preferred_username: string;
             given_name: string;
             family_name: string;
+            email: string;
           };
         };
       };
+    };
+    user: {
+      sub: string;
+      preferencesWhiteMode: boolean;
+      name: string;
+      preferred_username: string;
+      given_name: string;
+      family_name: string;
+      email: string;
     };
   }
 }

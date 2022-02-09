@@ -6,7 +6,8 @@ export const memoryStore = new session.MemoryStore();
 let keycloak = new Keycloak({ store: memoryStore });
 
 //Mocking Keycloak for Testing
-if (process.env.NODE_ENV === 'test' && process.env.DONT_MOCK_KEYCLOAK !== 'true') {
+if (process.env.NODE_ENV === 'test') {
+    console.log('Mocking Keycloak');
     keycloak.protect = () => {
         return (req, res, next) => {
             next();
