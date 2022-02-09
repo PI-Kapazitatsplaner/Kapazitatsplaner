@@ -3,6 +3,6 @@
     "auth-server-url": "https://auth.wuersch.cloud/auth/",
     "ssl-required": "external",
     "resource": "suva-ppk",
-    "public-client": true,
-    "confidential-port": 0
+    "confidential-port": 0,
+    "public-client": true
 }
