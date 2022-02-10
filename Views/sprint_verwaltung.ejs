@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/Images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="common.css">
@@ -20,7 +21,38 @@
         <h1 class="text titleR">Sprint Verwaltung</h1>
     </div>
     <div class="mainContent" id="mainContent">
-        <h1 class="text">test</h1>
+
+        <% for(let i = 1; i < 5; i++){ %>
+            <% if (params.pi == "PI-0" + i){ %>
+                <div class="titles text">
+                    <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-01">PI-01</a>
+                    <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-02" class="title">PI-02</a>
+                    <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-03" class="title">PI-03</a>
+                    <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-04" class="title">PI-04</a>
+                </div> 
+                <div class="grid">
+                    <% for (let d = 1; d < 5; d++){ %>
+                        <p class="content_text text">PI-0<%-i%>-0<%-d%></p>
+                        <input placeholder="Start" type="text" class="input text">
+                        <input placeholder="Ende" type="text" class="input text">
+                        <p></p><!--Space-->
+                        <% if(d==1){ %> 
+                            <p></p>
+                            <button class="saveBtn">Sichern</button>
+                        <% } %> 
+                        <% if(d < 4 && d != 1){ %> 
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                        <% }else if(d == 4){ %> 
+                            <p class="content_text text">Planungstage</p>
+                            <input placeholder="Start" type="text" class="input text">
+                            <input placeholder="Ende" type="text" class="input text">                           
+                        <% } %> 
+                    <% } %>     
+                </div>
+            <% } %> 
+        <% } %>
     </div>
 </body>
 <script>
