@@ -28,7 +28,9 @@ jobs:
         interval: 10
 
         # Acceptable responses for the response check, default is 200
-        accepted_responses: 302
+        accepted_responses: 
+          - 302
+          - 200
 
         # Max time to be spent retrying for the build check, default is 120
         deployments_timeout: 120
