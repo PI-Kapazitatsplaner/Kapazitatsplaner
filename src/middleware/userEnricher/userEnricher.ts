@@ -1,7 +1,5 @@
-import { log } from 'console';
 import express from 'express'
-import prisma from '../../prisma/client';
-import { getTestUserSub } from '../../prisma/client';
+import prisma, { getTestUserSub } from '../../prisma/client';
 
 export default async function enrichUser(req: express.Request, res: express.Response, next: express.NextFunction) {
     let content;
@@ -20,10 +18,7 @@ export default async function enrichUser(req: express.Request, res: express.Resp
             res.status(500).send('Error in Keycloak middleware');
         }
         content = req.kauth.grant.access_token.content;
-    }
-
-    console.log(content);
-    
+    }    
 
     const user = await prisma.user.findUnique({ where: { sub: content.sub } })
         || await prisma.user.create({ data: { sub: content.sub } });

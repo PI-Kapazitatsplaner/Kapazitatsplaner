@@ -9,13 +9,11 @@ import indexRouter from "./Routes/index";
 import settingsRouter from "./Routes/settings"
 import userRouter from "./Routes/user";
 import teamRouter from "./Routes/team";
-import { randomUUID } from 'crypto';
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
 
 app.use(express.static(path.join(__dirname, 'Public')));
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,10 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'Views'));
 app.set('view engine', 'ejs');
 
-
 //session
 app.use(session({
-    secret: 'thisShouldBeLongAndSecretSoSecretThatNotEvenPythagorasCouldCalculateIt',
+    secret: process.env.SESSION_SECRET || 'thisShouldBeLongAndSecretSoLongThatNotEvenHermesCouldRunToTheEndInHisLifetimeSoSecretThatNotEvenPythagorasCouldCalculateIt',
     resave: false,
     saveUninitialized: true,
     store: memoryStore
