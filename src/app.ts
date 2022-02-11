@@ -9,6 +9,7 @@ import indexRouter from "./Routes/index";
 import settingsRouter from "./Routes/settings"
 import userRouter from "./Routes/user";
 import teamRouter from "./Routes/team";
+import sprint_settingsRouter from "./Routes/sprint_settings";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -42,6 +43,7 @@ app.use('/', indexRouter);
 app.use('/settings', settingsRouter);
 app.use('/mein_kalender', userRouter);
 app.use('/team_kalender', teamRouter);
+app.use('/sprint_verwaltung', sprint_settingsRouter);
 
 app.use(function (req, res, next) {
     next(createError(404));
