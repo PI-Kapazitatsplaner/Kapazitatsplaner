@@ -6,7 +6,7 @@ import { setTestUser } from "../prisma/client";
 describe("GET /sprint_verwaltung", () => {
     it("should return 200 and be dark mode", (done) => {
         setTestUser('c2842822-67f5-4759-8db8-a431ddfc3500');
-        request(app).get("/settings")
+        request(app).get("/sprint_verwaltung")
             .expect(200)
             .end(function (err, res) {
                 expect(res.text).to.contain("Sprint Verwaltung</h1>")
@@ -16,7 +16,7 @@ describe("GET /sprint_verwaltung", () => {
     });
     it("should return 200  and be in white mode", (done) => {
         setTestUser('4296e3d8-a609-4ffa-b27a-3106ed7a5126');
-        request(app).get("/settings")
+        request(app).get("/sprint_verwaltung")
             .expect(200)
             .end(function (err, res) {
                 expect(res.text).to.contain("Sprint Verwaltung</h1>")
