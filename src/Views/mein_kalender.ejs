@@ -40,16 +40,12 @@
         <li class="text">Sa</li>
         <li class="text">Su</li>
       </ul>
-
       <ul class="days">
-        <% let fillerDays = 1 %>
-        <% let daysInMonth = 31 %>
-        <% let activeDay = 20 %>
-        <% for( let i = 0; i < fillerDays; i++ ) { %>
+        <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
         <li class="fillerDay"></li>
         <% } %>
-        <% for( let i = 1; i < daysInMonth + 1; i++ ) { %>
-        <% if(i == activeDay) { %>
+        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
+        <% if(i == calendar.activeDay) { %>
         <li class="text"><span class="active"><%= i.toString() %></span></li>
         <% } else { %>
         <li class="text"><%= i.toString() %></li>
