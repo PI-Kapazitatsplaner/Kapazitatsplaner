@@ -58,9 +58,9 @@
     </div>
   </div>
 </body>
-
-<script>
-  setColors("dark");
-</script>
-
+<% if(prefersWhiteMode){ %>
+<script>setColors("light");</script>
+<% } else { %>
+<script>setColors("dark");</script>
+<% } %>
 </html>

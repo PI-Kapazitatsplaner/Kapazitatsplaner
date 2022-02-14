@@ -18,7 +18,9 @@
         <h1 class="text">Team Kalender</h1>
     </div>
 </body>
-<script>
-    setColors("dark");
-</script>
+<% if(prefersWhiteMode){ %>
+<script>setColors("light");</script>
+<% } else { %>
+<script>setColors("dark");</script>
+<% } %>
 </html>

@@ -1,13 +1,10 @@
 import express from 'express';
 
-import ejs from 'ejs';
-
 let router = express.Router();
 
 router.get('/', async (req, res) => {
-    res.redirect('/team_kalender');
+    res.render("settings", { prefersWhiteMode: req.user.prefersWhiteMode })
 });
-
 
 
 export = router;
