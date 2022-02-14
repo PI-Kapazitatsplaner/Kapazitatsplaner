@@ -1,0 +1,22 @@
+{
+    "exp": 1644240021,
+    "iat": 1644236421,
+    "auth_time": 1644236421,
+    "jti": "7e2934435b-75b-adf34-4345-ccad0345e6645",
+    "iss": "https://sso-adcubum-syrius.aseg01-gate.apps.osx2.suvanet.ch/auth/realms/adcubum-syrius",
+    "aud": [
+        "syrius-apibridge-partnermgmt"   
+    ],
+    "sub": "c534f6b8-6f46-4b69-96-8c8e3951ed4f6",
+    "typ": "Bearer",
+    "azp": "apigateway",
+    "session_state": "7e2934435b-75b-adf34-4345-ccad0345e6645",
+    "acr": "1",
+    "scope": "openid profile email",
+    "email_verified": false,
+    "name": "preName Name",
+    "preferred_username": "hr7",
+    "given_name": "preName",
+    "family_name": "Name",
+    "email": "preName.Name@s.ch"
+}

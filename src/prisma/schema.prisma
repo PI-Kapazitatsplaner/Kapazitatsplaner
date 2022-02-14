@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  sub                  String  @id //The subject Presentet by Keycloak
+  preferencesWhiteMode Boolean @default(false)
+  productivityDecimal  Int     @default(1)
+}
