@@ -64,7 +64,7 @@ ul {list-style-type: none;}
 }
 
 .days li .active {
-  padding: 5px;
+  padding: 2px 8px;
   background: var(--suva-color-primary);
   color: white !important
 }
@@ -83,9 +83,9 @@ ul {list-style-type: none;}
   .weekdays li, .days li {width: 19.04%;}
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 560px) {
   .weekdays li, .days li {width: 18.04%;}
-  .days li .active {padding: 2px;}
+  .days li .active {padding: 0px 4px;}
 }
 
 @media screen and (max-width: 290px) {
