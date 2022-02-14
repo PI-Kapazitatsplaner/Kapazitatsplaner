@@ -43,9 +43,5 @@
     arrow.classList.add('arrow-dark');
     arrow.classList.remove('arrow');
 </script>
-<% if(prefersWhiteMode){ %>
-<script>setColors("light");</script>
-<% } else { %>
-<script>setColors("dark");</script>
-<% } %>
+<%- include('colorScript') %>
 </html>

@@ -13,14 +13,10 @@
     <title>Document</title>
 </head>
 <body id="body" class="content">
-    <%- header %>
+    <%- include('header') %>
     <div class="mainContent" id="mainContent">
         <h1 class="text">Team Kalender</h1>
     </div>
 </body>
-<% if(prefersWhiteMode){ %>
-<script>setColors("light");</script>
-<% } else { %>
-<script>setColors("dark");</script>
-<% } %>
+<%- include('colorScript') %>
 </html>

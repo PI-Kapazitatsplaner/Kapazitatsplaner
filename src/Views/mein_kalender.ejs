@@ -16,7 +16,7 @@
 </head>
 
 <body id="body" class="content">
-  <%- header %>
+  <%- include('header') %>
   <div class="mainContent" id="mainContent">
     <h1 class="text">Mein Kalender</h1>
     <div class="calendar">
@@ -33,30 +33,30 @@
 
       <ul class="weekdays">
         <li class="text">Mo</li>
-        <li class="text">TU</li>
+        <li class="text">Tu</li>
         <li class="text">We</li>
         <li class="text">Th</li>
         <li class="text">Fr</li>
-        <li class="text">Sa</li>
-        <li class="text">Su</li>
+        <li class="text weekend">Sa</li>
+        <li class="text weekend">Su</li>
       </ul>
       <ul class="days">
         <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
         <li class="fillerDay"></li>
         <% } %>
-        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
+        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>          
         <% if(i == calendar.activeDay) { %>
-        <li class="text"><span class="active"><%= i.toString() %></span></li>
+        <li class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend")  }%> <%= i.toString() %>">
+          <span class="active"><%= i %></span>
+        </li>
         <% } else { %>
-        <li class="text"><%= i.toString() %></li>
+        <li class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend")  }%> <%= i.toString() %>">
+          <%= i %>
+        </li>
         <% }} %>
       </ul>
     </div>
   </div>
 </body>
-<% if(prefersWhiteMode){ %>
-<script>setColors("light");</script>
-<% } else { %>
-<script>setColors("dark");</script>
-<% } %>
+<%- include('colorScript') %>
 </html>
