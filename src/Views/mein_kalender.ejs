@@ -1,29 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="header.css">
-    <link rel="stylesheet" href="common.css">
-    <script src="controller.js"></script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="calendar.css">
+  <script src="controller.js"></script>
+  <title>Mein Kalender</title>
 </head>
+
 <body id="body" class="content">
-    <%- header %>
-    <div class="mainContent" id="mainContent">
-        <h1 class="text">Mein Kalender</h1>
-        <div class="calendar">
-            
-        </div>
+  <%- include('header') %>
+  <div class="mainContent" id="mainContent">
+    <h1 class="text">Mein Kalender</h1>
+    <div class="calendar">
+      <div class="month">
+        <ul>
+          <li class="prev">&#10094;</li>
+          <li class="next">&#10095;</li>
+          <li>
+            August<br>
+            <span style="font-size:18px">2021</span>
+          </li>
+        </ul>
+      </div>
+
+      <ul class="weekdays">
+        <li class="text">Mo</li>
+        <li class="text">Tu</li>
+        <li class="text">We</li>
+        <li class="text">Th</li>
+        <li class="text">Fr</li>
+        <li class="text weekend">Sa</li>
+        <li class="text weekend">Su</li>
+      </ul>
+      <ul class="days">
+        <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
+        <li class="fillerDay"></li>
+        <% } %>
+        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>          
+        <% if(i == calendar.activeDay) { %>
+        <li class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend")  }%> <%= i.toString() %>">
+          <span class="active"><%= i %></span>
+        </li>
+        <% } else { %>
+        <li class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend")  }%> <%= i.toString() %>">
+          <%= i %>
+        </li>
+        <% }} %>
+      </ul>
     </div>
+  </div>
 </body>
-<% if(prefersWhiteMode){ %>
-<script>setColors("light");</script>
-<% } else { %>
-<script>setColors("dark");</script>
-<% } %>
+<%- include('colorScript') %>
 </html>

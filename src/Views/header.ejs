@@ -1,14 +1,14 @@
 <div class="bar">
-    <button class="text" type="submit" onclick="location.href='/logout'">Logout(<%= username %>)</button>
+    <button class="text" type="submit" onclick="location.href='/logout'">Logout(<%= header.username %>)</button>
     <button class="text" type="submit" onclick="location.href='/settings'">Settings</button>
 </div>
 
 <div class="titles">   
-    <% if (currSite == 1) { %>
+    <% if (header.currSite == 1) { %>
         <!--Team Kalender-->
         <p><a href="/mein_kalender" class="title text">Mein Kalender</a></p>
         <b><p><a href="/team_kalender" class="title text">Team Kalender</a></p></b>
-    <% }else if (currSite == 2){ %>
+    <% }else if (header.currSite == 2){ %>
         <!--Mein Kalender-->
         <b><p><a href="/mein_kalender" class="title text">Mein Kalender</a></p></b>
         <p><a href="/team_kalender" class="title text">Team Kalender</a></p>

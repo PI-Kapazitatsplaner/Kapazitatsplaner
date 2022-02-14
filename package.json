@@ -11,7 +11,7 @@
     "test-dev": "jest --coverage --verbose --watch",
     "predev": "npm run startTestDb && npm run pretest-dev",
     "dev": "tsnd --respawn --rs ./src/app.ts",
-    "prestart": "npx prisma db push  --accept-data-loss && npx prisma generate && npx prisma db seed",
+    "prestart": "npx prisma db push  --accept-data-loss --force-reset && npx prisma generate && npx prisma db seed",
     "start": "ts-node-transpile-only ./src/app.ts",
     "docker": "docker build . -t ejs-prisma-ts/poc && docker run -p 8080:3000 -d ejs-prisma-ts/poc && echo \"Container Port mapped to \"http://localhost:8080/\"",
     "prisma:push": "prisma db push",
