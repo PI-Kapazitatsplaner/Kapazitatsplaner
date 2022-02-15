@@ -21,10 +21,10 @@
     <div class="calendar">
       <div class="month">
         <ul>
-          <li class="prev">&#10094;</li>
-          <li class="next">&#10095;</li>
+          <li onclick="location.href='/mein_kalender/<%- calendar.month - 1 === 0 ? calendar.year - 1 : calendar.year %>/<%- calendar.month - 1 === 0 ? 12 : calendar.month - 1 %>'" class="prev">&#10094;</li>
+          <li onclick="location.href='/mein_kalender/<%- calendar.month === 12 ? calendar.year + 1  : calendar.year %>/<%- calendar.month === 12 ? 1 : calendar.month + 1 %>'" class="next">&#10095;</li>
           <li>
-            <%= calendar.month %><br>
+            <%= calendar.monthString %><br>
             <span style="font-size:18px"><%= calendar.year %></span>
           </li>
         </ul>
@@ -32,26 +32,49 @@
 
       <ul class="weekdays">
         <li class="text">Mo</li>
-        <li class="text">Tu</li>
-        <li class="text">We</li>
-        <li class="text">Th</li>
+        <li class="text">Di</li>
+        <li class="text">Mi</li>
+        <li class="text">Do</li>
         <li class="text">Fr</li>
         <li class="text weekend">Sa</li>
-        <li class="text weekend">Su</li>
+        <li class="text weekend">So</li>
       </ul>
       <ul class="days">
         <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
         <li class="fillerDay"></li>
         <% } %>
-        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>          
-        <li onclick="elementPressed(this.id)" id="<%= i %>" 
-          class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend") }%>">
+        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
+        <li onclick="elementPressed(this.id)" id="<%= i %>" class="text anwesend <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend") }%>">
           <% if(i == calendar.activeDay) { __append('<span class="active">' + i + '</span>') } else { __append(i) } %>
         </li>
-      <% } %>
+        <% } %>
       </ul>
     </div>
   </div>
 </body>
+<script>
+  function elementPressed(id) {
+    const element = document.getElementById(id);
+    if(element.classList.contains("abwesend")) {
+      element.classList.remove("abwesend");
+      element.classList.add("anwesend");
+    } else if(element.classList.contains("anwesend")) {
+      element.classList.remove("anwesend");
+      element.classList.add("abwesend");
+    }
+    fetch("/mein_kalender/<%- calendar.year %>/<%- calendar.month %> ", {
+        method: "POST",
+        body: JSON.stringify({
+          day: id
+        }), 
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(json => console.log(json));
+  }
+</script>
 <%- include('colorScript') %>
+
 </html>
