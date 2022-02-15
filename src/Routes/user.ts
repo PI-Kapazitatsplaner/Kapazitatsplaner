@@ -13,8 +13,20 @@ router.get('/:year?/:month?', async (req, res) => {
     } else if (month?.match(/^.*.js|.*.css$/)) {
         res.sendFile(path.join(__dirname, '../Public', month));
     } else {
-
         if (validateParams(req.params)) {
+            const abwesenheiten = await  prisma.abwesenheit.findMany({
+                where: {
+                    userSub: req.user.sub,
+                    AND: {
+                        date: {
+                            gte: new Date(year + "-" + month + "-" + "01"),
+                            lt: new Date(year + "-" + month + "-" + "32")
+                        },
+                    }
+                }
+            })
+            console.log(abwesenheiten);
+            
             const date = new Date(Number(year), Number(month) - 1, new Date().getDate());
             const calendar = {
                 fillerDays: new Date(date.getFullYear(), date.getMonth(), 0).getDay(),
@@ -38,14 +50,14 @@ router.get('/:year?/:month?', async (req, res) => {
 });
 
 router.post('/:year/:month', async (req, res) => {
-    if (validateParams(req.params)) {
+    if (validateParams(req.params) && validateBody(req.body)) {
         await prisma.abwesenheit.create({
             data: {
-                    user:{
-                        connect:{ sub: req.user.sub }
-                    },
-                    date: new Date(Number(req.params.year), Number(req.params.month), req.body.day)
-                }
+                user: {
+                    connect: { sub: req.user.sub }
+                },
+                date: new Date(Number(req.params.year), Number(req.params.month), req.body.day)
+            }
         });
     } else {
         res.send(400);
