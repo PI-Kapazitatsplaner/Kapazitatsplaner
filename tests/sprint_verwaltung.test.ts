@@ -4,7 +4,7 @@ import app from "../app";
 
 describe("GET /sprint_verwaltung", () => {
     it("should return 200", (done) => {
-        request(app).get("/sprint_verwaltung")
+        request(app).get("/sprint_verwaltung/2022/PI-01")
             .expect(200)
             .end(function (err, res) {
                 expect(res.text).includes("Sprint Verwaltung</h1>")
