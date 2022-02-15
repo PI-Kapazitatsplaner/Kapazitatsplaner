@@ -26,10 +26,10 @@
         <% for(let i = 1; i < 5; i++){ %>
             <% if (params.pi == "PI-0" + i){ %>
                 <div class="titles text">
-                    <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-01">PI-01</a>
-                    <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-02" class="title">PI-02</a>
-                    <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-03" class="title">PI-03</a>
-                    <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-04" class="title">PI-04</a>
+                    <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
+                    <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-02" class="title">PI-02</a>
+                    <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-03" class="title">PI-03</a>
+                    <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-04" class="title">PI-04</a>
                 </div> 
                     <form class="grid" action="/sprint_verwaltung/<% __append(params.year + "/" + params.pi)%>" method="post">
                         <% for (let d = 1; d < 5; d++){ %>
