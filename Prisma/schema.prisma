@@ -9,12 +9,21 @@ datasource db {
 
 model User {
   id    Int     @id @default(autoincrement())
-  email String  
+  email String
   name  String?
 }
 
 model Pi {
-  id        String @id 
-  year      String
-  iteration String
+  id        Int @id @default(autoincrement())
+  year      Int
+  iteration Int
+  sprint    Sprint[]
+}
+
+model Sprint {
+  id  Int      @id @default(autoincrement())
+  von DateTime
+  bis DateTime
+  pi  Pi @relation(fields: [piId], references: [id])
+  piId Int
 }

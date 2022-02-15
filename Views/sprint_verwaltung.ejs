@@ -20,6 +20,7 @@
         <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/settings'">
         <h1 class="text titleR">Sprint Verwaltung</h1>
     </div>
+    <h1 class="text titleYear"><%- params.year %> </h1>
     <div class="mainContent" id="mainContent">
 
         <% for(let i = 1; i < 5; i++){ %>
@@ -30,27 +31,27 @@
                     <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-03" class="title">PI-03</a>
                     <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/test/PI-04" class="title">PI-04</a>
                 </div> 
-                <div class="grid">
-                    <% for (let d = 1; d < 5; d++){ %>
-                        <p class="content_text text">PI-0<%-i%>-0<%-d%></p>
-                        <input placeholder="Start" type="text" class="input text">
-                        <input placeholder="Ende" type="text" class="input text">
-                        <p></p><!--Space-->
-                        <% if(d==1){ %> 
-                            <p></p>
-                            <button class="saveBtn">Sichern</button>
-                        <% } %> 
-                        <% if(d < 4 && d != 1){ %> 
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                        <% }else if(d == 4){ %> 
-                            <p class="content_text text">Planungstage</p>
-                            <input placeholder="Start" type="text" class="input text">
-                            <input placeholder="Ende" type="text" class="input text">                           
-                        <% } %> 
-                    <% } %>     
-                </div>
+                    <form class="grid" action="/sprint_verwaltung/<% __append(params.year + "/" + params.pi)%>" method="post">
+                        <% for (let d = 1; d < 5; d++){ %>
+                            <p class="content_text text">PI-0<%-i%>-0<%-d%></p>
+                            <input placeholder="Start" name="start<%-i%><%-d%>" type="text" class="input text">
+                            <input placeholder="Ende"  name="ende<%-i%><%-d%>" type="text" class="input text">
+                            <p></p><!--Space-->
+                            <% if(d==1){ %> 
+                                <p></p>
+                                <button class="saveBtn">Sichern</button>
+                            <% } %> 
+                            <% if(d < 4 && d != 1){ %> 
+                                <p></p>
+                                <p></p>
+                                <p></p>
+                            <% }else if(d == 4){ %> 
+                                <p class="content_text text">Planungstage</p>
+                                <input placeholder="Start" type="text" class="input text">
+                                <input placeholder="Ende" type="text" class="input text">                           
+                            <% } %> 
+                        <% } %>  
+                    </form>   
             <% } %> 
         <% } %>
     </div>

@@ -20,6 +20,14 @@
 .title:hover{
     color: var(--text);
 }
+.titleYear{
+    font-size: 40px;
+    color: var(--text-hover);
+    text-decoration: none;
+    margin-left: 5%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 .content_text{
     font-size: 20px;
     font-weight: bold;
