@@ -7,6 +7,7 @@ ul {list-style-type: none;}
   width: 100%;
   background: var(--suva-color-primary);
   text-align: center;
+  user-select: none;
 }
 
 .month ul {
@@ -37,6 +38,7 @@ ul {list-style-type: none;}
   margin: 0;
   padding: 10px 0;
   background-color: var(--background2);
+  user-select: none;
 }
 
 
@@ -45,12 +47,14 @@ ul {list-style-type: none;}
   width: 13.6%;
   text-align: center;
   justify-content: space-around;
+  cursor: pointer;
 }
 
 .days {
   padding: 10px 0;
   background: var(--background2);
   margin: 0;
+  user-select: none;
 }
 
 .days li {
@@ -61,7 +65,7 @@ ul {list-style-type: none;}
   text-align: center;
   font-size:20px;
   padding: 10px 0;
-
+  cursor: pointer;
 }
 
 .days li .active {

@@ -12,6 +12,7 @@ model User {
   preferencesWhiteMode Boolean @default(false)
   productivityDecimal  Int     @default(1)
   abwesenheiten Abwesenheit[]
+  standardAbwesenheiten Int[] 
 }
 
 model Abwesenheit{

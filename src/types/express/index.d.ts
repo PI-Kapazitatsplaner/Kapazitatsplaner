@@ -43,6 +43,7 @@ declare namespace Express {
       givenName: string;
       familyName: string;
       email: string;
+      standardAbwesenheiten: int[];
     };
   }
 }

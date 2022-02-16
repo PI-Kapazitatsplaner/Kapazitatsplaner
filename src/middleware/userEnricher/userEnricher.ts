@@ -31,6 +31,7 @@ export default async function enrichUser(req: express.Request, res: express.Resp
         familyName: content.family_name,
         email: content.email,
         prefersWhiteMode: user.preferencesWhiteMode,
+        standardAbwesenheiten: user.standardAbwesenheiten,
     }
 
     next();

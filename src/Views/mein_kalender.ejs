@@ -31,13 +31,13 @@
       </div>
 
       <ul class="weekdays">
-        <li class="text">Mo</li>
-        <li class="text">Di</li>
-        <li class="text">Mi</li>
-        <li class="text">Do</li>
-        <li class="text">Fr</li>
-        <li class="text weekend">Sa</li>
-        <li class="text weekend">So</li>
+        <li class="text" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=1'">Mo</li>
+        <li class="text" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=2'">Di</li>
+        <li class="text" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=3'">Mi</li>
+        <li class="text" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=4'">Do</li>
+        <li class="text" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=5'">Fr</li>
+        <li class="text weekend" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=6'">Sa</li>
+        <li class="text weekend" onclick="location.href='/mein_kalender/changeStandardAbwesenheit?d=0'">So</li>
       </ul>
       <ul class="days">
         <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
@@ -53,7 +53,7 @@
           }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
             __append("halbAbwesend") 
           }else{
-            if(isWeekend(i) && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
+            if(isDayADayOfTheWeekInArray() && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
               __append("abwesend")
             }else{
               __append("anwesend") 
@@ -64,7 +64,11 @@
           }
         }
         function isWeekend() {
-          return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 )
+          return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 7 - 6) % 7 === 0 )
+        }
+        function isDayADayOfTheWeekInArray() {
+          //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6;
+          return calendar.  standardAbwesenheiten.some(day => (i + calendar.fillerDays + 7 - day) % 7 === 0)
         } %>
         <% } %>
       </ul>

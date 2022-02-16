@@ -13,9 +13,9 @@ router.get('/:year?/:month?', async (req, res) => {
     } else if (month?.match(/^.*.js|.*.css$/)) {
         res.sendFile(path.join(__dirname, '../Public', month));
     } else {
-        if (validateParams(req.params)) {
+        if (validateParams(req.params)) {          
             const abwesenheitenInMonth = await getAbwesenheitenInMonth(Number(year) ,Number(month) ,req.user.sub)
-            const date = new Date(Number(year), Number(month) - 1, new Date().getDate());
+            const date = new Date(Number(year), Number(month) - 1, new Date().getDate());            
             const calendar = {
                 fillerDays: new Date(date.getFullYear(), date.getMonth(), 0).getDay(),
                 daysInMonth: new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
@@ -23,7 +23,8 @@ router.get('/:year?/:month?', async (req, res) => {
                 monthString: date.toLocaleString("de-CH", { month: "long" }),
                 month: date.getMonth() + 1,
                 year: date.getFullYear(),
-                abwesenheitenInMonth: abwesenheitenInMonth || []
+                abwesenheitenInMonth: abwesenheitenInMonth || [],
+                standardAbwesenheiten: req.user.standardAbwesenheiten.length === 0 ? [ 6, 0 ] : req.user.standardAbwesenheiten
             }
             const header = { currSite: 2, username: req.user.name };
             res.render("mein_kalender", { header, prefersWhiteMode: req.user.prefersWhiteMode, calendar });
@@ -46,6 +47,24 @@ router.post('/:year/:month', async (req, res) => {
     }
 });
 
+router.get('/changeStandardAbwesenheit', async (req, res) => {
+    if(req.query.d !== undefined && "0123456".includes(req.query.d.toLocaleString())) {
+        console.log("sdkjf");
+        
+        await prisma.user.update({
+            where: {
+                sub: req.user.sub
+            },
+            data: {
+                standardAbwesenheiten: [Number(req.query.d)]
+            }
+        });
+    }else{
+        console.log("Error in user.ts: changeStandardAbwesenheit");
+    }
+    res.redirect('/mein_kalender');
+})
+
 function validateParams(params: any): Boolean {
     return (!(params.year === undefined || params.month === undefined)
         && Number(params.year) >= 2020 && Number(params.year) < 2100
@@ -57,68 +76,70 @@ function validateBody(body: any): Boolean {
         && ( body.newState === 'anwesend' || body.newState === 'abwesend' || body.newState === 'halbAbwesend'))
 }
 
-function getAbwesenheitenInMonth(year: number, month: number, userSub:string): Promise<void | {date:any, typ: AbwesenheitsTyp}[]> {
-    return prisma.abwesenheit.findMany({
-        where: {
-            userSub: userSub,
-            AND: {
-                date: {
-                    gte: new Date(year + "-" + month + "-" + "01"),
-                    lt: new Date((month >= 12 ? 0 : year) + "-" + (month >= 12 ? 1 : (month + 1)) + "-" + "1")
-                },
+async function getAbwesenheitenInMonth(year: number, month: number, userSub:string): Promise<void | {date:any, typ: AbwesenheitsTyp}[]> {
+    try {
+        const abwesenheiten = await prisma.abwesenheit.findMany({
+            where: {
+                userSub: userSub,
+                AND: {
+                    date: {
+                        gte: new Date(year + "-" + month + "-" + "01"),
+                        lt: new Date((month >= 12 ? 0 : year) + "-" + (month >= 12 ? 1 : (month + 1)) + "-" + "1")
+                    },
+                }
             }
-        }
-    })
-    .then(abwesenheiten => {
+        });
         return abwesenheiten.map(abwesenheit => {
             return {
                 date: abwesenheit.date.getDate(),
                 typ: abwesenheit.typ
-            }
-        })
-    })
-    .catch(err => {
+            };
+        });
+    } catch (err) {
         console.log(err);
         return [];
-    });
+    }
 }
 
-function swtichAbwesenheitsType(newState: string, year:number, month:number, day:number, userSub:string): Promise<any> {
+async function swtichAbwesenheitsType(newState: string, year:number, month:number, day:number, userSub:string): Promise<any> {
     const fillerDays = new Date(Number(year), Number(month) - 1,  0).getDay()    
     if (newState === 'anwesend' && !((day + fillerDays) % 7 === 0 || (day + fillerDays + 1) % 7 === 0 )) {           
-        return prisma.abwesenheit.delete({
-            where: {
-                userSub_date: {
-                    userSub: userSub,
-                    date: new Date(Number(year), Number(month) - 1, day)
+        try {
+            return await prisma.abwesenheit.delete({
+                where: {
+                    userSub_date: {
+                        userSub: userSub,
+                        date: new Date(Number(year), Number(month) - 1, day)
+                    }
                 }
-            }
-        })
-        .catch(err => {
+            });
+        } catch (err) {
             console.log(err);
             return;
-        });
+        }
     } else {           
-        return prisma.abwesenheit.upsert({
-            where: {
-                userSub_date: {
+        try {
+            return await prisma.abwesenheit.upsert({
+                where: {
+                    userSub_date: {
+                        userSub: userSub,
+                        date: new Date(Number(year), Number(month) - 1, day)
+                    }
+                },
+                update: {
+                    typ: <keyof typeof AbwesenheitsTyp>newState
+                },
+                create: {
                     userSub: userSub,
-                    date: new Date(Number(year), Number(month) - 1, day)
+                    date: new Date(Number(year), Number(month) - 1, day),
+                    typ: <keyof typeof AbwesenheitsTyp>newState
                 }
-            },
-            update: {
-                typ: <keyof typeof AbwesenheitsTyp> newState
-            },
-            create: {
-                userSub: userSub,
-                date: new Date(Number(year), Number(month) - 1, day),
-                typ: <keyof typeof AbwesenheitsTyp> newState
-            }
-        })
-        .catch(err => {
+            });
+        }
+        catch (err) {
             console.log(err);
             return;
-        });
+        }
     }
 }
 
