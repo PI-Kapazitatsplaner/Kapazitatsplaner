@@ -74,7 +74,13 @@ ul {list-style-type: none;}
 
 .days .abwesend {
   color: white;
-  background-color: blueviolet;
+  background: blueviolet;
+}
+
+
+.days .halbAbwesend {
+  color: white;
+  background: linear-gradient(to top right, blueviolet 0%, blueviolet 50%, var(--background2) 50%,  var(--background2)  100%);
 }
 
 

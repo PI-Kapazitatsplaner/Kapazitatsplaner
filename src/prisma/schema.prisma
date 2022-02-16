@@ -17,6 +17,14 @@ model User {
 model Abwesenheit{
   id Int @id @default(autoincrement())
   date DateTime
+  typ AbwesenheitsTyp @default(abwesend)
   user User @relation(fields: [userSub], references: [sub])
   userSub String
+  @@unique([userSub, date])
+}
+
+enum AbwesenheitsTyp {
+  anwesend //Wirb für anwesenheiten an Feiertagen benötigt
+  abwesend
+  halbAbwesend
 }

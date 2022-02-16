@@ -44,9 +44,28 @@
         <li class="fillerDay"></li>
         <% } %>
         <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
-        <li onclick="elementPressed(this.id)" id="<%= i %>" class="text anwesend <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend") }%>">
+        <li onclick="elementPressed(this.id)" id="<%= i %>" class="text <% addClassesToElement() %>">
           <% if(i == calendar.activeDay) { __append('<span class="active">' + i + '</span>') } else { __append(i) } %>
         </li>
+        <% function addClassesToElement() {
+          if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'abwesend')){
+             __append(" abwesend") 
+          }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
+            __append("halbAbwesend") 
+          }else{
+            if(isWeekend(i) && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
+              __append("abwesend")
+            }else{
+              __append("anwesend") 
+            }
+          } 
+          if(isWeekend()){
+            __append(" weekend")
+          }
+        }
+        function isWeekend() {
+          return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 )
+        } %>
         <% } %>
       </ul>
     </div>
@@ -54,19 +73,27 @@
 </body>
 <script>
   function elementPressed(id) {
+    let newState = ""
     const element = document.getElementById(id);
-    if(element.classList.contains("abwesend")) {
+    if (element.classList.contains("abwesend")) {
       element.classList.remove("abwesend");
+      element.classList.add("halbAbwesend");
+      newState = "halbAbwesend"
+    } else if (element.classList.contains("halbAbwesend")) {
+      element.classList.remove("halbAbwesend");
       element.classList.add("anwesend");
-    } else if(element.classList.contains("anwesend")) {
+      newState = "anwesend"
+    } else if (element.classList.contains("anwesend")) {
       element.classList.remove("anwesend");
       element.classList.add("abwesend");
+      newState = "abwesend"
     }
     fetch("/mein_kalender/<%- calendar.year %>/<%- calendar.month %> ", {
         method: "POST",
         body: JSON.stringify({
+          newState: newState,
           day: id
-        }), 
+        }),
         headers: {
           "Content-Type": "application/json"
         }

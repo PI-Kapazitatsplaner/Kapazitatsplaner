@@ -1,6 +1,6 @@
+import { AbwesenheitsTyp } from '@prisma/client';
 import express from 'express';
 import path from 'path';
-import { param } from '.';
 import prisma from '../prisma/client';
 
 let router = express.Router();
@@ -14,19 +14,7 @@ router.get('/:year?/:month?', async (req, res) => {
         res.sendFile(path.join(__dirname, '../Public', month));
     } else {
         if (validateParams(req.params)) {
-            const abwesenheiten = await  prisma.abwesenheit.findMany({
-                where: {
-                    userSub: req.user.sub,
-                    AND: {
-                        date: {
-                            gte: new Date(year + "-" + month + "-" + "01"),
-                            lt: new Date(year + "-" + month + "-" + "32")
-                        },
-                    }
-                }
-            })
-            console.log(abwesenheiten);
-            
+            const abwesenheitenInMonth = await getAbwesenheitenInMonth(Number(year) ,Number(month) ,req.user.sub)
             const date = new Date(Number(year), Number(month) - 1, new Date().getDate());
             const calendar = {
                 fillerDays: new Date(date.getFullYear(), date.getMonth(), 0).getDay(),
@@ -35,6 +23,7 @@ router.get('/:year?/:month?', async (req, res) => {
                 monthString: date.toLocaleString("de-CH", { month: "long" }),
                 month: date.getMonth() + 1,
                 year: date.getFullYear(),
+                abwesenheitenInMonth: abwesenheitenInMonth || []
             }
             const header = { currSite: 2, username: req.user.name };
             res.render("mein_kalender", { header, prefersWhiteMode: req.user.prefersWhiteMode, calendar });
@@ -51,16 +40,9 @@ router.get('/:year?/:month?', async (req, res) => {
 
 router.post('/:year/:month', async (req, res) => {
     if (validateParams(req.params) && validateBody(req.body)) {
-        await prisma.abwesenheit.create({
-            data: {
-                user: {
-                    connect: { sub: req.user.sub }
-                },
-                date: new Date(Number(req.params.year), Number(req.params.month), req.body.day)
-            }
-        });
+        swtichAbwesenheitsType(req.body.newState, Number(req.params.year), Number(req.params.month), Number(req.body.day), req.user.sub)
     } else {
-        res.send(400);
+        res.sendStatus(400);
     }
 });
 
@@ -71,7 +53,74 @@ function validateParams(params: any): Boolean {
 }
 
 function validateBody(body: any): Boolean {
-    return (body.day !== undefined && Number(body.day) >= 1 && Number(body.day) < 32)
+    return ((body.day !== undefined && Number(body.day) >= 1 && Number(body.day) < 32)
+        && ( body.newState === 'anwesend' || body.newState === 'abwesend' || body.newState === 'halbAbwesend'))
 }
+
+function getAbwesenheitenInMonth(year: number, month: number, userSub:string): Promise<void | {date:any, typ: AbwesenheitsTyp}[]> {
+    return prisma.abwesenheit.findMany({
+        where: {
+            userSub: userSub,
+            AND: {
+                date: {
+                    gte: new Date(year + "-" + month + "-" + "01"),
+                    lt: new Date((month >= 12 ? 0 : year) + "-" + (month >= 12 ? 1 : (month + 1)) + "-" + "1")
+                },
+            }
+        }
+    })
+    .then(abwesenheiten => {
+        return abwesenheiten.map(abwesenheit => {
+            return {
+                date: abwesenheit.date.getDate(),
+                typ: abwesenheit.typ
+            }
+        })
+    })
+    .catch(err => {
+        console.log(err);
+        return [];
+    });
+}
+
+function swtichAbwesenheitsType(newState: string, year:number, month:number, day:number, userSub:string): Promise<any> {
+    const fillerDays = new Date(Number(year), Number(month) - 1,  0).getDay()    
+    if (newState === 'anwesend' && !((day + fillerDays) % 7 === 0 || (day + fillerDays + 1) % 7 === 0 )) {           
+        return prisma.abwesenheit.delete({
+            where: {
+                userSub_date: {
+                    userSub: userSub,
+                    date: new Date(Number(year), Number(month) - 1, day)
+                }
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return;
+        });
+    } else {           
+        return prisma.abwesenheit.upsert({
+            where: {
+                userSub_date: {
+                    userSub: userSub,
+                    date: new Date(Number(year), Number(month) - 1, day)
+                }
+            },
+            update: {
+                typ: <keyof typeof AbwesenheitsTyp> newState
+            },
+            create: {
+                userSub: userSub,
+                date: new Date(Number(year), Number(month) - 1, day),
+                typ: <keyof typeof AbwesenheitsTyp> newState
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return;
+        });
+    }
+}
+
 
 export = router;
