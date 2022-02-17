@@ -34,8 +34,10 @@
                     <form class="grid" action="/sprint_verwaltung/<% __append(params.year + "/" + params.pi)%>" method="post">
                         <% for (let d = 1; d < 5; d++){ %>
                             <p class="content_text text">PI-0<%-i%>-0<%-d%></p>
-                            <input placeholder="Start" name="start<%-i%><%-d%>" type="text" class="input text">
-                            <input placeholder="Ende"  name="ende<%-i%><%-d%>" type="text" class="input text">
+
+                            <input placeholder="Start" value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) %>" name="start<%-i%><%-d%>" type="date" class="input text">
+                            <input placeholder="Ende"  value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis) %>" name="ende<%-i%><%-d%>" type="date" class="input text">
+
                             <p></p><!--Space-->
                             <% if(d==1){ %> 
                                 <p></p>
@@ -47,17 +49,20 @@
                                 <p></p>
                             <% }else if(d == 4){ %> 
                                 <p class="content_text text">Planungstage</p>
-                                <input placeholder="Start" type="text" class="input text">
-                                <input placeholder="Ende" type="text" class="input text">                           
+                                <input placeholder="Start" value="<%- getFormattedDate(pi.planungVon) %>" type="date" class="input text">
+                                <input placeholder="Ende"  value="<%- getFormattedDate(pi.planungBis) %>" type="date" class="input text">                           
                             <% } %> 
                         <% } %>  
+                        <% function getFormattedDate(date){
+                            return new Date(date.getFullYear(),date.getMonth(),date.getDate(),4).toISOString().split("T")[0]
+                        } %> 
                     </form>   
             <% } %> 
         <% } %>
     </div>
 </body>
 <script>
-    setColors("light");
+    setColors("dark");
     var arrow = document.getElementById('arrow');
     arrow.classList.add('arrow-dark');
     arrow.classList.remove('arrow');

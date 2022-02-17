@@ -34,7 +34,7 @@
 }
 .grid{
     display: grid;
-    grid-template-columns: 20% 10% 10% 20% 20% 10% 10% ;
+    grid-template-columns: 10% 15% 15% 15% 15% 15% 15% ;
     margin-left: 7%;
     margin-right: 7%;
 }
@@ -52,7 +52,7 @@
     display: inline-block;
     font-size: 16px;
     border-radius: 4px;
-    grid-column: 6 / span 2;
+    grid-column: 7 / span 1;
 }
 .saveBtn:hover{
     box-shadow: #43757a 0px 5px 15px;

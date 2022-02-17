@@ -14,10 +14,13 @@ model User {
 }
 
 model Pi {
-  id        Int @id @default(autoincrement())
-  year      Int
-  iteration Int
-  sprint    Sprint[]
+  id          Int @id @default(autoincrement())
+  year        String
+  iteration   String
+  planungVon  DateTime?
+  planungBis  DateTime?
+  sprint      Sprint[]
+  @@unique(fields: [year, iteration], name: "piKey")
 }
 
 model Sprint {
@@ -26,4 +29,5 @@ model Sprint {
   bis DateTime
   pi  Pi @relation(fields: [piId], references: [id])
   piId Int
+  sprintNumber Int?
 }

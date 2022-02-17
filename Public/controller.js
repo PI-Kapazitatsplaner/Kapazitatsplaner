@@ -54,3 +54,4 @@ function setColors(val){
         }
     }
 }
+function validateDateFormat()
