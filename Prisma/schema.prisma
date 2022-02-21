@@ -30,4 +30,5 @@ model Sprint {
   pi  Pi @relation(fields: [piId], references: [id])
   piId Int
   sprintNumber Int?
+  @@unique(fields: [piId, sprintNumber], name: "sprintKey")
 }

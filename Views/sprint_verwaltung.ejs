@@ -32,7 +32,7 @@
                     <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-04" class="title">PI-04</a>
                 </div> 
                     <form class="grid" action="/sprint_verwaltung/<% __append(params.year + "/" + params.pi)%>" method="post">
-                        <% for (let d = 1; d < 5; d++){ %>
+                        <% for (let d = 1; d < 7; d++){ %>
                             <p class="content_text text">PI-0<%-i%>-0<%-d%></p>
 
                             <input placeholder="Start" value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) %>" name="start<%-i%><%-d%>" type="date" class="input text">
@@ -43,14 +43,14 @@
                                 <p></p>
                                 <button class="saveBtn">Sichern</button>
                             <% } %> 
-                            <% if(d < 4 && d != 1){ %> 
+                            <% if(d < 6 && d != 1){ %> 
                                 <p></p>
                                 <p></p>
                                 <p></p>
-                            <% }else if(d == 4){ %> 
+                            <% }else if(d == 6){ %> 
                                 <p class="content_text text">Planungstage</p>
-                                <input placeholder="Start" value="<%- getFormattedDate(pi.planungVon) %>" type="date" class="input text">
-                                <input placeholder="Ende"  value="<%- getFormattedDate(pi.planungBis) %>" type="date" class="input text">                           
+                                <input placeholder="Start" value="<%- getFormattedDate(pi.planungVon) %>" type="date" name="planungStart" class="input text">
+                                <input placeholder="Ende"  value="<%- getFormattedDate(pi.planungBis) %>" type="date" name="planungEnde" class="input text">                           
                             <% } %> 
                         <% } %>  
                         <% function getFormattedDate(date){
