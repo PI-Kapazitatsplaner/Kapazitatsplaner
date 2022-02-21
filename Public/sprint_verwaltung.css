@@ -1,4 +1,11 @@
-
+.titleGrid{
+    margin-left: 7%;
+    display: grid;
+    grid-template-columns: 20% auto 20%;
+    align-items: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
 .titles{
     font-weight: normal;
     display: flex;
@@ -7,8 +14,6 @@
     justify-content : center;
     gap: 15px;
     font-size: 30px;
-    padding: 20px;
-    padding-bottom: 60px;
 }
 .title{
     font-size: 30px;
@@ -24,9 +29,8 @@
     font-size: 40px;
     color: var(--text-hover);
     text-decoration: none;
-    margin-left: 5%;
-    margin-bottom: 0;
-    padding-bottom: 0;
+    border: none;
+    background-color: var(--background2);
 }
 .content_text{
     font-size: 20px;
