@@ -92,7 +92,8 @@
         method: "POST",
         body: JSON.stringify({
           newState: newState,
-          day: id
+          day: id,
+          _csrf: "<%- csrfToken %>"
         }),
         headers: {
           "Content-Type": "application/json"
