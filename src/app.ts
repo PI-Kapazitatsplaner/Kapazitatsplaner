@@ -18,7 +18,7 @@ const app = express();
 const port: number = Number(process.env.PORT) || 3000;
 
 // set up rate limiter: maximum of five requests per minute
-var limiter = new RateLimit({
+var limiter = RateLimit({
   windowMs: 1*60*1000, // 1 minute
   max: 5
 });

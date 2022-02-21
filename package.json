@@ -42,6 +42,7 @@
     "csurf": "^1.11.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
+    "express-rate-limit": "^6.3.0",
     "express-session": "^1.17.2",
     "keycloak-connect": "^16.1.1",
     "pinia": "^2.0.11",
