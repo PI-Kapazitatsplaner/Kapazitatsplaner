@@ -5,7 +5,6 @@ import ejs from 'ejs';
 let router = express.Router();
 
 router.get('/', async (req, res) => {
-            console.log(req.headers.referer);
 
             //Gibt Variable von referer Seite mit, um von Settings wieder zur Aufrufer-Seite zu gelangen
             if (req.headers.referer?.includes("team_kalender")){

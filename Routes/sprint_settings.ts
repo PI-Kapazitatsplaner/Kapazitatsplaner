@@ -56,8 +56,6 @@ router.get("/:year/:pi", async (req, res) => {
 });
 //Update
 router.post("/:year/:pi", async (req, res) => {
-  console.log(req.body);
-
   //Planungstage Updaten
   const updatePlanningDates = await prisma.pi.update({
     where: {
@@ -308,7 +306,6 @@ router.post("/:year/:pi", async (req, res) => {
         },
       });
     }
-    res.redirect("/sprint_verwaltung/" + req.params.year + "/" + req.params.pi);
   }
   else if(req.params.pi === "PI-04"){
     if (findCurrentPi !== null) {
@@ -385,8 +382,8 @@ router.post("/:year/:pi", async (req, res) => {
         },
       });
     }
-    res.redirect("/sprint_verwaltung/" + req.params.year + "/" + req.params.pi);
   }
+  res.redirect("/sprint_verwaltung/" + req.params.year + "/" + req.params.pi);
 });
 
 export = router;
