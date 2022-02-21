@@ -24,7 +24,7 @@ router.get('/:year?/:month?', async (req, res) => {
                 month: date.getMonth() + 1,
                 year: date.getFullYear(),
                 abwesenheitenInMonth: abwesenheitenInMonth || [],
-                standardAbwesenheiten: req.user.standardAbwesenheiten.length === 0 ? [6, 0] : req.user.standardAbwesenheiten
+                standardAbwesenheiten: req.user.standardAbwesenheiten.length === 0 ? [6, 0] : req.user.standardAbwesenheiten,
             }
             const header = { currSite: 2, username: req.user.name };
             res.render("mein_kalender", { header, prefersWhiteMode: req.user.prefersWhiteMode, calendar });
