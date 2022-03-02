@@ -44,7 +44,7 @@
     "express": "^4.17.3",
     "express-rate-limit": "^6.3.0",
     "express-session": "^1.17.2",
-    "keycloak-connect": "^16.1.1",
+    "keycloak-connect": "^17.0.0",
     "pinia": "^2.0.11",
     "sinon": "^13.0.1",
     "ts-jest": "^27.1.3",
