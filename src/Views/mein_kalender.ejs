@@ -18,45 +18,108 @@
 <body id="body" class="content">
   <%- include('header') %>
   <div class="mainContent" id="mainContent">
-    <h1 class="text">Mein Kalender</h1>
     <div class="calendar">
       <div class="month">
         <ul>
-          <li class="prev">&#10094;</li>
-          <li class="next">&#10095;</li>
+          <li onclick="location.href='/mein_kalender/<%- calendar.month - 1 === 0 ? calendar.year - 1 : calendar.year %>/<%- calendar.month - 1 === 0 ? 12 : calendar.month - 1 %>'" class="prev">&#10094;</li>
+          <li onclick="location.href='/mein_kalender/<%- calendar.month === 12 ? calendar.year + 1  : calendar.year %>/<%- calendar.month === 12 ? 1 : calendar.month + 1 %>'" class="next">&#10095;</li>
           <li>
-            August<br>
-            <span style="font-size:18px">2021</span>
+            <%= calendar.monthString %><br>
+            <span style="font-size:18px"><%= calendar.year %></span>
           </li>
         </ul>
       </div>
 
       <ul class="weekdays">
-        <li class="text">Mo</li>
-        <li class="text">Tu</li>
-        <li class="text">We</li>
-        <li class="text">Th</li>
-        <li class="text">Fr</li>
-        <li class="text weekend">Sa</li>
-        <li class="text weekend">Su</li>
+        <li class="text" onclick="changeAnwesenheiten(1)">Mo</li>
+        <li class="text" onclick="changeAnwesenheiten(2)">Di</li>
+        <li class="text" onclick="changeAnwesenheiten(3)"">Mi</li>
+        <li class=" text" onclick="changeAnwesenheiten(4)">Do</li>
+        <li class="text" onclick="changeAnwesenheiten(5)">Fr</li>
+        <li class="text weekend" onclick="changeAnwesenheiten(6)">Sa</li>
+        <li class="text weekend" onclick="changeAnwesenheiten(0)">So</li>
       </ul>
       <ul class="days">
         <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
         <li class="fillerDay"></li>
         <% } %>
-        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>          
-        <% if(i == calendar.activeDay) { %>
-        <li class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend")  }%> <%= i.toString() %>">
-          <span class="active"><%= i %></span>
+        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
+        <li onclick="changeAnwesenheit(this.id)" id="<%= i %>" class="text <% addClassesToElement() %>">
+          <% if(i == calendar.activeDay) { __append('<span class="active">' + i + '</span>') } else { __append(i) } %>
         </li>
-        <% } else { %>
-        <li class="text <% if((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 1) % 7 === 0 ) { __append("weekend")  }%> <%= i.toString() %>">
-          <%= i %>
-        </li>
-        <% }} %>
+        <% function addClassesToElement() {
+          if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'abwesend')){
+             __append(" abwesend") 
+          }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
+            __append("halbAbwesend") 
+          }else{
+            if(isStandardAbwesenheit() && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
+              __append("abwesend")
+            }else{
+              __append("anwesend") 
+            }
+          } 
+          if(isWeekend()){
+            __append(" weekend")
+          }
+        }
+        function isWeekend() {
+          return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 7 - 6) % 7 === 0 )
+        }
+        function isStandardAbwesenheit() {
+          //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6;
+          return calendar.standardAbwesenheiten.some(day => (i + calendar.fillerDays + 7 - day) % 7 === 0)
+        } %>
+        <% } %>
       </ul>
     </div>
   </div>
 </body>
+<script>
+  function changeAnwesenheiten(day) {
+    //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6; %>
+    for (let i = day - <%- calendar.fillerDays %>; i < 31; i = i + 7) {
+      if(i < 0){
+        i = i + 7
+      }
+      changeAnwesenheit(i)
+    }
+  }
+
+  function changeAnwesenheit(id) {
+    const newState = switchStates(id)
+    fetch("/mein_kalender/<%- calendar.year %>/<%- calendar.month %> ", {
+        method: "POST",
+        body: JSON.stringify({
+          newState: newState,
+          day: id,
+          _csrf: "<%- csrfToken %>"
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(json => console.log(json));
+  }
+
+  function switchStates(id) {
+    const element = document.getElementById(id);
+    if (element.classList.contains("abwesend")) {
+      element.classList.remove("abwesend");
+      element.classList.add("halbAbwesend");
+      return "halbAbwesend"
+    } else if (element.classList.contains("halbAbwesend")) {
+      element.classList.remove("halbAbwesend");
+      element.classList.add("anwesend");
+      return "anwesend"
+    } else if (element.classList.contains("anwesend")) {
+      element.classList.remove("anwesend");
+      element.classList.add("abwesend");
+      return "abwesend"
+    }
+  }
+</script>
 <%- include('colorScript') %>
+
 </html>

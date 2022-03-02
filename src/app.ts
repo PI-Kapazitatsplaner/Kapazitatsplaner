@@ -10,6 +10,9 @@ import settingsRouter from "./Routes/settings"
 import userRouter from "./Routes/user";
 import teamRouter from "./Routes/team";
 import sprint_settingsRouter from "./Routes/sprint_settings";
+import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
+import RateLimit from 'express-rate-limit';
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -18,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'Public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 //Use ejs as view engine
 app.set('views', path.join(__dirname, 'Views'));
@@ -33,6 +37,9 @@ app.use(session({
 
 app.set( 'trust proxy', true );
 
+const csrfProtection = csrf({ cookie: true });
+app.use(cookieParser())
+
 app.use(keycloak.middleware());
 app.all("*", keycloak.protect()) //Protect all routes with keycloak
 
@@ -41,7 +48,7 @@ app.use(userEnricher);
 //Routers
 app.use('/', indexRouter);
 app.use('/settings', settingsRouter);
-app.use('/mein_kalender', userRouter);
+app.use('/mein_kalender', csrfProtection ,userRouter);
 app.use('/team_kalender', teamRouter);
 app.use('/sprint_verwaltung', sprint_settingsRouter);
 

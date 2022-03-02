@@ -7,6 +7,7 @@ ul {list-style-type: none;}
   width: 100%;
   background: var(--suva-color-primary);
   text-align: center;
+  user-select: none;
 }
 
 .month ul {
@@ -24,17 +25,20 @@ ul {list-style-type: none;}
 .month .prev {
   float: left;
   padding-top: 10px;
+  cursor: pointer;
 }
 
 .month .next {
   float: right;
   padding-top: 10px;
+  cursor: pointer;
 }
 
 .weekdays {
   margin: 0;
   padding: 10px 0;
   background-color: var(--background2);
+  user-select: none;
 }
 
 
@@ -43,12 +47,14 @@ ul {list-style-type: none;}
   width: 13.6%;
   text-align: center;
   justify-content: space-around;
+  cursor: pointer;
 }
 
 .days {
   padding: 10px 0;
   background: var(--background2);
   margin: 0;
+  user-select: none;
 }
 
 .days li {
@@ -57,17 +63,31 @@ ul {list-style-type: none;}
   width: 13.6%;
   height: 40px;
   text-align: center;
-  margin-bottom: 5px;
   font-size:20px;
   padding: 10px 0;
-
+  cursor: pointer;
 }
 
 .days li .active {
-  padding: 5px;
+  padding: 2px 8px;
+  padding-top: 5px;
+  width: 9%;
   background: var(--suva-color-primary);
   color: white !important
 }
+
+.days .abwesend {
+  color: white;
+  background: blueviolet;
+}
+
+
+.days .halbAbwesend {
+  color: white;
+  background: linear-gradient(to top right, blueviolet 0%, blueviolet 50%, var(--background2) 50%,  var(--background2)  100%);
+}
+
+
 
 @media screen and (max-width: 900px) {
   .weekend{
@@ -83,9 +103,12 @@ ul {list-style-type: none;}
   .weekdays li, .days li {width: 19.04%;}
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 560px) {
   .weekdays li, .days li {width: 18.04%;}
-  .days li .active {padding: 2px;}
+  .days li .active {
+    padding: 0px 4px;
+    padding-top: 2px;
+  }
 }
 
 @media screen and (max-width: 290px) {
