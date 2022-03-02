@@ -36,10 +36,4 @@ describe("GET /mein_kalender", () => {
                 done();
             });
     });
-    it("should return 404", (done) => {
-        setTestUser('4296e3d8-a609-4ffa-b27a-3106ed7a5126');
-        request(app).post("/mein_kalender")
-            .expect(404)
-            .end(done);
-    });
 });
