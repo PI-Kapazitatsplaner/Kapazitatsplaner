@@ -26,7 +26,7 @@
             <% if (params.pi == "PI-0" + i){ %>
 
             <div class="titleGrid">
-                <input type="number" class="text titleYear" value="<%- params.year %>">
+                <input type="number" id="yearChanger" class="text titleYear" onchange="updateYear()" value="<%- params.year %>" min="2020" max="2100" step="1"> 
                 <div class="titles">
                     <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
                     <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-02">PI-02</a>
@@ -38,8 +38,13 @@
                 <% for (let d = 1; d < 7; d++){ %>
                     <p class="content_text text">PI-0<%-i%>-0<%-d%></p>
 
-                    <input placeholder="Start" value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) %>" name="start" type="date" class="input text">
-                    <input placeholder="Ende"  value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis) %>" name="ende" type="date" class="input text">
+                    <input placeholder="Start" <% if(sprints !== undefined){ %>
+                            value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) %>"<% } %>
+                            name="start" type="date" class="input text">
+                    
+                    <input placeholder="Ende" <% if(sprints !== undefined){ %>
+                        value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis) %>" <% } %>
+                        name="ende" type="date" class="input text">
 
                     <p></p><!--Space-->
                     <% if(d==1){ %> 
@@ -52,8 +57,14 @@
                         <p></p>
                     <% }else if(d == 6){ %> 
                         <p class="content_text text">Planungstage</p>
-                        <input placeholder="Start" value="<%- getFormattedDate(pi.planungVon) %>" type="date" name="planungStart" class="input text">
-                        <input placeholder="Ende"  value="<%- getFormattedDate(pi.planungBis) %>" type="date" name="planungEnde" class="input text">                           
+                        
+                        <input placeholder="Start" <% if(pi !== null){ %>  
+                        value="<%- getFormattedDate(pi.planungVon) %>" <% } %> 
+                        type="date" name="planungStart" class="input text">
+                        
+                        <input placeholder="Ende" <% if(pi !== null){ %> 
+                        value="<%- getFormattedDate(pi.planungBis) %>" <% } %> 
+                        type="date" name="planungEnde" class="input text">                           
                     <% } %> 
                 <% } %>  
                 <% function getFormattedDate(date){
@@ -69,5 +80,10 @@
     var arrow = document.getElementById('arrow');
     arrow.classList.add('arrow-dark');
     arrow.classList.remove('arrow');
+
+    function updateYear(){
+        yearInput = document.getElementById('yearChanger');
+        location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
+    }
 </script>
 </html>
