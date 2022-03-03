@@ -21,7 +21,7 @@
         <h1 class="text titleR">Sprint Verwaltung</h1>
     </div>
     <div class="mainContent" id="mainContent">
-
+        <% let dateValid = true ; %> 
         <% for(let i = 1; i < 5; i++){ %>
             <% if (params.pi == "PI-0" + i){ %>
 
@@ -45,11 +45,15 @@
                     <input placeholder="Ende" <% if(sprints !== undefined){ %>
                         value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis) %>" <% } %>
                         name="ende" type="date" class="input text">
-
                     <p></p><!--Space-->
                     <% if(d==1){ %> 
                         <p></p>
-                        <button class="saveBtn">Sichern</button>
+                        <% if(dateValid !== true){%>
+                            <button class="saveBtn tooltip">Sichern<span class="tooltiptext">Das von-Datum muss kleiner, als das bis-Datum sein und darf nicht leer sein!</span></button>
+                        <%}else{%>
+                            <button class="saveBtn">Sichern</button>
+                        <% } %> 
+                        
                     <% } %> 
                     <% if(d < 6 && d != 1){ %> 
                         <p></p>
@@ -64,14 +68,25 @@
                         
                         <input placeholder="Ende" <% if(pi !== null){ %> 
                         value="<%- getFormattedDate(pi.planungBis) %>" <% } %> 
-                        type="date" name="planungEnde" class="input text">                           
-                    <% } %> 
+                        type="date" name="planungEnde" class="input text">
+                                                   
+                    <% } %>
+                    <!-- Validierung --> 
+                    <% if (dateValid !== true && 
+                            getFormattedDate(pi.planungVon) < getFormattedDate(pi.planungBis) && 
+                            getFormattedDate(sprints.find(sprint => sprint.sprintNumber === 1)?.von) < getFormattedDate(sprints.find(sprint => sprint.sprintNumber === 1)?.bis)&& 
+                            getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) < getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis)){
+                                dateValid = true;
+                            }
+                            else{
+                                dateValid = false;
+                            }%> 
                 <% } %>  
                 <% function getFormattedDate(date){
                     return new Date(date.getFullYear(),date.getMonth(),date.getDate(),4).toISOString().split("T")[0]
                 } %> 
-            </form>   
-            <% } %> 
+            </form>        
+            <% } %>
         <% } %>
     </div>
 </body>
