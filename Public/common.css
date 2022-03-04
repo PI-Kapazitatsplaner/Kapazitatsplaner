@@ -58,6 +58,9 @@ body{
     background-color: var(--input);
     color: var(--text);
 }
+.inputError{
+    border: solid 2.5px red;
+  }
 /*Trennlinien*/
 .separator{
     display: flex;
