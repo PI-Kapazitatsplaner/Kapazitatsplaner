@@ -31,11 +31,11 @@
       <div class="line linecol"></div>
       <br>
     </div>
-    <form action="/setting/user" method="post" class="userSettingForm">
+    <form action="/settings" method="post" class="userSettingForm">
       <div class="firstFlexItem flexItem">
         <h2 class="tooltip"><label for="productivity">Produktivität im Team</label><span class="tooltiptext">Die Produktivität im Team wird bei der Berechnung der Velocity verwendet.</span></h2>
         <div class="number-input percent-input">
-          <input oninput="scaleInputSize(this);" class="percent" min="0" max="100" name="quantity" value="1" type="number">
+          <input oninput="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
           <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
           <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
           <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
@@ -50,31 +50,31 @@
         <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
         <div class="days">
           <div class="day">
-            <input type="checkbox" id="monday" name="Monday" value="1" <% if(standardAbwesenheiten.includes(1)){__append("checked")}%>>
+            <input type="checkbox" id="monday" name="standardAbwesenheiten" value="1" <% if(standardAbwesenheiten.includes(1)){__append("checked")}%>>
             <label for="monday"> Montag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="tuesday" name="Tuesday" value="2" <% if(standardAbwesenheiten.includes(2)){__append("checked")}%>>
+            <input type="checkbox" id="tuesday" name="standardAbwesenheiten" value="2" <% if(standardAbwesenheiten.includes(2)){__append("checked")}%>>
             <label for="tuesday"> Dienstag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="wednesday" name="Wednesday" value="3" <% if(standardAbwesenheiten.includes(3)){__append("checked")}%>>
+            <input type="checkbox" id="wednesday" name="standardAbwesenheiten" value="3" <% if(standardAbwesenheiten.includes(3)){__append("checked")}%>>
             <label for="wednesday"> Mittwoch</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="thursday" name="Thursday" value="4" <% if(standardAbwesenheiten.includes(4)){__append("checked")}%>>
+            <input type="checkbox" id="thursday" name="standardAbwesenheiten" value="4" <% if(standardAbwesenheiten.includes(4)){__append("checked")}%>>
             <label for="thursday"> Donnerstag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="friday" name="Friday" value="5" <% if(standardAbwesenheiten.includes(5)){__append("checked")}%>>
+            <input type="checkbox" id="friday" name="standardAbwesenheiten" value="5" <% if(standardAbwesenheiten.includes(5)){__append("checked")}%>>
             <label for="friday"> Freitag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="saturday" name="Saturday" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
+            <input type="checkbox" id="saturday" name="standardAbwesenheiten" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
             <label for="saturday"> Samstag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="sunday" name="Sunday" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
+            <input type="checkbox" id="sunday" name="standardAbwesenheiten" value="0" <% if(standardAbwesenheiten.includes(0)){__append("checked")}%>>
             <label for="sunday"> Sonntag</label><br>
           </div>
         </div>

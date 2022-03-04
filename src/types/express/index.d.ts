@@ -43,7 +43,8 @@ declare namespace Express {
       givenName: string;
       familyName: string;
       email: string;
-      standardAbwesenheiten: int[];
+      standardAbwesenheiten: number[];
+      productivityPercentage: number;
     };
   }
 }

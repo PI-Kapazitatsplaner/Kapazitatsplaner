@@ -21,7 +21,7 @@ export default async function enrichUser(req: express.Request, res: express.Resp
     }    
 
     const user = await prisma.user.findUnique({ where: { sub: content.sub } })
-        || await prisma.user.create({ data: { sub: content.sub } });
+        || await prisma.user.create({ data: { sub: content.sub, standardAbwesenheiten: [ 0, 6 ] } });
 
     req.user = {
         sub: content.sub,
@@ -32,6 +32,7 @@ export default async function enrichUser(req: express.Request, res: express.Resp
         email: content.email,
         prefersWhiteMode: user.preferencesWhiteMode,
         standardAbwesenheiten: user.standardAbwesenheiten,
+        productivityPercentage: user.productivityPercentage,
     }
 
     next();
