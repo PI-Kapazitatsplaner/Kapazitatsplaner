@@ -1,0 +1,105 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css");
+
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.number-input {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+}
+
+.number-input,
+.number-input * {
+    box-sizing: border-box;
+}
+
+.number-input button {
+    outline:none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 1.5rem;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+}
+
+.number-input button:after {
+    display: inline-block;
+    position: absolute;
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900;
+    content: '\f077';
+    color: var(--text2);
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+.number-input button.plus:after {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.number-input input[type=number] {
+    border: none;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    font-family: sans-serif;
+    font-size: 2rem;
+    height: 3rem;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--background2);
+    color: var(--text);
+}
+
+.number-input input[type=number]:hover, .number-input input[type=number]:focus {
+    border: none;
+    outline: none;
+}
+
+.number-input input[type=number]:focus {
+    background: 
+      linear-gradient(var(--line), var(--line)) center bottom 5px /calc(100% + 10px) 1px no-repeat;
+    background-color: var(--background2);
+}
+
+.percent-input {
+    grid-template-columns: 4ch auto auto;
+}
+
+.percent-input span{
+    grid-row-start: 1;
+    grid-row-end: 3;
+    font-family: sans-serif;
+    max-width: 5rem;
+    padding-top: 20%;
+    font-size: 2rem;
+    height: 3rem;
+    text-align: center;
+    padding-left: 0;
+    color: var(--text);
+}
+
+.percent-input input[type=number]{
+    font-size: 1.8rem;
+    width:100%;
+    font-weight: unset;
+}
+
+.percent-input button {
+    height: 1rem;
+    justify-content: center;
+}
+
+.percent-input button.plus {
+    padding-top: 1vh;
+}

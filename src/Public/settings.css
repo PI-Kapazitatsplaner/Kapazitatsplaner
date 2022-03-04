@@ -1,3 +1,7 @@
+.titleL {
+    color: var(--suva-color-primary) !important;
+}
+
 .nav{
     display: flex;
     flex-wrap: nowrap;
@@ -22,4 +26,110 @@
 }
 .arrow-dark:hover{
     filter: brightness(0) contrast(100%) invert(50%) sepia(92%) saturate(1629%) hue-rotate(359deg) brightness(100%) contrast(109%);
+}
+
+
+.userSettingForm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.userSettingForm .flexItem {
+    padding: 2%;
+}
+
+.userSettingForm h2{
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: var(--text);
+
+}
+
+.userSettingForm h2::after{
+    content: '?';
+    vertical-align: super;
+    font-size: 70%;
+}    
+
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--background);
+    color: var(--text2);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    margin-left: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 10px;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: -4%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--background) transparent transparent transparent;
+    transform: rotate(90deg); 
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.userSettingForm .days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: column;
+    align-content: flex-start;
+}
+
+.userSettingForm .days .day input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    margin: 0;
+}
+
+.userSettingForm .days .day label{
+    color: var(--text2);
+    width: 30px;
+    cursor: pointer;
+
+}
+
+.userSettingForm .days .day input[type="checkbox"] + label::before {
+    content: "💻";
+}
+
+.userSettingForm .days .day input[type="checkbox"]:checked + label::before {
+    content: "🏖️";
+}
+
+.userSettingForm .percent{
+    display: table;
+    margin: 0 auto;
+}
+
+.userSettingForm .percent::after{
+    content: '%';
+    top: 20%;
+    left: -40%;
+}    
+
+.firstFlexItem {
+    border-right: none;
+    border-bottom: 2px solid var(--line);
 }

@@ -1,47 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="settings.css">
-    <script src="controller.js"></script>
-    <title>Settings</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="settings.css">
+  <link rel="stylesheet" href="numberInput.css">
+  <script src="controller.js"></script>
+  <title>Settings</title>
 </head>
+
 <body id="body" class="content">
-    <div class="nav">
-        <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
-        <h1 class="text titleR">Settings</h1>
-    </div>
-    <div class="mainContent" id="mainContent">
-        <h1 class="text">Settings</h1>
-        
-        <!--User Settings-->
-        <div class="separator">
-            <div class="line linecol"></div>
-                <h2 class="linecol">User Settings</h2>
-            <div class="line linecol"></div>
-        </div>
+  <div class="nav">
+    <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+    <h1 class="text titleR">Settings</h1>
+  </div>
+  <div class="mainContent" id="mainContent">
+    <h1 class="titleL">Settings</h1>
 
-        <!--Team Settings-->
-        <div class="separator">
-            <div class="line linecol"></div>
-                <h2 class="linecol">Team Settings</h2>
-            <div class="line linecol"></div>
-        </div>
-        <button onclick="location.href='/sprint_verwaltung'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
-
+    <!--User Settings-->
+    <div class="separator">
+      <div class="line linecol"></div>
+      <h2 class="linecol">User Settings</h2>
+      <div class="line linecol"></div>
+      <br>
     </div>
+    <form action="/setting/user" method="post" class="userSettingForm">
+      <div class="firstFlexItem flexItem">
+        <h2 class="tooltip"><label for="productivity">Produktivität im Team</label><span class="tooltiptext">Die Produktivität im Team wird bei der Berechnung der Velocity verwendet.</span></h2>
+        <div class="number-input percent-input">
+          <input oninput="scaleInputSize(this);" class="percent" min="0" max="100" name="quantity" value="1" type="number">
+          <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
+          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
+          <script>
+            function scaleInputSize(input){
+                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+            }
+          </script>
+        </div>
+      </div>      
+      <div class="flexItem">
+        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
+        <div class="days">
+          <div class="day">
+            <input type="checkbox" id="monday" name="Monday" value="1" <% if(standardAbwesenheiten.includes(1)){__append("checked")}%>>
+            <label for="monday"> Montag</label><br>
+          </div>
+          <div class="day">
+            <input type="checkbox" id="tuesday" name="Tuesday" value="2" <% if(standardAbwesenheiten.includes(2)){__append("checked")}%>>
+            <label for="tuesday"> Dienstag</label><br>
+          </div>
+          <div class="day">
+            <input type="checkbox" id="wednesday" name="Wednesday" value="3" <% if(standardAbwesenheiten.includes(3)){__append("checked")}%>>
+            <label for="wednesday"> Mittwoch</label><br>
+          </div>
+          <div class="day">
+            <input type="checkbox" id="thursday" name="Thursday" value="4" <% if(standardAbwesenheiten.includes(4)){__append("checked")}%>>
+            <label for="thursday"> Donnerstag</label><br>
+          </div>
+          <div class="day">
+            <input type="checkbox" id="friday" name="Friday" value="5" <% if(standardAbwesenheiten.includes(5)){__append("checked")}%>>
+            <label for="friday"> Freitag</label><br>
+          </div>
+          <div class="day">
+            <input type="checkbox" id="saturday" name="Saturday" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
+            <label for="saturday"> Samstag</label><br>
+          </div>
+          <div class="day">
+            <input type="checkbox" id="sunday" name="Sunday" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
+            <label for="sunday"> Sonntag</label><br>
+          </div>
+        </div>
+      </div>
+      <button type="submit">Submit #TODO: Replace with cool submit button from overall settings :)</button>
+    </form>
+
+    <!--Team Settings-->
+    <div class="separator">
+      <div class="line linecol"></div>
+      <h2 class="linecol">Team Settings</h2>
+      <div class="line linecol"></div>
+    </div>
+
+    <!--Overall Settings-->
+    <div class="separator">
+      <div class="line linecol"></div>
+      <h2 class="linecol">Overall Settings</h2>
+      <div class="line linecol"></div>
+    </div>
+  
+    <button onclick="location.href='/sprint_verwaltung'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
+
+  </div>
+
+
+
+
 </body>
 <script>
-    var arrow = document.getElementById('arrow');
-    arrow.classList.add('arrow-dark');
-    arrow.classList.remove('arrow');
+  var arrow = document.getElementById('arrow');
+  arrow.classList.add('arrow-dark');
+  arrow.classList.remove('arrow');
 </script>
 <%- include('colorScript') %>
+
 </html>
