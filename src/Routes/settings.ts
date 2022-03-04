@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
         prefersWhiteMode: req.user.prefersWhiteMode, 
         productivity: req.user.productivityPercentage, 
         standardAbwesenheiten:  req.user.standardAbwesenheiten,
+        csrfToken: req.csrfToken()
     });
 });
 

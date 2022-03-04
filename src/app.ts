@@ -47,7 +47,7 @@ app.use(userEnricher);
 
 //Routers
 app.use('/', indexRouter);
-app.use('/settings', settingsRouter);
+app.use('/settings', csrfProtection ,settingsRouter);
 app.use('/mein_kalender', csrfProtection ,userRouter);
 app.use('/team_kalender', teamRouter);
 app.use('/sprint_verwaltung', sprint_settingsRouter);
