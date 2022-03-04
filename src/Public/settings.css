@@ -1,3 +1,7 @@
+.titleL {
+    color: var(--suva-color-primary) !important;
+}
+
 .nav{
     display: flex;
     flex-wrap: nowrap;
@@ -29,6 +33,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    flex-direction: column;
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -40,7 +45,6 @@
 .userSettingForm h2{
     margin-top: 0;
     margin-bottom: 5px;
-    text-align: center;
     color: var(--text);
 
 }
@@ -83,10 +87,13 @@
     visibility: visible;
     opacity: 1;
 }
-.userSettingForm .days{
+
+.userSettingForm .days {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    flex-direction: column;
+    align-content: flex-start;
 }
 
 .userSettingForm .days .day input {
@@ -111,15 +118,6 @@
     content: "🏖️";
 }
 
-@media screen and (max-width: 1120px) {
-    .weekend{
-      visibility: hidden;
-      width: 0 !important;
-      padding: 0;
-      position: absolute;
-    }
-}
-
 .userSettingForm .percent{
     display: table;
     margin: 0 auto;
@@ -132,15 +130,6 @@
 }    
 
 .firstFlexItem {
-    border-right: 2px solid var(--line);
-}
-
-@media screen and (max-width: 930px) {
-    .firstFlexItem {
-        border-right: none;
-        border-bottom: 2px solid var(--line);
-    }
-    .userSettingForm{
-        flex-direction: column;
-    }
+    border-right: none;
+    border-bottom: 2px solid var(--line);
 }

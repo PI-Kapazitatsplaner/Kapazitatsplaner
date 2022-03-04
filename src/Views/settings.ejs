@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="common.css">
   <link rel="stylesheet" href="settings.css">
+  <link rel="stylesheet" href="numberInput.css">
   <script src="controller.js"></script>
   <title>Settings</title>
 </head>
@@ -21,7 +22,7 @@
     <h1 class="text titleR">Settings</h1>
   </div>
   <div class="mainContent" id="mainContent">
-    <h1 class="text">Settings</h1>
+    <h1 class="titleL">Settings</h1>
 
     <!--User Settings-->
     <div class="separator">
@@ -33,8 +34,18 @@
     <form action="/setting/user" method="post" class="userSettingForm">
       <div class="firstFlexItem flexItem">
         <h2 class="tooltip"><label for="productivity">Produktivität im Team</label><span class="tooltiptext">Die Produktivität im Team wird bei der Berechnung der Velocity verwendet.</span></h2>
-        <span class="percent"><input name="productivity" type="number" max="100" accuracy="2" min="0" value="<%- productivity %>"></span>
-      </div>
+        <div class="number-input percent-input">
+          <input oninput="scaleInputSize(this);" class="percent" min="0" max="100" name="quantity" value="1" type="number">
+          <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
+          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
+          <script>
+            function scaleInputSize(input){
+                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+            }
+          </script>
+        </div>
+      </div>      
       <div class="flexItem">
         <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
         <div class="days">
@@ -58,16 +69,17 @@
             <input type="checkbox" id="friday" name="Friday" value="5" <% if(standardAbwesenheiten.includes(5)){__append("checked")}%>>
             <label for="friday"> Freitag</label><br>
           </div>
-          <div class="day weekend">
+          <div class="day">
             <input type="checkbox" id="saturday" name="Saturday" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
             <label for="saturday"> Samstag</label><br>
           </div>
-          <div class="day weekend">
+          <div class="day">
             <input type="checkbox" id="sunday" name="Sunday" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
             <label for="sunday"> Sonntag</label><br>
           </div>
         </div>
       </div>
+      <button type="submit">Submit #TODO: Replace with cool submit button from overall settings :)</button>
     </form>
 
     <!--Team Settings-->
@@ -83,9 +95,14 @@
       <h2 class="linecol">Overall Settings</h2>
       <div class="line linecol"></div>
     </div>
+  
     <button onclick="location.href='/sprint_verwaltung'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
 
   </div>
+
+
+
+
 </body>
 <script>
   var arrow = document.getElementById('arrow');
