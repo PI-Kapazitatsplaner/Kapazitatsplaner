@@ -1,51 +1,48 @@
 import express from "express";
 import path from "path";
+import sendFileIfParamEqualsName from "../middleware/fileSender/fileSender";
 import prisma from "../prisma/client";
 
 let router = express.Router();
 var currentTime = new Date();
 
 //Read
-router.get("/:year/:pi", async (req, res) => {
-  if (req.params.pi?.match(/^.*.js|.*.css$/)) {
-    res.sendFile(path.join(__dirname, "../Public", req.params.pi));
-  } else {
-    if (
-      parseInt(req.params.year) >= 2020 &&
-      parseInt(req.params.year) <= 2100 &&
-      (req.params.pi == "PI-01" ||
-        req.params.pi == "PI-02" ||
-        req.params.pi == "PI-03" ||
-        req.params.pi == "PI-04")
-    ) {
-      //PI nach Parameter suchen
-      const pi = await prisma.pi.findUnique({
+router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
+  if (
+    parseInt(req.params.year) >= 2020 &&
+    parseInt(req.params.year) <= 2100 &&
+    (req.params.pi == "PI-01" ||
+      req.params.pi == "PI-02" ||
+      req.params.pi == "PI-03" ||
+      req.params.pi == "PI-04")
+  ) {
+    //PI nach Parameter suchen
+    const pi = await prisma.pi.findUnique({
+      where: {
+        piKey: {
+          year: req.params.year,
+          iteration: req.params.pi,
+        },
+      },
+    });
+    let sprintsInPi;
+    if(pi !== null){
+      //Sprints Finden
+        sprintsInPi = await prisma.sprint.findMany({
         where: {
-          piKey: {
-            year: req.params.year,
-            iteration: req.params.pi,
-          },
+          piId: pi.id,
         },
       });
-      let sprintsInPi;
-      if(pi !== null){
-        //Sprints Finden
-          sprintsInPi = await prisma.sprint.findMany({
-          where: {
-            piId: pi.id,
-          },
-        });
-      }
-      res.render("sprint_verwaltung", {
-        params: req.params,
-        sprints: sprintsInPi,
-        pi: pi,
-      });
-    } else {
-      res.redirect(
-        "/sprint_verwaltung/" + currentTime.getFullYear() + "/PI-01"
-      );
     }
+    res.render("sprint_verwaltung", {
+      params: req.params,
+      sprints: sprintsInPi,
+      pi: pi,
+    });
+  } else {
+    res.redirect(
+      "/sprint_verwaltung/" + currentTime.getFullYear() + "/PI-01"
+    );
   }
 });
 //Update
