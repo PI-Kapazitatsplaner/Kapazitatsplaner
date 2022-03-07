@@ -1,0 +1,148 @@
+.titleGrid {
+  margin-left: 7%;
+  display: grid;
+  grid-template-columns: 20% auto 20%;
+  align-items: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+.titles {
+  font-weight: normal;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 30px;
+}
+.title {
+  font-size: 30px;
+  color: var(--text-hover);
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.title:hover {
+  color: var(--text);
+}
+.titleYear {
+  font-size: 40px;
+  color: var(--text-hover);
+  text-decoration: none;
+  border: none;
+  background-color: var(--background2);
+}
+.content_text {
+  font-size: 20px;
+  font-weight: bold;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 10% 15% 15% 15% 15% 15% 15% 5%;
+  margin-left: 7%;
+  margin-right: 7%;
+}
+
+.saveBtn {
+  margin-left: 20%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  background-color: #00b8cf;
+  border: none;
+  color: white;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  grid-column: 7 / span 1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.disableBtn {
+  background-color: lightgray;
+}
+.disableBtn:hover {
+  box-shadow: none !important;
+}
+.saveBtn:hover {
+  box-shadow: #43757a 0px 5px 15px;
+}
+.titleYear {
+  outline: none;
+  /* Chrome, Safari, Edge, Opera */
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: var(--background);
+  color: var(--text);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 10px;
+  margin-left: 1%;
+  border: red solid;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: -4%;
+  margin-left: -9px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: red transparent transparent transparent;
+  transform: rotate(90deg);
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.ttContainer {
+  visibility: hidden;
+  color: red;
+  font-weight: bold;
+}
+
+.planningContainer .input {
+  height: 2em;
+  margin-top: 7%;
+  margin-bottom: 0;
+  margin-left: 1%;
+  margin-right: 1%;
+  border-radius: 4px;
+}
+
+.input {
+  height: 2em;
+  margin-top: 7%;
+  margin-bottom: 0;
+  margin-left: 1%;
+  margin-right: 1%;
+  border-radius: 4px;
+}
+
+.firstColumn{
+  grid-column: 1 / span 1;
+}
+
+.secondColumn {
+  grid-column: 2 / span 1;
+}
+
+.thirdColumn {
+  grid-column: 3 / span 1;
+}
+
+.fourthColumn {
+  grid-column: 4 / span 1;
+}

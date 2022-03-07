@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/Images/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="sprint_verwaltung.css">
+    <script src="controller.js"></script>
+    <title>Sprint Verwaltung</title>
+</head>
+<body id="body" class="content">
+    <div class="nav">
+        <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/settings'">
+        <h1 class="text titleR">Sprint Verwaltung</h1>
+    </div>
+    <div class="mainContent" id="mainContent">
+        <% let dateValid = true ; %> 
+        <% for(let i = 1; i < 5; i++){ %>
+            <% if (params.pi == "PI-0" + i){ %>
+
+            <div class="titleGrid">
+                <input type="number" id="yearChanger" class="text titleYear" onchange="updateYear()" value="<%- params.year %>" min="2020" max="2100" step="1"> 
+                <div class="titles">
+                    <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
+                    <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-02">PI-02</a>
+                    <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-03">PI-03</a>
+                    <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-04">PI-04</a>
+                </div> 
+            </div>
+            <form id="theForm" class="grid" action="/sprint_verwaltung/<% __append(params.year + "/" + params.pi)%>" method="post">
+                <% for (let d = 1; d < 7; d++){ %>
+
+                    <p class="content_text text firstColumn">PI-0<%-i%>-0<%-d%></p>
+                    <input onchange="validate()" placeholder="Start" <% if(sprints !== undefined){ %>
+                            value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) %>"<% } %>
+                            name="start" type="date" class="input text secondColumn">
+
+                    <input onchange="validate()" placeholder="Ende" <% if(sprints !== undefined){ %>
+                        value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis) %>" <% } %>
+                        name="ende" type="date" class="input text thirdColumn">
+
+                    <p class="ttContainer">?<span class="tooltiptext fourthColumn">Der Datumsbereich ist ungültig!</span></p>
+
+                    <% if(d == 6){ %> 
+                        <p class="content_text text">Planungstage</p>
+                        
+                        <input onchange="validate()" placeholder="Start" <% if(pi !== null){ %>  
+                        value="<%- getFormattedDate(pi.planungVon) %>" <% } %> 
+                        type="date" name="planungStart" class="input text">
+                        
+                        <input onchange="validate()" placeholder="Ende" <% if(pi !== null){ %> 
+                        value="<%- getFormattedDate(pi.planungBis) %>" <% } %> 
+                        type="date" name="planungEnde" class="input text">
+                        
+                        <p class="ttContainer plannigEnd">?<span class="tooltiptext">Der Datumsbereich ist ungültig!</span></p>
+                                                   
+                    <% } %> 
+                    
+                <% } %>  
+                <% function getFormattedDate(date){
+                    return new Date(date.getFullYear(),date.getMonth(),date.getDate(),4).toISOString().split("T")[0];
+                } %> 
+                <% if(dateValid === false){%>
+                    <button class="saveBtn tooltip">Sichern<span class="tooltiptext">Der Datumsbereich ist ungültig!</span></button>
+                <%}else if(dateValid === true){%>
+                    <button class="saveBtn" type="button" id="submitBtn" onclick="send()">Sichern<span class="tooltiptext">Der Datumsbereich ist ungültig!</span></button>
+                <% } %> 
+            </form>        
+            <% } %>
+        <% } %>
+    </div>
+</body>
+<script>
+    setColors("dark");
+    var arrow = document.getElementById('arrow');
+    arrow.classList.add('arrow-dark');
+    arrow.classList.remove('arrow');
+
+    function updateYear(){
+        yearInput = document.getElementById('yearChanger');
+        location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
+    }
+    function validate(){
+        const inputs = document.querySelectorAll("input[type='date']");
+        const ttContainers = document.getElementsByClassName("ttContainer");
+        let returnValue = true;
+        for (let i = 0; i < inputs.length; i += 2) {
+            console.log(inputs[i].value);
+            if(
+                (inputs[i].value + "T00:00:00Z") >= (inputs[i+1].value + "T00:00:00Z")
+            ){
+                inputs[i].classList.add("inputError");
+                inputs[i+1].classList.add("inputError");
+                document.getElementById("submitBtn").disabled = true;
+                document.getElementById("submitBtn").classList.add("disableBtn");
+                ttContainers[i/2].classList.add("tooltip", "helpVisibility") 
+                ttContainers[i/2].style.visibility = "visible"
+                returnValue =  false;
+            } 
+            else{
+                inputs[i].classList.remove("inputError");
+                inputs[i+1].classList.remove("inputError");
+                document.getElementById("submitBtn").classList.remove("disableBtn");
+                document.getElementById("submitBtn").disabled = false;
+                ttContainers[i/2].classList.remove("tooltip")
+                ttContainers[i/2].style.visibility = "hidden"
+
+            }   
+        }
+        return returnValue;
+    }
+    function send(){
+        if(validate){
+            document.getElementById('theForm').submit();
+        }
+    }
+</script>
+</html>
