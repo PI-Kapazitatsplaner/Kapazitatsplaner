@@ -6,6 +6,4 @@ router.get('/', async (req, res) => {
     res.redirect('/mein_kalender');
 });
 
-
-
 export = router;
