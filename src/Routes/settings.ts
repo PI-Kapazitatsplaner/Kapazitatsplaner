@@ -6,7 +6,7 @@ let router = express.Router();
 
 router.get('/', async (req, res) => {  
     let parent = 2;
-    if (req.headers.referer?.includes("team_kalender")){ parent = 1; }
+    if (req.headers.referer?.includes("team_kalender")){ parent = 1; }       
     res.render("settings", { 
         prefersWhiteMode: req.user.prefersWhiteMode, 
         productivity: req.user.productivityPercentage, 
@@ -25,6 +25,12 @@ router.post('/', async (req, res) => {
             standardAbwesenheiten = parseInt(req.body.standardAbwesenheiten)
         }else {
             standardAbwesenheiten = req.body.standardAbwesenheiten.map((el:string)=>parseInt(el));
+        }        
+        let prefersWhiteMode;
+        if(req.body.theme === "light") {
+            prefersWhiteMode = true;
+        } else if (req.body.theme === "dark") {
+            prefersWhiteMode = false;
         }
         await prisma.user.update({
             where: {
@@ -33,6 +39,7 @@ router.post('/', async (req, res) => {
             data: {
                 standardAbwesenheiten: standardAbwesenheiten,
                 productivityPercentage: parseInt(req.body.productivity),
+                preferencesWhiteMode: prefersWhiteMode
             }
         });
         res.redirect('/settings');

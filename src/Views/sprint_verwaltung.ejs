@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="numberInput.css">
     <link rel="stylesheet" href="sprint_verwaltung.css">
     <script src="controller.js"></script>
     <title>Sprint Verwaltung</title>
@@ -26,7 +27,11 @@
             <% if (params.pi == "PI-0" + i){ %>
 
             <div class="titleGrid">
-                <input type="number" id="yearChanger" class="text titleYear" onchange="updateYear()" value="<%- params.year %>" min="2020" max="2100" step="1"> 
+                <div class="number-input year-select">
+                    <input oninput="updateYear(this)" min="0" name="quantity"  max="2100" value="<%- params.year %>" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                </div>
                 <div class="titles">
                     <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
                     <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-02">PI-02</a>
@@ -78,13 +83,11 @@
     </div>
 </body>
 <script>
-    setColors("dark");
     var arrow = document.getElementById('arrow');
     arrow.classList.add('arrow-dark');
     arrow.classList.remove('arrow');
 
-    function updateYear(){
-        yearInput = document.getElementById('yearChanger');
+    function updateYear(yearInput){
         location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
     }
     function validate(){
@@ -122,4 +125,5 @@
         }
     }
 </script>
+<%- include('colorScript') %>
 </html>

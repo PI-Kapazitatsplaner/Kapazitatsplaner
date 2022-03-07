@@ -8,6 +8,7 @@ const main = async () => {
         data: [
             {
                 sub: 'c2842822-67f5-4759-8db8-a431ddfc3500', //hr7 -- Default Test User
+                preferencesWhiteMode: false,
                 standardAbwesenheiten: [0, 2, 6],
             },
             {

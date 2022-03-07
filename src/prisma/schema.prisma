@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   sub                  String  @id //The subject Presentet by Keycloak
-  preferencesWhiteMode Boolean @default(false)
+  preferencesWhiteMode Boolean?
   productivityPercentage  Int     @default(100)
   abwesenheiten Abwesenheit[]
   standardAbwesenheiten Int[] 

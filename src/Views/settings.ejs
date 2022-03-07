@@ -2,29 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="icon" href="/Images/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="settings.css">
-    <link rel="stylesheet" href="numberInput.css">
-    <script src="controller.js"></script>
-    <title>Settings</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="icon" href="/Images/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="settings.css">
+  <link rel="stylesheet" href="numberInput.css">
+  <script src="controller.js"></script>
+  <title>Settings</title>
 </head>
 
 <body id="body" class="content">
   <div class="nav">
-        <% if (parent == 1){ %>
-            <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
-        <% }else if (parent == 2) { %>
-            <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
-        <% } %>
-        <h1 class="text titleR">Settings</h1>
+    <% if (parent == 1){ %>
+    <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+    <% }else if (parent == 2) { %>
+    <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
+    <% } %>
+    <h1 class="text titleR">Settings</h1>
   </div>
   <div class="mainContent" id="mainContent">
     <h1 class="titleL">Settings</h1>
@@ -38,22 +38,34 @@
     </div>
     <form action="/settings" method="post" class="userSettingForm">
       <div class="firstFlexItem flexItem">
-        <h2 class="tooltip"><label for="productivity">Produktivität im Team</label><span class="tooltiptext">Die Produktivität im Team wird bei der Berechnung der Velocity verwendet.</span></h2>
-        <div class="number-input percent-input">
-          <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
-          <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
-          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
-          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
-          <script>
-            function scaleInputSize(input){
-                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-            }
-            window.onload = function(){
-                scaleInputSize(document.querySelector('.percent-input input'));
-            }
-          </script>
+        <div class="twoElements">
+          <div class="element firstElement">
+            <h2 class="tooltip"><label for="productivity">Produktivität im Team</label><span class="tooltiptext">Die Produktivität im Team wird bei der Berechnung der Velocity verwendet.</span></h2>
+            <div class="number-input percent-input">
+              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
+              <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+              <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
+              <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
+              <script>
+                function scaleInputSize(input) {
+                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+                }
+                window.onload = function() {
+                  scaleInputSize(document.querySelector('.percent-input input'));
+                }
+              </script>
+            </div>
+          </div>
+          <hr>
+          <div class="element">
+            <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
+            <select class="themeDropDown" name="theme" id="theme" onchange='switchTheme(this.value)' >
+              <option value="dark" <% if(prefersWhiteMode === false) { __append("selected") } %>>Dunkel</option>
+              <option value="light" <% if(prefersWhiteMode === true) { __append("selected") } %>>Hell</option>
+            </select>
+          </div>
         </div>
-      </div>      
+      </div>
       <div class="flexItem">
         <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
         <div class="days">
@@ -103,7 +115,7 @@
       <h2 class="linecol">Overall Settings</h2>
       <div class="line linecol"></div>
     </div>
-  
+
     <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
 
   </div>
@@ -112,6 +124,20 @@
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
+
+  function switchTheme(theme) {
+    if(theme === "light") {
+      setColors("light");
+    }else if(theme === "dark"){
+      setColors("dark");
+    }else if(theme === "browser"){
+      if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+          setColors("dark");
+      }else{
+          setColors("light");
+      }    
+    }
+  }
 </script>
 <%- include('colorScript') %>
 </html>

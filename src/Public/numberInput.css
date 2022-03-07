@@ -103,3 +103,13 @@ input[type=number]::-webkit-outer-spin-button {
 .percent-input button.plus {
     padding-top: 1vh;
 }
+
+.year-select {
+    grid-template-columns: 8rem auto;
+}
+
+.year-select input[type=number]{
+    color: var(--suva-color-primary);
+    max-width: 7rem;
+    font-size: 3rem;
+}

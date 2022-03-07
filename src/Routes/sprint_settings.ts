@@ -38,6 +38,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
       params: req.params,
       sprints: sprintsInPi,
       pi: pi,
+      prefersWhiteMode: req.user.prefersWhiteMode,
     });
   } else {
     res.redirect(

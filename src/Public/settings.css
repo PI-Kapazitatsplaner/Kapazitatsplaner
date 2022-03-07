@@ -151,3 +151,25 @@
     border-right: none;
     border-bottom: 2px solid var(--line);
 }
+
+.twoElements {
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr;
+    margin: auto;
+}
+
+.twoElements .element {
+    margin: auto;
+}
+
+.twoElements hr {
+    width:0;
+    border:1px solid var(--line);
+}
+
+.themeDropDown {
+    color: var(--text2);
+    background-color: var(--background2);
+    width: 100%;
+}
+
