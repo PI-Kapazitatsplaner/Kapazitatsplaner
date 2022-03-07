@@ -1,4 +1,15 @@
 body {
+    --suva-color-primary: #FF8200;
+    /*
+        --background: #ffffff;
+        --background2: #f7f7f7;
+        --text: #666666;
+        --text2: #f10000;
+        --text-hover: #FF8200;
+        --line: #d3d3d3;
+    */
+
+    user-select: none;
 
   --suva-color-primary: #FF8200;
 
