@@ -1,4 +1,7 @@
 body {
+
+  --suva-color-primary: #FF8200;
+
   --background: #ffffff;
   --background2: #f7f7f7;
   --text: #666666;
@@ -7,7 +10,15 @@ body {
   --input: #ffffff;
 
   font-family: "Roboto", sans-serif;
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .content {
   background-color: var(--background);
 }
@@ -18,13 +29,12 @@ body {
   padding-left: 10px;
   padding-right: 10px;
 }
-.mainContent {
-  background-color: var(--background2);
-  /*display: flex;
-    flex-direction: row;*/
-  margin-left: 5%;
-  margin-right: 5%;
-  border-radius: 15px;
+
+.mainContent{
+    background-color: var(--background2);
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
 }
 .mainContent h1 {
   padding-left: 3%;
@@ -84,3 +94,10 @@ body {
   height: 2px;
   background-color: var(--line);
 }
+
+.separator .line{
+    flex: 1;
+    height: 2px;
+    background-color: var(--line);
+}
+

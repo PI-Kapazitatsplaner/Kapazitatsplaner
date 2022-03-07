@@ -1,0 +1,116 @@
+* {box-sizing: border-box;}
+
+ul {list-style-type: none;}
+
+.month {
+  padding: 70px 25px;
+  width: 100%;
+  background: var(--suva-color-primary);
+  text-align: center;
+  user-select: none;
+}
+
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.month .prev {
+  float: left;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.month .next {
+  float: right;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  background-color: var(--background2);
+  user-select: none;
+}
+
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.days {
+  padding: 10px 0;
+  background: var(--background2);
+  margin: 0;
+  user-select: none;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  height: 40px;
+  text-align: center;
+  font-size:20px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.days li .active {
+  padding: 2px 8px;
+  padding-top: 5px;
+  width: 9%;
+  background: var(--suva-color-primary);
+  color: white !important
+}
+
+.days .abwesend {
+  color: white;
+  background: blueviolet;
+}
+
+
+.days .halbAbwesend {
+  color: white;
+  background: linear-gradient(to top right, blueviolet 0%, blueviolet 50%, var(--background2) 50%,  var(--background2)  100%);
+}
+
+
+
+@media screen and (max-width: 900px) {
+  .weekend{
+    visibility: hidden;
+    width: 0 !important;
+    padding: 0;
+  }
+  .weekdays li, .days li {width: 19.04%;}
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+  .weekdays li, .days li {width: 19.04%;}
+}
+
+@media screen and (max-width: 560px) {
+  .weekdays li, .days li {width: 18.04%;}
+  .days li .active {
+    padding: 0px 4px;
+    padding-top: 2px;
+  }
+}
+
+@media screen and (max-width: 290px) {
+  .weekdays li, .days li {width: 17.2%;}
+}

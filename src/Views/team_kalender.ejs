@@ -11,18 +11,13 @@
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="common.css">
     <script src="controller.js"></script>
-    <title>Mein Kalender</title>
+    <title>Team Kalender</title>
 </head>
 <body id="body" class="content">
-    <%- header %>
+    <%- include('header') %>
     <div class="mainContent" id="mainContent">
-        <h1 class="text">Mein Kalender</h1>
-        <div class="calendar">
-            
-        </div>
+        <h1 class="text">Team Kalender</h1>
     </div>
 </body>
-<script>
-    setColors("light");
-</script>
+<%- include('colorScript') %>
 </html>

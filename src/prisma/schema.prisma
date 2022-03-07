@@ -8,9 +8,26 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String
-  name  String?
+  sub                  String  @id //The subject Presentet by Keycloak
+  preferencesWhiteMode Boolean @default(false)
+  productivityDecimal  Int     @default(1)
+  abwesenheiten Abwesenheit[]
+  standardAbwesenheiten Int[] 
+}
+
+model Abwesenheit{
+  id Int @id @default(autoincrement())
+  date DateTime
+  typ AbwesenheitsTyp @default(abwesend)
+  user User @relation(fields: [userSub], references: [sub])
+  userSub String
+  @@unique([userSub, date])
+}
+
+enum AbwesenheitsTyp {
+  anwesend //Wirb für anwesenheiten an Feiertagen benötigt
+  abwesend
+  halbAbwesend
 }
 
 model Pi {

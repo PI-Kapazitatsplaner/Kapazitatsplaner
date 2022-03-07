@@ -1,9 +1,6 @@
-import express, { query } from "express";
+import express from "express";
 import path from "path";
-
-import { PrismaClient } from "@prisma/client";
-import { parse } from "path/posix";
-const prisma = new PrismaClient();
+import prisma from "../prisma/client";
 
 let router = express.Router();
 var currentTime = new Date();

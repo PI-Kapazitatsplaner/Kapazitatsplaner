@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="calendar.css">
+  <script src="controller.js"></script>
+  <title>Mein Kalender</title>
+</head>
+
+<body id="body" class="content">
+  <%- include('header') %>
+  <div class="mainContent" id="mainContent">
+    <div class="calendar">
+      <div class="month">
+        <ul>
+          <li onclick="location.href='/mein_kalender/<%- calendar.month - 1 === 0 ? calendar.year - 1 : calendar.year %>/<%- calendar.month - 1 === 0 ? 12 : calendar.month - 1 %>'" class="prev">&#10094;</li>
+          <li onclick="location.href='/mein_kalender/<%- calendar.month === 12 ? calendar.year + 1  : calendar.year %>/<%- calendar.month === 12 ? 1 : calendar.month + 1 %>'" class="next">&#10095;</li>
+          <li>
+            <%= calendar.monthString %><br>
+            <span style="font-size:18px"><%= calendar.year %></span>
+          </li>
+        </ul>
+      </div>
+
+      <ul class="weekdays">
+        <li class="text" onclick="changeAnwesenheiten(1)">Mo</li>
+        <li class="text" onclick="changeAnwesenheiten(2)">Di</li>
+        <li class="text" onclick="changeAnwesenheiten(3)"">Mi</li>
+        <li class=" text" onclick="changeAnwesenheiten(4)">Do</li>
+        <li class="text" onclick="changeAnwesenheiten(5)">Fr</li>
+        <li class="text weekend" onclick="changeAnwesenheiten(6)">Sa</li>
+        <li class="text weekend" onclick="changeAnwesenheiten(0)">So</li>
+      </ul>
+      <ul class="days">
+        <% for( let i = 0; i < calendar.fillerDays; i++ ) { %>
+        <li class="fillerDay"></li>
+        <% } %>
+        <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
+        <li onclick="changeAnwesenheit(this.id)" id="<%= i %>" class="text <% addClassesToElement() %>">
+          <% if(i == calendar.activeDay) { __append('<span class="active">' + i + '</span>') } else { __append(i) } %>
+        </li>
+        <% function addClassesToElement() {
+          if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'abwesend')){
+             __append(" abwesend") 
+          }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
+            __append("halbAbwesend") 
+          }else{
+            if(isStandardAbwesenheit() && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
+              __append("abwesend")
+            }else{
+              __append("anwesend") 
+            }
+          } 
+          if(isWeekend()){
+            __append(" weekend")
+          }
+        }
+        function isWeekend() {
+          return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 7 - 6) % 7 === 0 )
+        }
+        function isStandardAbwesenheit() {
+          //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6;
+          return calendar.standardAbwesenheiten.some(day => (i + calendar.fillerDays + 7 - day) % 7 === 0)
+        } %>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</body>
+<script>
+  function changeAnwesenheiten(day) {
+    //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6; %>
+    for (let i = day - <%- calendar.fillerDays %>; i < 31; i = i + 7) {
+      if(i < 0){
+        i = i + 7
+      }
+      changeAnwesenheit(i)
+    }
+  }
+
+  function changeAnwesenheit(id) {
+    const newState = switchStates(id)
+    fetch("/mein_kalender/<%- calendar.year %>/<%- calendar.month %> ", {
+        method: "POST",
+        body: JSON.stringify({
+          newState: newState,
+          day: id,
+          _csrf: "<%- csrfToken %>"
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(json => console.log(json));
+  }
+
+  function switchStates(id) {
+    const element = document.getElementById(id);
+    if (element.classList.contains("abwesend")) {
+      element.classList.remove("abwesend");
+      element.classList.add("halbAbwesend");
+      return "halbAbwesend"
+    } else if (element.classList.contains("halbAbwesend")) {
+      element.classList.remove("halbAbwesend");
+      element.classList.add("anwesend");
+      return "anwesend"
+    } else if (element.classList.contains("anwesend")) {
+      element.classList.remove("anwesend");
+      element.classList.add("abwesend");
+      return "abwesend"
+    }
+  }
+</script>
+<%- include('colorScript') %>
+
+</html>
