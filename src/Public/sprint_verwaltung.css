@@ -236,6 +236,7 @@
   .input{
     margin-top: 0;
     margin-bottom: 10px;
+    padding-left: 0;
   }
   .content_text{
     height: 20px;
