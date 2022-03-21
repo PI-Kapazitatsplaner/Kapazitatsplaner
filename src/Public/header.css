@@ -35,3 +35,9 @@
 .bar button:hover {
     color: var(--text-hover);
 }
+
+@media screen and (max-width: 456px) {
+    .titles{
+        text-align: center;
+    }
+}

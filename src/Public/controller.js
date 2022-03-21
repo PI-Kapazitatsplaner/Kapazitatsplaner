@@ -10,8 +10,11 @@ const lightText   = "#666666";
 const lightDarkText = "#181818";
 const lightLine   = "#d3d3d3";
 
+const texthover  = "#FF8200";
+
 function setColors(val){
     const r = document.querySelector(":root")
+    r.style.setProperty("--text-hover", texthover);
     if (val == "dark"){
         r.style.setProperty("--background", darkBg);
         r.style.setProperty("--background2", darkBg2);

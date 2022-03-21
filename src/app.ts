@@ -12,7 +12,6 @@ import teamRouter from "./Routes/team";
 import sprint_settingsRouter from "./Routes/sprint_settings";
 import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
-import RateLimit from 'express-rate-limit';
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
