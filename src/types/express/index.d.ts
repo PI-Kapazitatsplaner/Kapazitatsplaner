@@ -37,13 +37,14 @@ declare namespace Express {
     };
     user: {
       sub: string;
-      prefersWhiteMode: boolean;
+      prefersWhiteMode: boolean | null;
       name: string;
       preferredUsername: string;
       givenName: string;
       familyName: string;
       email: string;
-      standardAbwesenheiten: int[];
+      standardAbwesenheiten: number[];
+      productivityPercentage: number;
     };
   }
 }

@@ -1,4 +1,3 @@
-
 const darkBg      = "#121212";
 const darkBg2     = "#1c1c1c";
 const darkText    = "#d3d3d3";
@@ -27,4 +26,3 @@ function setColors(val){
         r.style.setProperty("--line", lightLine);
     }
 }
-function validateDateFormat()

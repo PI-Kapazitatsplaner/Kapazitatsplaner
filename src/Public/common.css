@@ -11,15 +11,6 @@ body {
 
     user-select: none;
 
-  --suva-color-primary: #FF8200;
-
-  --background: #ffffff;
-  --background2: #f7f7f7;
-  --text: #666666;
-  --text-hover: #ff8200;
-  --line: #d3d3d3;
-  --input: #ffffff;
-
   font-family: "Roboto", sans-serif;
 
   -ms-overflow-style: none;  /* IE and Edge */
