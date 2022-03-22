@@ -39,8 +39,8 @@ app.set( 'trust proxy', true );
 const csrfProtection = csrf({ cookie: true });
 app.use(cookieParser())
 
-app.use(keycloak.middleware());
-app.all("*", keycloak.protect()) //Protect all routes with keycloak
+//app.use(keycloak.middleware());
+//app.all("*", keycloak.protect()) //Protect all routes with keycloak
 
 app.use(userEnricher);
 

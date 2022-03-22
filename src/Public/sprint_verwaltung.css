@@ -1,3 +1,5 @@
+
+
 .titleGrid {
   margin-left: 7%;
   display: grid;
@@ -17,13 +19,18 @@
 }
 .title {
   font-size: 30px;
-  color: var(--text-hover);
+  color: var(--text);
   text-decoration: none;
   padding-left: 10px;
   padding-right: 10px;
 }
+.title[current-pi]{
+  font-weight: bold; 
+  color: var(--text-hover);
+}
+
 .title:hover {
-  color: var(--text);
+  color: var(--text-hover);
 }
 .titleYear {
   font-size: 40px;
@@ -131,6 +138,8 @@
   border-radius: 4px;
 }
 
+
+
 .firstColumn{
   grid-column: 1 / span 1;
 }
@@ -207,6 +216,9 @@
   .titles{
     gap: 0;
   }
+  .title{
+    font-size: 25px;
+  }
   .grid{
     grid-template-columns: 48% 48%;
     grid-auto-flow: column;
@@ -240,7 +252,23 @@
   }
   .content_text{
     height: 20px;
+    margin-left: 0;
+    padding-left: 0;
     margin-top: 10px;
     margin-bottom: 0px;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background: none;
+    visibility: hidden;
+    width: 0;
+    margin: 0;
+    padding: 0;
+  
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .title{
+    font-size: 20px;
   }
 }

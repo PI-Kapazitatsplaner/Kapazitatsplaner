@@ -33,16 +33,16 @@
                     <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))" ></button>
                 </div>
                 <div class="titles">
-                    <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
-                    <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-02">PI-02</a>
-                    <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-03">PI-03</a>
-                    <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-04">PI-04</a>
+                    <a <% if(i==1){%> current-pi <% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
+                    <a <% if(i==2){%> current-pi <% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-02">PI-02</a>
+                    <a <% if(i==3){%> current-pi <% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-03">PI-03</a>
+                    <a <% if(i==4){%> current-pi <% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-04">PI-04</a>
                 </div> 
             </div>
             <form id="theForm" class="grid" action="/sprint_verwaltung/<% __append(params.year + "/" + params.pi)%>" method="post">
                 <% for (let d = 1; d < 7; d++){ %>
 
-                    <p class="content_text text firstColumn">PI-0<%-i%>-0<%-d%></p>
+                    <p class="content_text text firstColumn">Sprint <%-d%></p>
                     <input onchange="validate()" placeholder="Start" <% if(sprints !== undefined){ %>
                             value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.von) %>"<% } %>
                             name="start" type="date" class="input text secondColumn">
