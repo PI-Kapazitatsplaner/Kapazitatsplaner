@@ -60,14 +60,14 @@
   grid-row-start: 1;
   grid-row-end: 2;
 }
+.saveBtn:hover {
+  box-shadow: #43757a 0px 5px 15px;
+}
 .disableBtn {
   background-color: lightgray;
 }
 .disableBtn:hover {
   box-shadow: none !important;
-}
-.saveBtn:hover {
-  box-shadow: #43757a 0px 5px 15px;
 }
 .titleYear {
   outline: none;

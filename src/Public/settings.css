@@ -28,6 +28,24 @@
     filter: brightness(0) contrast(100%) invert(50%) sepia(92%) saturate(1629%) hue-rotate(359deg) brightness(100%) contrast(109%);
 }
 
+.saveBtn {
+
+    background-color: #00b8cf;
+    border: none;
+    color: white;
+    padding: 10px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    grid-column: 7 / span 1;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+.saveBtn:hover {
+    box-shadow: #43757a 0px 5px 15px;
+}
 
 .userSettingForm{
     display: flex;
@@ -133,3 +151,25 @@
     border-right: none;
     border-bottom: 2px solid var(--line);
 }
+
+.twoElements {
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr;
+    margin: auto;
+}
+
+.twoElements .element {
+    margin: auto;
+}
+
+.twoElements hr {
+    width:0;
+    border:1px solid var(--line);
+}
+
+.themeDropDown {
+    color: var(--text2);
+    background-color: var(--background2);
+    width: 100%;
+}
+

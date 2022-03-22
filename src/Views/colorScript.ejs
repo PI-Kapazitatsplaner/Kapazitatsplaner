@@ -1,5 +1,16 @@
-<% if(prefersWhiteMode){ %>
-<script>setColors("light");</script>
-<% } else { %>
-<script>setColors("dark");</script>
+<% if(prefersWhiteMode !== null) { 
+    if(prefersWhiteMode === true){ 
+        __append('<script>setColors("light");</script>');
+    } else if(prefersWhiteMode === false) { 
+        __append('<script>setColors("dark");</script>');
+    }
+}else{
+%>
+<script>
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+        setColors("dark");
+    }else{
+        setColors("light");
+    }    
+</script>
 <% } %>

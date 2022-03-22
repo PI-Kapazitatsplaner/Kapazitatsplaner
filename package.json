@@ -11,6 +11,7 @@
     "test-dev": "jest --coverage --verbose --watch",
     "predev": "npm run startTestDb && npm run pretest-dev",
     "dev": "tsnd --respawn --rs ./src/app.ts",
+    "devf": "tsnd --respawn --rs ./src/app.ts",
     "prestart": "npx prisma db push  --accept-data-loss --force-reset && npx prisma generate && npx prisma db seed",
     "start": "ts-node-transpile-only ./src/app.ts",
     "docker": "docker build . -t ejs-prisma-ts/poc && docker run -p 8080:3000 -d ejs-prisma-ts/poc && echo \"Container Port mapped to \"http://localhost:8080/\"",
@@ -36,7 +37,7 @@
   },
   "homepage": "https://github.com/PI-Kapazitatsplaner/Kapazitaetsplaner#readme",
   "dependencies": {
-    "@prisma/client": "^3.10.0",
+    "@prisma/client": "^3.11.0",
     "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
@@ -45,10 +46,10 @@
     "express-rate-limit": "^6.3.0",
     "express-session": "^1.17.2",
     "keycloak-connect": "^17.0.0",
-    "pinia": "^2.0.11",
+    "pinia": "^2.0.12",
     "sinon": "^13.0.1",
     "ts-jest": "^27.1.3",
-    "ts-node": "^10.6.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   },
   "devDependencies": {
@@ -67,7 +68,7 @@
     "@types/supertest": "^2.0.11",
     "chai": "^4.3.6",
     "jest": "^27.5.1",
-    "prisma": "^3.10.0",
+    "prisma": "^3.11.0",
     "supertest": "^6.2.2",
     "ts-node-dev": "^1.1.8"
   }
