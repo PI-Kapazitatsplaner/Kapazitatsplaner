@@ -1,0 +1,33 @@
+.mainContent .velocityBoard{
+    padding-left: 7%;
+    padding-right: 7%;
+    width: 100%;
+    text-align: left;
+    padding-bottom: 20%;
+}
+tbody{
+    border-radius: 10px;
+}
+.mainContent .velocityBoard .name{
+    width: 25%;
+}
+.mainContent .velocityBoard th{
+    font-weight: normal;
+    font-size: 25px !important;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 5px;
+    font-size:20px;
+    color: white;
+    background-color: #FF8200;
+}
+.mainContent .velocityBoard td{
+    padding-left: 5px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    font-size: 20px !important;
+}
+.mainContent .velocityBoard tr{
+    background-color: rgb(231, 231, 231);
+}
+.mainContent .velocityBoard tr:nth-child(even){background-color: #f7f7f7;}

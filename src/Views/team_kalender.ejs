@@ -10,13 +10,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="team.css">
     <script src="controller.js"></script>
     <title>Team Kalender</title>
 </head>
 <body id="body" class="content">
     <%- include('header') %>
     <div class="mainContent" id="mainContent">
-        <h1 class="text">Team Kalender</h1>
+        <% for(let i = 1; i < 5; i++){ %>
+            <% if (params.pi == "PI-0" + i){ %>
+                <div class="titleGrid">
+                    <input type="number" id="yearChanger" class="text titleYear" onchange="updateYear()" value="<%- params.year %>" min="2020" max="2100" step="1"> 
+                    <div class="titles">
+                        <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-01">PI-01</a>
+                        <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-02">PI-02</a>
+                        <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-03">PI-03</a>
+                        <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-04">PI-04</a>
+                    </div> 
+                </div>       
+                <table cellspacing="0" class="velocityBoard">
+                    <tbody>
+                        <tr>
+                            <th class="name">Name</th>
+                            <th>Sprint 1</th>
+                            <th>Sprint 2</th>
+                            <th>Sprint 3</th>
+                            <th>Sprint 4</th>
+                            <th>Sprint 5</th>
+                            <th>Sprint 6</th>
+                        </tr>
+                        <tr>
+                            <td class="text">Gian Federspiel</td>
+                            <td class="text">7</td>
+                            <td class="text">7</td>
+                            <td class="text">6</td>
+                            <td class="text">7</td>
+                            <td class="text">8</td>
+                            <td class="text">7</td>
+                        </tr>
+                        <tr>
+                            <td class="text">Rouven Hänggi</td>
+                            <td class="text">8</td>
+                            <td class="text">7</td>
+                            <td class="text">8</td>
+                            <td class="text">6</td>
+                            <td class="text">8</td>
+                            <td class="text">7</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <% } %>
+        <% } %>
     </div>
 </body>
 <%- include('colorScript') %>
