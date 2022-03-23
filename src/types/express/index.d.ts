@@ -45,7 +45,6 @@ declare namespace Express {
       email: string;
       standardAbwesenheiten: number[];
       productivityPercentage: number;
-      abwesenheiten: Abwesenheit[];
     };
   }
 }

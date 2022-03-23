@@ -78,14 +78,49 @@ ul {list-style-type: none;}
 
 .days .abwesend {
   color: white;
-  background: blueviolet;
+  background: var(--suva-color-secondary);
 }
 
 
 .days .halbAbwesend {
   color: white;
-  background: linear-gradient(to top right, blueviolet 0%, blueviolet 50%, var(--background2) 50%,  var(--background2)  100%);
+  background: linear-gradient(to top right, var(--suva-color-secondary) 50%, var(--suva-color-secondary) 50%, var(--background2) 50%,  var(--background2)  100%);
 }
+
+
+
+.farbLegende li{
+  font-size: 20px;
+  color: var(--text);
+}
+
+.farbLegende li div{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: var(--text);
+  clip-path: polygon(5px 5px, 20px 5px, 20px 20px, 5px 20px);
+}
+
+.farbLegende li div div{
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  clip-path: polygon(6px 6px, 19px 6px, 19px 19px, 6px 19px);
+}
+
+.farbLegende li[primary] div div{
+  background-color: var(--background2);
+}
+
+.farbLegende li[secondary] div div{
+  background-color: var(--suva-color-primary);
+}
+
+.farbLegende li[tertiary] div div{
+  background-color: var(--suva-color-secondary);
+}
+
 
 
 
