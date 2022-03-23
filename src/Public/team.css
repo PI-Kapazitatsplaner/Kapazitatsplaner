@@ -31,3 +31,22 @@ tbody{
     background-color: rgb(231, 231, 231);
 }
 .mainContent .velocityBoard tr:nth-child(even){background-color: #f7f7f7;}
+
+
+.velocityBoard tbody tr .borderTop{
+    border-top: var(--text) solid 1px;
+}
+
+.velocityBoard tbody tr td{
+    border-left: var(--text) solid 1px;
+}
+
+.velocityBoard tbody tr .firstElement{
+    border-left: none;
+}
+
+.velocityBoard tbody tr td:not(.firstElement), .velocityBoard tbody tr th:not(.firstElement){
+    text-align: center;
+}
+
+

@@ -41,7 +41,7 @@ body::-webkit-scrollbar {
 .mainContent h1 {
   padding-left: 3%;
   padding-top: 1%;
-  color: var(--text-hover);
+  color: var(--text);
 }
 .mainContent .dateBtn {
   background-color: #00b8cf;

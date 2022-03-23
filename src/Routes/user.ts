@@ -1,5 +1,5 @@
-import { AbwesenheitsTyp } from '@prisma/client';
-import express from 'express';
+import { AbwesenheitsTyp, User } from '@prisma/client';
+import express, { Request } from 'express';
 import prisma from '../prisma/client';
 import sendFileIfParamEqualsName from '../middleware/fileSender/fileSender';
 
@@ -35,7 +35,7 @@ router.get('/:year?/:month?', sendFileIfParamEqualsName, async (req, res) => {
 
 router.post('/:year/:month', async (req, res) => {
     if (validateParams(req.params) && validateBody(req.body)) {
-        swtichAbwesenheitsType(req.body.newState, Number(req.params.year), Number(req.params.month), Number(req.body.day), req.user.sub)
+        swtichAbwesenheitsType(req.body.newState, Number(req.params.year), Number(req.params.month), Number(req.body.day), req)
     } else {
         res.sendStatus(400);
     }
@@ -77,14 +77,13 @@ async function getAbwesenheitenInMonth(year: number, month: number, userSub: str
     }
 }
 
-async function swtichAbwesenheitsType(newState: string, year: number, month: number, day: number, userSub: string): Promise<any> {
-    const fillerDays = new Date(Number(year), Number(month) - 1, 0).getDay()
-    if (newState === 'anwesend' && !((day + fillerDays) % 7 === 0 || (day + fillerDays + 1) % 7 === 0)) {
+async function swtichAbwesenheitsType(newState: string, year: number, month: number, day: number, req: Request): Promise<any> {
+    if (newState === 'anwesend' && !req.user.standardAbwesenheiten.includes(new Date(Number(year), Number(month) - 1, day).getDay())) {
         try {
             return await prisma.abwesenheit.delete({
                 where: {
                     userSub_date: {
-                        userSub: userSub,
+                        userSub: req.user.sub,
                         date: new Date(Number(year), Number(month) - 1, day)
                     }
                 }
@@ -98,7 +97,7 @@ async function swtichAbwesenheitsType(newState: string, year: number, month: num
             return await prisma.abwesenheit.upsert({
                 where: {
                     userSub_date: {
-                        userSub: userSub,
+                        userSub: req.user.sub,
                         date: new Date(Number(year), Number(month) - 1, day)
                     }
                 },
@@ -106,7 +105,7 @@ async function swtichAbwesenheitsType(newState: string, year: number, month: num
                     typ: <keyof typeof AbwesenheitsTyp>newState
                 },
                 create: {
-                    userSub: userSub,
+                    userSub: req.user.sub,
                     date: new Date(Number(year), Number(month) - 1, day),
                     typ: <keyof typeof AbwesenheitsTyp>newState
                 }

@@ -9,6 +9,7 @@
     <link rel="icon" href="/Images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="numberInput.css">
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="team.css">
     <script src="controller.js"></script>
@@ -20,48 +21,74 @@
         <% for(let i = 1; i < 5; i++){ %>
             <% if (params.pi == "PI-0" + i){ %>
                 <div class="titleGrid">
-                    <input type="number" id="yearChanger" class="text titleYear" onchange="updateYear()" value="<%- params.year %>" min="2020" max="2100" step="1"> 
+                    <div class="number-input year-select">
+                        <input oninput="updateYear(this)" min="0" name="quantity"  max="2100" value="<%- params.year %>" type="number">
+                        <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+                        <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))" ></button>
+                    </div> 
                     <div class="titles">
                         <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-01">PI-01</a>
                         <a <% if(i==2){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-02">PI-02</a>
                         <a <% if(i==3){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-03">PI-03</a>
                         <a <% if(i==4){%> style="font-weight: bold;"<% } %> class ="title" href="/team_kalender/<%- params.year %>/PI-04">PI-04</a>
                     </div> 
-                </div>       
-                <table cellspacing="0" class="velocityBoard">
-                    <tbody>
-                        <tr>
-                            <th class="name">Name</th>
-                            <th>Sprint 1</th>
-                            <th>Sprint 2</th>
-                            <th>Sprint 3</th>
-                            <th>Sprint 4</th>
-                            <th>Sprint 5</th>
-                            <th>Sprint 6</th>
-                        </tr>
-                        <tr>
-                            <td class="text">Gian Federspiel</td>
-                            <td class="text">7</td>
-                            <td class="text">7</td>
-                            <td class="text">6</td>
-                            <td class="text">7</td>
-                            <td class="text">8</td>
-                            <td class="text">7</td>
-                        </tr>
-                        <tr>
-                            <td class="text">Rouven Hänggi</td>
-                            <td class="text">8</td>
-                            <td class="text">7</td>
-                            <td class="text">8</td>
-                            <td class="text">6</td>
-                            <td class="text">8</td>
-                            <td class="text">7</td>
-                        </tr>
-                    </tbody>
-                </table>
-            <% } %>
+                </div>   
+                <% if (piIsDefined) { %>
+                    <table cellspacing="0" class="velocityBoard">
+                        <tbody>
+                            <tr>
+                                <th class="name firstElement">Name</th>
+                                <th>Sprint 1</th>
+                                <th>Sprint 2</th>
+                                <th>Sprint 3</th>
+                                <th>Sprint 4</th>
+                                <th>Sprint 5</th>
+                                <th>Sprint 6</th>
+                            </tr>
+                            <% for(const member of teamMembers){ %> 
+                                <tr>
+                                    <td class="text firstElement"><%- member.user.firstname + ' ' + member.user.lastname + ' (' + member.user.productivityPercentage + '%)'%> </td>
+                                    <% for(const dayInSprint of member.anwesendeTageProSprint){ %> 
+                                        <td class="text"><%= dayInSprint %> </td>
+                                    <% } %>
+                                </tr>
+                            <% } %> 
+                            <tr>
+                                <td class="text borderTop firstElement">Totale Tage</td>
+                                <% for(const tps of tageProSprint){ %> 
+                                    <td class="text borderTop"><%= tps %></td>
+                                <% } %>
+                            </tr>
+                            <tr>
+                                <td class="text firstElement">Storypoints</td>
+                                <% for(const sp of storypoints){ %> 
+                                    <td class="text"><%= sp %></td>
+                                <% } %>
+                            </tr>
+                            <tr>
+                                <td class="text firstElement">Umgesetzte Storypoints</td>
+                                <% for(const usp of umgesetzteStorypoints){ %> 
+                                    <td class="text"><%= usp %></td>
+                                <% } %>
+                            </tr>
+                            <tr>
+                                <td class="text firstElement">Velocity</td>
+                                <% for(const vps of velocitiesProSprint){ %> 
+                                    <td class="text"><%= vps %></td>
+                                <% } %>
+                            </tr>
+                        </tbody>
+                    </table>
+                <% } else{ %>    
+                    <h1 class="text">Für dieses Pi sind keine Daten vorhanden.</h1>
+            <% }} %>
         <% } %>
     </div>
 </body>
+<script>
+function updateYear(yearInput){
+    location.href="/team_kalender/"+ yearInput.value + "/PI-01";
+}
+</script>
 <%- include('colorScript') %>
-</html>
+</html> 

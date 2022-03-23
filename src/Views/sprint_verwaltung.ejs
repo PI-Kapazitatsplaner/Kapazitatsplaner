@@ -29,8 +29,8 @@
             <div class="titleGrid">
                 <div class="number-input year-select">
                     <input oninput="updateYear(this)" min="0" name="quantity"  max="2100" value="<%- params.year %>" type="number">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                    <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+                    <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))" ></button>
                 </div>
                 <div class="titles">
                     <a <% if(i==1){%> style="font-weight: bold;"<% } %> class ="title" href="/sprint_verwaltung/<%- params.year %>/PI-01">PI-01</a>
@@ -88,8 +88,9 @@
     arrow.classList.remove('arrow');
 
     function updateYear(yearInput){
-        location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
-    }
+    location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
+}
+
     function validate(){
         const inputs = document.querySelectorAll("input[type='date']");
         const ttContainers = document.getElementsByClassName("ttContainer");
