@@ -1,4 +1,5 @@
 .titleGrid {
+  margin-right: 7%;
   margin-left: 7%;
   display: grid;
   grid-template-columns: 20% auto 20%;

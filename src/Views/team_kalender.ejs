@@ -47,9 +47,15 @@
                             </tr>
                             <% for(const member of teamMembers){ %> 
                                 <tr>
-                                    <td class="text firstElement"><%- member.user.firstname + ' ' + member.user.lastname + ' (' + member.user.productivityPercentage + '%)'%> </td>
+                                    <td class="text firstElement">
+                                        <%- member.user.firstname + ' ' + member.user.lastname%><p class="text ttContainer tooltip">?
+                                            <span class="tooltiptext">
+                                                <%- member.user.firstname %> hat ein Pensum von <%- (7 - (member.user.standardAbwesenheiten.length)) * 20 %> % und ist dabei zu <%- member.user.productivityPercentage %>% am Entwickeln  
+                                            </span>
+                                        </p> 
+                                    </td>
                                     <% for(const dayInSprint of member.anwesendeTageProSprint){ %> 
-                                        <td class="text"><%= dayInSprint %> </td>
+                                        <td class="text"><%= dayInSprint%> </td>
                                     <% } %>
                                 </tr>
                             <% } %> 
@@ -60,7 +66,7 @@
                                 <% } %>
                             </tr>
                             <tr>
-                                <td class="text firstElement">Storypoints</td>
+                                <td class="text firstElement">Kapazität</td>
                                 <% for(const sp of storypoints){ %> 
                                     <td class="text"><%= sp %></td>
                                 <% } %>
@@ -74,13 +80,13 @@
                             <tr>
                                 <td class="text firstElement">Velocity</td>
                                 <% for(const vps of velocitiesProSprint){ %> 
-                                    <td class="text"><%= vps %></td>
+                                    <td class="text"><%= vps %>%</td>
                                 <% } %>
                             </tr>
                         </tbody>
                     </table>
                 <% } else{ %>    
-                    <h1 class="text">Für dieses Pi sind keine Daten vorhanden.</h1>
+                    <h1 class="text" style="text-align: center;">Für dieses Pi sind keine Daten vorhanden</h1>
             <% }} %>
         <% } %>
     </div>
