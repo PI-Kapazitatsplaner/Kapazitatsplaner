@@ -109,18 +109,31 @@
     if (element.classList.contains("abwesend")) {
       element.classList.remove("abwesend");
       element.classList.add("halbAbwesend");
-      
+      setBorder();
       return "halbAbwesend"
     } else if (element.classList.contains("halbAbwesend")) {
       element.classList.remove("halbAbwesend");
       element.classList.add("anwesend");
+      setBorder();
       return "anwesend"
     } else if (element.classList.contains("anwesend")) {
       element.classList.remove("anwesend");
       element.classList.add("abwesend");
-      return "abwesend"
+      setBorder();
+      return "abwesend" 
     }
   }
+  function setBorder(){
+    var anzAbwesenheiten = "<%- anzAbwesenheiten %>";
+    var elements = document.getElementsByClassName("abwesend")
+    
+    for(var i = 0; i < Number(anzAbwesenheiten); i++){
+      elements[i].classList.add("borderT")
+      elements[elements.length - (i +1)].classList.add("borderB")
+
+    }
+  }
+  setBorder();
 </script>
 <%- include('colorScript') %>
 

@@ -6,7 +6,8 @@ import { AbwesenheitsTyp, User } from "@prisma/client";
 
 interface Member{
   user: User,
-  anwesendeTageProSprint: number[]
+  anwesendeTageProSprint: number[],
+  kapazitaetProSprint: number[]
 }
 
 let router = express.Router();
@@ -64,21 +65,21 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
     if(teamMember){
       teamMembers.push({
         user: teamMember,
-        anwesendeTageProSprint: []
+        anwesendeTageProSprint: [],
+        kapazitaetProSprint: []
       });
     }
   }  
 
   let vogaengerVelocity = 80; 
 
-  const storyPointsProSprint: number[] = [];
+  const kapazitaetProSprint: number[] = [];
   const tageProSprint: number[] = [];
   const velocitiesProSprint: number[] = [];
 
   //Tage pro Sprint berechnen
   for(const sprint of sprintsInPi){  
     let totalDaysInTeam = 0;  
-    let storyPointsInTeam = 0;  
     let daysWithUserProductivity = 0;  
     const daysInSprint = Math.abs((sprint.von.getTime() - sprint.bis.getTime()) / (1000 * 3600 * 24)) + 1;
     for (const member of teamMembers) {
@@ -104,14 +105,13 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
       daysWithUserProductivity += Math.round(usersDaysInSprint * (member.user.productivityPercentage / 100) * 2) / 2;
     }    
     tageProSprint.push(totalDaysInTeam)
-    const velocity = Math.round(vogaengerVelocity + (daysWithUserProductivity + 1) / daysWithUserProductivity ) ;
+    const velocity = Math.round(vogaengerVelocity + (daysWithUserProductivity) / daysWithUserProductivity ) ;
     velocitiesProSprint.push(velocity)
     vogaengerVelocity = velocity;
-    storyPointsProSprint.push(Math.round(daysInSprint * (velocity / 100) * 2) / 2)
-
+    kapazitaetProSprint.push(Math.round(daysWithUserProductivity * (vogaengerVelocity / 100)))
   }
 
-  const umges: number[] = storyPointsProSprint.map(a => a + 1);
+  const umges: number[] = kapazitaetProSprint.map(a => a + 1);
 
 
 
@@ -130,7 +130,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
       params: req.params,
       teamName: currentUserTeam?.teamName,
       tageProSprint: tageProSprint,
-      storypoints: storyPointsProSprint,
+      kapazitaet: kapazitaetProSprint, //Kapazität
       umgesetzteStorypoints: umges,
       velocitiesProSprint: velocitiesProSprint,
       teamMembers: teamMembers,

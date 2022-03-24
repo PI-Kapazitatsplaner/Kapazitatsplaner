@@ -97,6 +97,14 @@ ul {list-style-type: none;}
   /* Gestrichelt */
   background: repeating-linear-gradient( -45deg, #00b8cf, #00b8cf 4px, #7dd0db 4px, #7dd0db 8px );
 }
+.borderT{
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+.borderB{
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
 
 
 

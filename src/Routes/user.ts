@@ -22,7 +22,7 @@ router.get('/:year?/:month?', sendFileIfParamEqualsName, async (req, res) => {
             standardAbwesenheiten: req.user.standardAbwesenheiten,
         }
         const header = { currSite: 2, username: req.user.name };
-        res.render("mein_kalender", { header, prefersWhiteMode: req.user.prefersWhiteMode, calendar, csrfToken: req.csrfToken() });
+        res.render("mein_kalender", { header, prefersWhiteMode: req.user.prefersWhiteMode, anzAbwesenheiten: req.user.standardAbwesenheiten.length, calendar, csrfToken: req.csrfToken() });
     }
     else {
         if (year !== undefined && Number(year) >= 2020 && Number(year) < 2100) {
