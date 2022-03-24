@@ -3,14 +3,17 @@
     <button class="text" type="submit" onclick="location.href='/settings'">Settings</button>
 </div>
 
-<div class="titles">   
-    <% if (header.currSite == 1) { %>
-        <%# Team Kalender %>
-        <p><a href="/mein_kalender" class="title text">Mein Kalender</a></p>
-        <b><p><a href="/team_kalender" class="title text">Team Kalender</a></p></b>
-    <% }else if (header.currSite == 2){ %>
-        <%# Mein Kalender %>
-        <b><p><a href="/mein_kalender" class="title text">Mein Kalender</a></p></b>
-        <p><a href="/team_kalender" class="title text">Team Kalender</a></p>
-    <% } %>
+<div class="head">
+    <img src="/images/suva_logo.png" alt="" class="logo">
+    <div class="titles">   
+        <% if (header.currSite == 1) { %>
+            <%# Team Kalender %>
+            <p><a href="/mein_kalender" class="title text">Mein Kalender</a></p>
+            <b><p><a href="/team_kalender" class="title text">Team Kalender</a></p></b>
+        <% }else if (header.currSite == 2){ %>
+            <%# Mein Kalender %>
+            <b><p><a href="/mein_kalender" class="title text">Mein Kalender</a></p></b>
+            <p><a href="/team_kalender" class="title text">Team Kalender</a></p>
+        <% } %>
+    </div>
 </div>

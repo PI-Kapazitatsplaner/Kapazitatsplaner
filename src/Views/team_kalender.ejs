@@ -37,13 +37,13 @@
                     <table cellspacing="0" class="velocityBoard">
                         <tbody>
                             <tr>
-                                <th class="name firstElement">Name</th>
+                                <th class="name firstElement borderTL">Name</th>
                                 <th>Sprint 1</th>
                                 <th>Sprint 2</th>
                                 <th>Sprint 3</th>
                                 <th>Sprint 4</th>
                                 <th>Sprint 5</th>
-                                <th>Sprint 6</th>
+                                <th class="borderTR">Sprint 6</th>
                             </tr>
                             <% for(const member of teamMembers){ %> 
                                 <tr>
@@ -78,10 +78,11 @@
                                 <% } %>
                             </tr>
                             <tr>
-                                <td class="text firstElement">Velocity</td>
-                                <% for(const vps of velocitiesProSprint){ %> 
-                                    <td class="text"><%= vps %>%</td>
+                                <td class="text firstElement borderBL">Velocity</td>
+                                <% for(let i = 0; i < velocitiesProSprint.length -1 ; i++){ %>
+                                    <td class="text"><%= velocitiesProSprint[i] %>%</td>
                                 <% } %>
+                                <td class="text borderBR"><%= velocitiesProSprint[velocitiesProSprint.length -1] %>%</td>
                             </tr>
                         </tbody>
                     </table>

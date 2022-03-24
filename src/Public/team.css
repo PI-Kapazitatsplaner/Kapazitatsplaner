@@ -14,17 +14,29 @@
     text-align: left;
     padding-bottom: 20%;
 }
-tbody{
-    border-radius: 10px;
-}
+
 .mainContent .velocityBoard .name{
     width: 25%;
+}
+.mainContent .velocityBoard .borderTL{
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.mainContent .velocityBoard .borderTR{
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.mainContent .velocityBoard .borderBL{
+    border-bottom-left-radius: 8px;
+}
+.mainContent .velocityBoard .borderBR{
+    border-bottom-right-radius: 8px;
 }
 .mainContent .velocityBoard th{
     font-weight: normal;
     font-size: 25px !important;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     padding-left: 5px;
     font-size:20px;
     color: white;
@@ -41,7 +53,6 @@ tbody{
 }
 .mainContent .velocityBoard tr:nth-child(even){background-color: #f7f7f7;}
 
-
 .velocityBoard tbody tr .borderTop{
     border-top: var(--text) solid 1px;
 }
@@ -52,6 +63,7 @@ tbody{
 
 .velocityBoard tbody tr .firstElement{
     border-left: none;
+    margin-left: 20px;
 }
 
 .velocityBoard tbody tr td:not(.firstElement), .velocityBoard tbody tr th:not(.firstElement){
