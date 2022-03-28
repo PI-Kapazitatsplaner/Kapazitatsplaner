@@ -113,9 +113,15 @@ ul {list-style-type: none;}
   border-bottom-right-radius: 8px;
 }
 
-
+.farbLegende {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 
 .farbLegende li{
+  
   font-size: 20px;
   color: var(--text);
 }
@@ -140,11 +146,11 @@ ul {list-style-type: none;}
 }
 
 .farbLegende li[secondary] div div{
-  background-color: var(--suva-color-primary);
+  background-color: var(--suva-color-blue);
 }
 
 .farbLegende li[tertiary] div div{
-  background-color: var(--suva-color-secondary);
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 4px, var(--suva-color-blue-secondary) 4px, var(--suva-color-blue-secondary) 8px );
 }
 
 @media screen and (max-width: 900px) {
