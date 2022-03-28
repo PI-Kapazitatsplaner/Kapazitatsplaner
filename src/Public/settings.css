@@ -29,7 +29,7 @@
 }
 
 .saveBtn {
-    background-color: var(--suva-color-secondary) ;
+    background-color: var(--suva-color-blue) ;
     border: none;
     color: white;
     padding: 10px 22px;
