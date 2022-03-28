@@ -88,8 +88,9 @@
     arrow.classList.remove('arrow');
 
     function updateYear(yearInput){
-        location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
-    }
+    location.href="/sprint_verwaltung/"+ yearInput.value + "/PI-01";
+}
+
     function validate(){
         const inputs = document.querySelectorAll("input[type='date']");
         const ttContainers = document.getElementsByClassName("ttContainer");

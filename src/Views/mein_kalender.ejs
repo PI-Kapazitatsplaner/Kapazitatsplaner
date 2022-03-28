@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="/Images/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="header.css">
   <link rel="stylesheet" href="common.css">
@@ -51,7 +52,7 @@
           if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'abwesend')){
              __append(" abwesend") 
           }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
-            __append("halbAbwesend") 
+            __append("halbAbwesend")
           }else{
             if(isStandardAbwesenheit() && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
               __append("abwesend")
@@ -154,6 +155,7 @@
         listElements.find(e => e.id === "day-" + (lastElementId)).classList.add("borderBottom");
         listElements = listElements.filter(e => e.id !== "day-" + lastElementId);
       }
+      return "abwesend" 
     }
   }
   setBorder();
