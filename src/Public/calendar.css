@@ -150,7 +150,7 @@ ul {list-style-type: none;}
 }
 
 .farbLegende li[tertiary] div div{
-  background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 4px, var(--suva-color-blue-secondary) 4px, var(--suva-color-blue-secondary) 8px );
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 3px, var(--suva-color-blue-secondary) 3px, var(--suva-color-blue-secondary) 6px );
 }
 
 @media screen and (max-width: 900px) {
@@ -159,15 +159,19 @@ ul {list-style-type: none;}
     width: 0 !important;
     padding: 0;
   }
+  .weekdays li, .days li {width: 19.04%; }
+
+  .farbLegende {
+    flex-direction: column;
+    margin-left: 7%;
+  } 
+}
+
+@media screen and (max-width: 720px) {
   .weekdays li, .days li {width: 19.04%;}
 }
 
-/* Add media queries for smaller screens */
-@media screen and (max-width:720px) {
-  .weekdays li, .days li {width: 19.04%;}
-}
-
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 642px) {	
   .weekdays li, .days li {width: 18.04%;}
   .days li .active {
     padding: 0px 4px;
@@ -175,6 +179,9 @@ ul {list-style-type: none;}
   }
 }
 
-@media screen and (max-width: 290px) {
+@media screen and (max-width: 332px) {
   .weekdays li, .days li {width: 17.2%;}
+  .farbLegende{
+    margin-left: 0;
+  }
 }
