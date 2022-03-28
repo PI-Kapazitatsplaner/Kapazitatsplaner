@@ -88,7 +88,7 @@ ul {list-style-type: none;}
 
 .days .abwesend {
   color: white;
-  background: #00b8cf;
+  background: var(--suva-color-blue);
 }
 
 .days .halbAbwesend {
@@ -96,11 +96,11 @@ ul {list-style-type: none;}
 }
 
 .days .halbAbwesend.gestrichelt1{
-  background: repeating-linear-gradient( -45deg, #00b8cf, #00b8cf 4px, #7dd0db 4px, #7dd0db 8px );
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 4px, var(--suva-color-blue-secondary) 4px, var(--suva-color-blue-secondary) 8px );
 }
 
 .days .halbAbwesend.gestrichelt2{
-  background: repeating-linear-gradient( -45deg, #7dd0db, #7dd0db 4px, #00b8cf 4px, #00b8cf 8px );
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue-secondary), var(--suva-color-blue-secondary) 4px, var(--suva-color-blue) 4px, var(--suva-color-blue) 8px );
 }
 
 .borderTop{
@@ -114,6 +114,38 @@ ul {list-style-type: none;}
 }
 
 
+
+.farbLegende li{
+  font-size: 20px;
+  color: var(--text);
+}
+
+.farbLegende li div{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: var(--text);
+  clip-path: polygon(5px 5px, 20px 5px, 20px 20px, 5px 20px);
+}
+
+.farbLegende li div div{
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  clip-path: polygon(6px 6px, 19px 6px, 19px 19px, 6px 19px);
+}
+
+.farbLegende li[primary] div div{
+  background-color: var(--background2);
+}
+
+.farbLegende li[secondary] div div{
+  background-color: var(--suva-color-primary);
+}
+
+.farbLegende li[tertiary] div div{
+  background-color: var(--suva-color-secondary);
+}
 
 @media screen and (max-width: 900px) {
   .weekend{

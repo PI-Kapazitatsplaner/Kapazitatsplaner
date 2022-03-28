@@ -1,10 +1,11 @@
+import { log } from 'console';
 import express from 'express';
 import prisma from '../prisma/client';
 
 
 let router = express.Router();
 
-router.get('/', async (req, res) => {  
+router.get('/', async (req, res) => {   
     let parent = 1;
     if (req.headers.referer?.includes("team_kalender")){ parent = 2; }       
     res.render("settings", { 

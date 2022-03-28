@@ -29,8 +29,7 @@
 }
 
 .saveBtn {
-
-    background-color: #00b8cf;
+    background-color: var(--suva-color-secondary) ;
     border: none;
     color: white;
     padding: 10px 22px;
@@ -173,3 +172,23 @@
     width: 100%;
 }
 
+
+
+@media screen and (max-width: 650px) {
+    .twoElements{
+        grid-template-columns: 100%;
+        align-items: sta;
+    }   
+    .twoElements .firstElement{
+        border-bottom: 2px solid var(--line);
+    } 
+    .twoElements hr {
+        visibility: hidden;
+    }
+    .twoElements .element{
+        width: 100%;
+    }
+    .themeDropDown {
+        width: 142px;
+    }
+}
