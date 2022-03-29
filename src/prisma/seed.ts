@@ -1,4 +1,6 @@
 import prisma from "./client";
+import piData from './data/pi'
+import sprintData from './data/sprints'
 
 //Add data here to seed the database
 const main = async () => {
@@ -6,6 +8,8 @@ const main = async () => {
     await prisma.user_Team.deleteMany({})
     await prisma.user.deleteMany({})
     await prisma.team.deleteMany({})
+    await prisma.pi.deleteMany({});
+    await prisma.sprint.deleteMany({});
     await prisma.user.createMany({
         data: [
             {
@@ -55,6 +59,9 @@ const main = async () => {
             },
         ]
     });
+    await prisma.pi.createMany({ data: piData });
+    await prisma.sprint.createMany({ data: sprintData });
+
 };
 
 if (process.env.seed?.toLowerCase() === 'true') {

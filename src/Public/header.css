@@ -35,6 +35,13 @@
 .bar button:hover {
     color: var(--text-hover);
 }
+
+@media screen and (max-width: 456px) {
+    .titles{
+        text-align: center;
+    }
+}
+
 .head{
     margin-right: 5%;
     margin-left: 5%;
@@ -42,6 +49,7 @@
     grid-template-columns: 25% 50% 25%;
     align-items: center;
 }
+
 .head .logo{
     font-family: Helvetica;
     font-weight: 2000;

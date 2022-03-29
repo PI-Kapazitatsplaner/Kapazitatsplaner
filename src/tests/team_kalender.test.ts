@@ -7,7 +7,8 @@ describe("GET /team_kalender/2022/PI-01", () => {
         request(app).get("/team_kalender/2022/PI-01")
             .expect(200)
             .end(function (err, res) {
-                expect(res.text).includes("Sprint 1")
+                expect(res.text).includes("2022"),
+                expect(res.text).includes("Team Kalender"),
                 done();
             });
     });

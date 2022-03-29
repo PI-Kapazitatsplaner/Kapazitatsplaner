@@ -1,6 +1,8 @@
 body {
-  --suva-color-primary: #ff8200;
-  /*
+    --suva-color-primary: #FF8200;
+    --suva-color-blue: #00b8cf;
+    --suva-color-blue-secondary:#7dd0db;
+    /*
         --background: #ffffff;
         --background2: #f7f7f7;
         --text: #666666;

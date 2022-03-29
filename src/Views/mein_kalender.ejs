@@ -34,7 +34,7 @@
       <ul class="weekdays">
         <li class="text" onclick="changeAnwesenheiten(1)">Mo</li>
         <li class="text" onclick="changeAnwesenheiten(2)">Di</li>
-        <li class="text" onclick="changeAnwesenheiten(3)"">Mi</li>
+        <li class="text" onclick="changeAnwesenheiten(3)">Mi</li>
         <li class=" text" onclick="changeAnwesenheiten(4)">Do</li>
         <li class="text" onclick="changeAnwesenheiten(5)">Fr</li>
         <li class="text weekend" onclick="changeAnwesenheiten(6)">Sa</li>
@@ -45,7 +45,7 @@
         <li class="fillerDay"></li>
         <% } %>
         <% for( let i = 1; i < calendar.daysInMonth + 1; i++ ) { %>
-        <li onclick="changeAnwesenheit(this.id)" id="<%= i %>" class="text <% addClassesToElement() %>">
+        <li onclick="changeAnwesenheit(this.id)" id="day-<%= i %>" class="text <% addClassesToElement() %>">
           <% if(i == calendar.activeDay) { __append('<span class="active">' + i + '</span>') } else { __append(i) } %>
         </li>
         <% function addClassesToElement() {
@@ -63,6 +63,14 @@
           if(isWeekend()){
             __append(" weekend")
           }
+          if(isSecondRow()){
+            __append(" gestrichelt2")
+          }else{
+            __append(" gestrichelt1")
+          }
+        }
+        function isSecondRow() {
+          return Math.ceil((i+ calendar.fillerDays) / 7) % 2 === 0
         }
         function isWeekend() {
           return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 7 - 6) % 7 === 0 )
@@ -73,14 +81,50 @@
         } %>
         <% } %>
       </ul>
+      <ul class="farbLegende">
+        <li primary>
+          <div>
+            <div></div>
+          </div> Anwesend
+        </li>
+        <li secondary>
+          <div>
+            <div></div>
+          </div> Abwesend
+        </li>
+        <li tertiary>
+          <div>
+            <div></div>
+          </div> Halber Tag Abwesend
+        </li>
+      </ul>
     </div>
   </div>
 </body>
 <script>
+  let newlyChangedAbwesenheiten = []
+
+  addEventListener('visibilitychange', event => {
+    if (document.visibilityState === 'hidden') {
+      const body = {
+        newlyChangedAbwesenheiten: newlyChangedAbwesenheiten,
+        _csrf: "<%= csrfToken %>"
+      };
+      const headers = {
+        'Access-Control-Allow-Origin': '*',
+        type: 'application/json'
+      };
+      const blob = new Blob([JSON.stringify(body)], headers);
+      navigator.sendBeacon("/mein_kalender/<%- calendar.year %>/<%- calendar.month %>", blob);
+      newlyChangedAbwesenheiten = []
+    }
+  });
+
+
   function changeAnwesenheiten(day) {
     //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6; %>
     for (let i = day - <%- calendar.fillerDays %>; i < 31; i = i + 7) {
-      if(i < 0){
+      if (i < 0) {
         i = i + 7
       }
       changeAnwesenheit(i)
@@ -89,19 +133,17 @@
 
   function changeAnwesenheit(id) {
     const newState = switchStates(id)
-    fetch("/mein_kalender/<%- calendar.year %>/<%- calendar.month %> ", {
-        method: "POST",
-        body: JSON.stringify({
-          newState: newState,
-          day: id,
-          _csrf: "<%- csrfToken %>"
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => response.json())
-      .then(json => console.log(json));
+    const abwesenheit = {
+      id: Number(id.slice(4)),
+      newState: newState,
+    }
+    upsertNewlyChangedAbwesenheiten(abwesenheit);
+  }
+
+  function upsertNewlyChangedAbwesenheiten(abwesenheit) {
+    const i = newlyChangedAbwesenheiten.findIndex(_element => abwesenheit.id === _element.id);
+    if (i > -1) newlyChangedAbwesenheiten[i] = abwesenheit
+    else newlyChangedAbwesenheiten.push(abwesenheit);
   }
 
   function switchStates(id) {
@@ -120,17 +162,29 @@
       element.classList.remove("anwesend");
       element.classList.add("abwesend");
       setBorder();
-      return "abwesend" 
+      return "abwesend"
     }
   }
-  function setBorder(){
-    var anzAbwesenheiten = "<%- anzAbwesenheiten %>";
-    var elements = document.getElementsByClassName("abwesend")
-    
-    for(var i = 0; i < Number(anzAbwesenheiten); i++){
-      elements[i].classList.add("borderT")
-      elements[elements.length - (i +1)].classList.add("borderB")
 
+  function setBorder() {
+    let listElements = Array.from(document.querySelectorAll("li.abwesend, li.halbAbwesend"));
+
+    for (const element of listElements) {
+      element.classList.remove("borderBottom")
+      element.classList.remove("borderTop")
+    }
+
+    for (const element of listElements) {
+      if (listElements.includes(element)) {
+        element.classList.add("borderTop");
+        let lastElementId = Number(element.id.slice(4));
+        while (listElements.find(e => e.id === "day-" + (lastElementId + 7)) !== undefined) {
+          listElements = listElements.filter(e => e.id !== "day-" + lastElementId);
+          lastElementId += 7
+        }
+        listElements.find(e => e.id === "day-" + (lastElementId)).classList.add("borderBottom");
+        listElements = listElements.filter(e => e.id !== "day-" + lastElementId);
+      }
     }
   }
   setBorder();

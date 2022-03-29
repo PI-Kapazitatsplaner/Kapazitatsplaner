@@ -29,8 +29,7 @@
 }
 
 .saveBtn {
-
-    background-color: #00b8cf;
+    background-color: var(--suva-color-blue) ;
     border: none;
     color: white;
     padding: 10px 22px;
@@ -155,6 +154,38 @@
 .element .themeDropDown{
     width: 10%;
 }
+
+.twoElements hr {
+    width:0;
+    border:1px solid var(--line);
+}
+
+.themeDropDown {
+    color: var(--text2);
+    background-color: var(--background2);
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 650px) {
+    .twoElements{
+        grid-template-columns: 100%;
+        align-items: sta;
+    }   
+    .twoElements .firstElement{
+        border-bottom: 2px solid var(--line);
+    } 
+    .twoElements hr {
+        visibility: hidden;
+    }
+    .twoElements .element{
+        width: 100%;
+    }
+    .themeDropDown {
+        width: 142px;
+    }
+
 .element{
     margin-bottom: 30px;
     margin-left: 5%;

@@ -47,8 +47,8 @@
                             </tr>
                             <% for(const member of teamMembers){ %> 
                                 <tr>
-                                    <td class="text firstElement">
-                                        <%- member.user.firstname + ' ' + member.user.lastname%><p class="text ttContainer tooltip">?
+                                    <td class="text firstElement tooltip">
+                                        <p class="text ttContainer"><%- member.user.firstname + ' ' + member.user.lastname%>
                                             <span class="tooltiptext">
                                                 <%- member.user.firstname %> hat ein Pensum von <%- (7 - (member.user.standardAbwesenheiten.length)) * 20 %> % und ist dabei zu <%- member.user.productivityPercentage %>% am Entwickeln  
                                             </span>

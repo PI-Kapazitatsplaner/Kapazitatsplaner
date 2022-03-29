@@ -59,6 +59,8 @@ ul {list-style-type: none;}
   cursor: pointer;
 }
 
+
+
 .days {
   padding: 10px 0;
   background: var(--background2);
@@ -79,7 +81,6 @@ ul {list-style-type: none;}
 
 .days li .active {
   padding: 5px 7px;
-  width: 9%;
   border-radius: 20px;
   background: var(--suva-color-primary);
   color: white !important
@@ -87,27 +88,70 @@ ul {list-style-type: none;}
 
 .days .abwesend {
   color: white;
-  background: #00b8cf;
+  background: var(--suva-color-blue);
 }
-
 
 .days .halbAbwesend {
   color: white;
-  
-  /* Gestrichelt */
-  background: repeating-linear-gradient( -45deg, #00b8cf, #00b8cf 4px, #7dd0db 4px, #7dd0db 8px );
 }
-.borderT{
+
+.days .halbAbwesend.gestrichelt1{
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 4px, var(--suva-color-blue-secondary) 4px, var(--suva-color-blue-secondary) 8px );
+}
+
+.days .halbAbwesend.gestrichelt2{
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue-secondary), var(--suva-color-blue-secondary) 4px, var(--suva-color-blue) 4px, var(--suva-color-blue) 8px );
+}
+
+.borderTop{
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
 }
-.borderB{
+
+.borderBottom{
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 
+.farbLegende {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 
+.farbLegende li{
+  
+  font-size: 20px;
+  color: var(--text);
+}
 
+.farbLegende li div{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: var(--text);
+  clip-path: polygon(5px 5px, 20px 5px, 20px 20px, 5px 20px);
+}
+
+.farbLegende li div div{
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  clip-path: polygon(6px 6px, 19px 6px, 19px 19px, 6px 19px);
+}
+
+.farbLegende li[primary] div div{
+  background-color: var(--background2);
+}
+
+.farbLegende li[secondary] div div{
+  background-color: var(--suva-color-blue);
+}
+
+.farbLegende li[tertiary] div div{
+  background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 3px, var(--suva-color-blue-secondary) 3px, var(--suva-color-blue-secondary) 6px );
+}
 
 @media screen and (max-width: 900px) {
   .weekend{
@@ -115,15 +159,19 @@ ul {list-style-type: none;}
     width: 0 !important;
     padding: 0;
   }
+  .weekdays li, .days li {width: 19.04%; }
+
+  .farbLegende {
+    flex-wrap: wrap;
+    margin-left: 7%;
+  } 
+}
+
+@media screen and (max-width: 720px) {
   .weekdays li, .days li {width: 19.04%;}
 }
 
-/* Add media queries for smaller screens */
-@media screen and (max-width:720px) {
-  .weekdays li, .days li {width: 19.04%;}
-}
-
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 642px) {	
   .weekdays li, .days li {width: 18.04%;}
   .days li .active {
     padding: 0px 4px;
@@ -131,6 +179,9 @@ ul {list-style-type: none;}
   }
 }
 
-@media screen and (max-width: 290px) {
+@media screen and (max-width: 332px) {
   .weekdays li, .days li {width: 17.2%;}
+  .farbLegende{
+    margin-left: 0;
+  }
 }
