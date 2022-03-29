@@ -28,14 +28,6 @@
   </div>
   <div class="mainContent" id="mainContent">
     <h1 class="titleL">Settings</h1>
-
-    <!--User Settings-->
-    <div class="separator">
-      <div class="line linecol"></div>
-      <h2 class="linecol">User Settings</h2>
-      <div class="line linecol"></div>
-      <br>
-    </div>
     <form action="/settings" method="post" class="userSettingForm">
       <div class="firstFlexItem flexItem">
         <div class="twoElements">
@@ -66,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="flexItem">
+      <div class="element">
         <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
         <div class="days">
           <div class="day">
@@ -101,21 +93,35 @@
       </div>
       <input type="hidden" name="_csrf" value="<%- csrfToken %>">
       <button class="saveBtn" type="submit">Sichern</button>
+
+      <!--Team Settings-->
+      <div class="separator">
+        <div class="line linecol"></div>
+        <h3 class="linecol">Team Settings</h3>
+        <div class="line linecol"></div>
+      </div>
+      <!-- loop --> 
+      <div class="percentageSelection">
+        <div class="element">
+          <h2 class="tooltip"><label for="productivity">Entwicklungskapazität</label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity verwendet.</span></h2>
+          <div class="number-input percent-input">
+            <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
+            <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
+            <script>
+              function scaleInputSize(input) {
+                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+              }
+              window.onload = function() {
+                scaleInputSize(document.querySelector('.percent-input input'));
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+
     </form>
-
-    <!--Team Settings-->
-    <div class="separator">
-      <div class="line linecol"></div>
-      <h2 class="linecol">Team Settings</h2>
-      <div class="line linecol"></div>
-    </div>
-    <!--Overall Settings-->
-    <div class="separator">
-      <div class="line linecol"></div>
-      <h2 class="linecol">Overall Settings</h2>
-      <div class="line linecol"></div>
-    </div>
-
     <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
 
   </div>
