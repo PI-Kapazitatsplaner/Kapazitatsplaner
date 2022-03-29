@@ -10,13 +10,11 @@ router.get('/:year?/:month?', sendFileIfParamEqualsName, async (req, res) => {
     const month = req.params.month;
     if (validateParams(req.params)) {
         const abwesenheitenInMonth = await getAbwesenheitenInMonth(Number(year), Number(month), req.user.sub)
-        const date = new Date(Number(year), Number(month) - 1, new Date().getDate());
-        console.log(date);
-        
+        const date = new Date(Number(year), Number(month) - 1, 1);
         const calendar = {
             fillerDays: new Date(date.getFullYear(), date.getMonth(), 0).getDay(),
             daysInMonth: new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-            activeDay: !(Number(year) === new Date().getFullYear() && Number(month) === new Date().getMonth() + 1) ? 0 : date.getDate(),
+            activeDay: !(Number(year) === new Date().getFullYear() && Number(month) === new Date().getMonth() + 1) ? 0 : new Date().getDate(),
             monthString: date.toLocaleString("de-CH", { month: "long" }),
             month: date.getMonth() + 1,
             year: date.getFullYear(),
