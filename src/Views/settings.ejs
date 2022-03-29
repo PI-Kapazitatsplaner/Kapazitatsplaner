@@ -37,8 +37,8 @@
       </div>
       <div class="element">
         <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
-        <input type="radio" name="colorVal" onchange='switchTheme(this.value)' value="dark" <% if(prefersWhiteMode === false) { __append("checked='checked'") } %>><p class="text" style="display: inline-block;">Dunkel</p></input>
-        <input type="radio" name="colorVal" onchange='switchTheme(this.value)' value="light" <% if(prefersWhiteMode === true) { __append("checked='checked'") } %>><p class="text" style="display: inline-block;">Hell</p></input>
+        <input type="radio" name="theme" onchange='switchTheme(this.value)' value="dark" <% if(prefersWhiteMode === false) { __append("checked='checked'") } %>><p class="text" style="display: inline-block;">Dunkel</p></input>
+        <input type="radio" name="theme" onchange='switchTheme(this.value)' value="light" <% if(prefersWhiteMode === true) { __append("checked='checked'") } %>><p class="text" style="display: inline-block;">Hell</p></input>
       </div>
       <div class="element">
         <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
