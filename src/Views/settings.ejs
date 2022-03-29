@@ -29,34 +29,18 @@
   <div class="mainContent" id="mainContent">
     <h1 class="titleL">Settings</h1>
     <form action="/settings" method="post" class="userSettingForm">
-      <div class="firstFlexItem flexItem">
-        <div class="twoElements">
-          <div class="element firstElement">
-            <h2 class="tooltip"><label for="productivity">Entwicklungskapazität</label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity verwendet.</span></h2>
-            <div class="number-input percent-input">
-              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
-              <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
-              <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
-              <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
-              <script>
-                function scaleInputSize(input) {
-                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-                }
-                window.onload = function() {
-                  scaleInputSize(document.querySelector('.percent-input input'));
-                }
-              </script>
-            </div>
-          </div>
-          <hr>
-          <div class="element">
-            <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
-            <select class="themeDropDown" name="theme" id="theme" onchange='switchTheme(this.value)' >
-              <option value="dark" <% if(prefersWhiteMode === false) { __append("selected") } %>>Dunkel</option>
-              <option value="light" <% if(prefersWhiteMode === true) { __append("selected") } %>>Hell</option>
-            </select>
-          </div>
-        </div>
+      <!-- User Settings -->
+      <div class="separator">
+        <div class="line linecol"></div>
+        <h3 class="linecol">User Settings</h3>
+        <div class="line linecol"></div>
+      </div>
+      <div class="element">
+        <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
+        <select class="themeDropDown" name="theme" id="theme" onchange='switchTheme(this.value)' >
+          <option value="dark" <% if(prefersWhiteMode === false) { __append("selected") } %>>Dunkel</option>
+          <option value="light" <% if(prefersWhiteMode === true) { __append("selected") } %>>Hell</option>
+        </select>
       </div>
       <div class="element">
         <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
