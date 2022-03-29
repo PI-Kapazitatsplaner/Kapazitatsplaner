@@ -65,6 +65,12 @@
     color: var(--text);
 
 }
+.userSettingForm h3{
+    color: var(--text);
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 16px;
+}
 
 .userSettingForm h2::after{
     content: '?';
@@ -145,20 +151,8 @@
     top: 20%;
     left: -40%;
 }    
-
-.firstFlexItem {
-    border-right: none;
-    border-bottom: 2px solid var(--line);
-}
-
-.twoElements {
-    display: grid;
-    grid-template-columns: 1fr 2px 1fr;
-    margin: auto;
-}
-
-.twoElements .element {
-    margin: auto;
+.element .themeDropDown{
+    width: 10%;
 }
 
 .twoElements hr {
@@ -191,4 +185,8 @@
     .themeDropDown {
         width: 142px;
     }
+
+.element{
+    margin-bottom: 30px;
+    margin-left: 5%;
 }

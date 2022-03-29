@@ -28,7 +28,6 @@ body::-webkit-scrollbar {
 }
 .text {
   color: var(--text);
-  font-size: 30px;
   text-decoration: none;
   padding-left: 10px;
   padding-right: 10px;
