@@ -18,7 +18,7 @@ describe("GET /mein_kalender", () => {
             .expect(200)
             .end((err,res) => {
                 expect(res.text).to.contain('Mein Kalender</a></p></b>')
-                expect(res.text).to.contain('<script>setColors("dark");</script>')
+                expect(res.text).to.contain('<script>setColors("dark")')
                 expect(res.text.match('<li class="fillerDay"></li>')).to.have.lengthOf(1);
                 expect(res.text).to.contain('Februar<br>');
                 done();
