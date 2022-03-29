@@ -1,0 +1,116 @@
+.titleGrid {
+  margin-right: 7%;
+  margin-left: 7%;
+  display: grid;
+  grid-template-columns: 20% auto 20%;
+  align-items: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+.mainContent .velocityBoard {
+  padding-left: 7%;
+  padding-right: 7%;
+  width: 100%;
+  text-align: left;
+  padding-bottom: 4%;
+}
+
+.mainContent .velocityBoard .name {
+  width: 25%;
+}
+.mainContent .velocityBoard .borderTL {
+  border-top-left-radius: 8px;
+}
+.mainContent .velocityBoard .borderTR {
+  border-top-right-radius: 8px;
+}
+.mainContent .velocityBoard .borderBL {
+  border-bottom-left-radius: 8px;
+}
+.mainContent .velocityBoard .borderBR {
+  border-bottom-right-radius: 8px;
+}
+.mainContent .velocityBoard th {
+  font-weight: normal;
+  font-size: 25px !important;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 5px;
+  font-size: 20px;
+  color: white;
+  background-color: #ff8200;
+}
+.mainContent .velocityBoard td {
+  padding-left: 5px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  font-size: 20px !important;
+}
+.mainContent .velocityBoard tr {
+  background-color: rgb(231, 231, 231);
+}
+.mainContent .velocityBoard tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.velocityBoard tbody tr .borderTop {
+  border-top: var(--text) solid 1px;
+}
+
+.velocityBoard tbody tr td {
+  border-left: var(--text) solid 1px;
+}
+
+.velocityBoard tbody tr .firstElement {
+  border-left: none;
+  margin-left: 20px;
+}
+
+.velocityBoard tbody tr td:not(.firstElement),
+.velocityBoard tbody tr th:not(.firstElement) {
+  text-align: center;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: var(--background);
+  color: var(--text);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 10px;
+  margin-left: 15px;
+  border: var(--text) solid;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: -4%;
+  margin-left: -8px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--text) transparent transparent transparent;
+  transform: rotate(90deg);
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.ttContainer{
+  font-size: 20px !important;
+  margin: 0;
+  padding: 0;
+}
+
+.ttContainer::after{ 
+  content: "?";
+  vertical-align: super;
+}

@@ -1,5 +1,7 @@
 body {
     --suva-color-primary: #FF8200;
+    --suva-color-blue: #00b8cf;
+    --suva-color-blue-secondary:#7dd0db;
     /*
         --background: #ffffff;
         --background2: #f7f7f7;
@@ -9,12 +11,12 @@ body {
         --line: #d3d3d3;
     */
 
-    user-select: none;
+  user-select: none;
 
   font-family: "Roboto", sans-serif;
 
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 body::-webkit-scrollbar {
@@ -26,22 +28,22 @@ body::-webkit-scrollbar {
 }
 .text {
   color: var(--text);
-  font-size: 30px;
   text-decoration: none;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.mainContent{
-    background-color: var(--background2);
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 20px;
+.mainContent {
+  border-radius: 12px;
+  background-color: var(--background2);
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 20px;
 }
 .mainContent h1 {
   padding-left: 3%;
   padding-top: 1%;
-  color: var(--text-hover);
+  color: var(--text);
 }
 .mainContent .dateBtn {
   background-color: #00b8cf;
@@ -97,9 +99,8 @@ body::-webkit-scrollbar {
   background-color: var(--line);
 }
 
-.separator .line{
-    flex: 1;
-    height: 2px;
-    background-color: var(--line);
+.separator .line {
+  flex: 1;
+  height: 2px;
+  background-color: var(--line);
 }
-

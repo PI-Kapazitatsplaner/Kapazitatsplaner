@@ -8,19 +8,23 @@ datasource db {
 }
 
 model User {
-  sub                  String  @id //The subject Presentet by Keycloak
-  preferencesWhiteMode Boolean?
-  productivityPercentage  Int     @default(100)
-  abwesenheiten Abwesenheit[]
-  standardAbwesenheiten Int[] 
+  sub                    String        @id //The subject Presentet by Keycloak
+  preferencesWhiteMode   Boolean?
+  productivityPercentage Int           @default(100)
+  abwesenheiten          Abwesenheit[]
+  standardAbwesenheiten  Int[]
+  firstname              String
+  lastname               String
+  team                   User_Team[]
 }
 
-model Abwesenheit{
-  id Int @id @default(autoincrement())
-  date DateTime
-  typ AbwesenheitsTyp @default(abwesend)
-  user User @relation(fields: [userSub], references: [sub])
+model Abwesenheit {
+  id      Int             @id @default(autoincrement())
+  date    DateTime
+  typ     AbwesenheitsTyp @default(abwesend)
+  user    User            @relation(fields: [userSub], references: [sub])
   userSub String
+
   @@unique([userSub, date])
 }
 
@@ -31,21 +35,37 @@ enum AbwesenheitsTyp {
 }
 
 model Pi {
-  id          Int @id @default(autoincrement())
-  year        String
-  iteration   String
-  planungVon  DateTime?
-  planungBis  DateTime?
-  sprint      Sprint[]
+  id         Int       @id @default(autoincrement())
+  year       String
+  iteration  String
+  planungVon DateTime?
+  planungBis DateTime?
+  sprint     Sprint[]
+
   @@unique(fields: [year, iteration], name: "piKey")
 }
 
 model Sprint {
-  id  Int      @id @default(autoincrement())
-  von DateTime
-  bis DateTime
-  pi  Pi @relation(fields: [piId], references: [id])
-  piId Int
+  id           Int      @id @default(autoincrement())
+  von          DateTime
+  bis          DateTime
+  pi           Pi       @relation(fields: [piId], references: [id])
+  piId         Int
   sprintNumber Int?
+
   @@unique(fields: [piId, sprintNumber], name: "sprintKey")
+}
+
+model Team {
+  id        Int         @id @default(autoincrement())
+  teamName  String      @unique
+  User_Team User_Team[]
+}
+
+model User_Team {
+  user_teamId Int    @id @default(autoincrement())
+  userSub     String
+  teamId      Int
+  user        User   @relation(fields: [userSub], references: [sub])
+  team        Team   @relation(fields: [teamId], references: [id])
 }
