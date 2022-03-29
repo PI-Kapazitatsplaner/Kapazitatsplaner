@@ -11,6 +11,8 @@ router.get('/:year?/:month?', sendFileIfParamEqualsName, async (req, res) => {
     if (validateParams(req.params)) {
         const abwesenheitenInMonth = await getAbwesenheitenInMonth(Number(year), Number(month), req.user.sub)
         const date = new Date(Number(year), Number(month) - 1, new Date().getDate());
+        console.log(date);
+        
         const calendar = {
             fillerDays: new Date(date.getFullYear(), date.getMonth(), 0).getDay(),
             daysInMonth: new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
@@ -33,9 +35,13 @@ router.get('/:year?/:month?', sendFileIfParamEqualsName, async (req, res) => {
     }
 });
 
-router.post('/:year/:month', async (req, res) => {
+
+
+router.post('/:year/:month', async (req, res) => {  
     if (validateParams(req.params) && validateBody(req.body)) {
-        swtichAbwesenheitsType(req.body.newState, Number(req.params.year), Number(req.params.month), Number(req.body.day), req)
+        for (const day of req.body.newlyChangedAbwesenheiten) {            
+            swtichAbwesenheitsType(day.newState, Number(req.params.year), Number(req.params.month), Number(day.id), req)
+        }
     } else {
         res.sendStatus(400);
     }
@@ -48,8 +54,7 @@ function validateParams(params: any): Boolean {
 }
 
 function validateBody(body: any): Boolean {
-    return ((body.day !== undefined && Number(body.day) >= 1 && Number(body.day) < 32)
-        && (body.newState === 'anwesend' || body.newState === 'abwesend' || body.newState === 'halbAbwesend'))
+    return body.newlyChangedAbwesenheiten !== undefined && body.newlyChangedAbwesenheiten.length > 0
 }
 
 async function getAbwesenheitenInMonth(year: number, month: number, userSub: string): Promise<void | { date: any, typ: AbwesenheitsTyp }[]> {

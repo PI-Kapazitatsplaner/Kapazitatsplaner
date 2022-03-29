@@ -82,14 +82,45 @@
         <% } %>
       </ul>
       <ul class="farbLegende">
-        <li primary><div><div></div></div> Anwesend</li>
-        <li secondary><div><div></div></div> Abwesend</li>
-        <li tertiary><div><div></div></div> 50% Abwesend</li>
+        <li primary>
+          <div>
+            <div></div>
+          </div> Anwesend
+        </li>
+        <li secondary>
+          <div>
+            <div></div>
+          </div> Abwesend
+        </li>
+        <li tertiary>
+          <div>
+            <div></div>
+          </div> Halber Tag Abwesend
+        </li>
       </ul>
     </div>
-  </div>      
+  </div>
 </body>
 <script>
+  let newlyChangedAbwesenheiten = []
+
+  addEventListener('visibilitychange', event => {
+    if (document.visibilityState === 'hidden') {
+      const body = {
+        newlyChangedAbwesenheiten: newlyChangedAbwesenheiten,
+        _csrf: "<%= csrfToken %>"
+      };
+      const headers = {
+        'Access-Control-Allow-Origin': '*',
+        type: 'application/json'
+      };
+      const blob = new Blob([JSON.stringify(body)], headers);
+      navigator.sendBeacon("/mein_kalender/<%- calendar.year %>/<%- calendar.month %>", blob);
+      newlyChangedAbwesenheiten = []
+    }
+  });
+
+
   function changeAnwesenheiten(day) {
     //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6; %>
     for (let i = day - <%- calendar.fillerDays %>; i < 31; i = i + 7) {
@@ -102,19 +133,17 @@
 
   function changeAnwesenheit(id) {
     const newState = switchStates(id)
-    fetch("/mein_kalender/<%- calendar.year %>/<%- calendar.month %> ", {
-        method: "POST",
-        body: JSON.stringify({
-          newState: newState,
-          day: id.slice(4),
-          _csrf: "<%- csrfToken %>"
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => response.json())
-      .then(json => console.log(json));
+    const abwesenheit = {
+      id: Number(id.slice(4)),
+      newState: newState,
+    }
+    upsertNewlyChangedAbwesenheiten(abwesenheit);
+  }
+
+  function upsertNewlyChangedAbwesenheiten(abwesenheit) {
+    const i = newlyChangedAbwesenheiten.findIndex(_element => abwesenheit.id === _element.id);
+    if (i > -1) newlyChangedAbwesenheiten[i] = abwesenheit
+    else newlyChangedAbwesenheiten.push(abwesenheit);
   }
 
   function switchStates(id) {
@@ -136,6 +165,7 @@
       return "abwesend"
     }
   }
+
   function setBorder() {
     let listElements = Array.from(document.querySelectorAll("li.abwesend, li.halbAbwesend"));
 

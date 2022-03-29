@@ -20,11 +20,9 @@
 }
 .mainContent .velocityBoard .borderTL {
   border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
 }
 .mainContent .velocityBoard .borderTR {
   border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 .mainContent .velocityBoard .borderBL {
   border-bottom-left-radius: 8px;
@@ -85,7 +83,7 @@
   opacity: 0;
   transition: opacity 0.3s;
   font-size: 10px;
-  margin-left: 1%;
+  margin-left: 15px;
   border: var(--text) solid;
 }
 
@@ -106,8 +104,13 @@
   opacity: 1;
 }
 
+.ttContainer{
+  font-size: 20px !important;
+  margin: 0;
+  padding: 0;
+}
+
 .ttContainer::after{ 
   content: "?";
   vertical-align: super;
 }
-
