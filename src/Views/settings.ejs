@@ -37,9 +37,9 @@
       </div>
       <div class="element">
         <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
-        <input type="radio" name="theme" onchange='switchTheme(this.value)' value="dark" <% if(prefersWhiteMode === false) { __append("checked='checked'") } %>>
+        <input type="radio" name="theme" value="dark" <% if(prefersWhiteMode === false) { __append("checked='checked'") } %>>
         <p class="text" style="display: inline-block;">Dunkel</p></input>
-        <input type="radio" name="theme" onchange='switchTheme(this.value)' value="light" <% if(prefersWhiteMode === true) { __append("checked='checked'") } %>>
+        <input type="radio" name="theme" value="light" <% if(prefersWhiteMode === true) { __append("checked='checked'") } %>>
         <p class="text" style="display: inline-block;">Hell</p></input>
       </div>
       <div class="element">
@@ -76,6 +76,7 @@
         </div>
       </div>
       <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+      <button class="saveBtn" type="submit">Sichern</button>
 
       <!--Team Settings-->
       <div class="separator">
@@ -110,35 +111,6 @@
   </div>
 </body>
 <script>
-  window.onbeforeunload = function(e) {
-    const forms = document.querySelectorAll('form');
-    for (const form of forms) {
-      const data = new FormData(form);
-      const json = Array.from(data.keys()).reduce((result, key) => {
-        if (result[key]) {
-          result[key] = data.getAll(key)
-          return result
-        }
-        result[key] = data.get(key);
-        return result;
-      }, {});
-      const body = {
-        ...json,
-        _csrf: "<%= csrfToken %>"
-      };
-      const headers = {
-        'Access-Control-Allow-Origin': '*',
-        type: 'application/json'
-      };
-      const blob = new Blob([JSON.stringify(body)], headers);
-      navigator.sendBeacon(form.action, blob);
-    }
-    e.preventDefault();
-    return "You have started writing a message.";
-
-  }
-
-
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
