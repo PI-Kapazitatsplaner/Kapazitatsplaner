@@ -8,8 +8,8 @@ const main = async () => {
     await prisma.user_Team.deleteMany({})
     await prisma.user.deleteMany({})
     await prisma.team.deleteMany({})
-    await prisma.pi.deleteMany({});
     await prisma.sprint.deleteMany({});
+    await prisma.pi.deleteMany({});
     await prisma.user.createMany({
         data: [
             {

@@ -106,17 +106,19 @@
 
   addEventListener('visibilitychange', event => {
     if (document.visibilityState === 'hidden') {
-      const body = {
-        newlyChangedAbwesenheiten: newlyChangedAbwesenheiten,
-        _csrf: "<%= csrfToken %>"
-      };
-      const headers = {
-        'Access-Control-Allow-Origin': '*',
-        type: 'application/json'
-      };
-      const blob = new Blob([JSON.stringify(body)], headers);
-      navigator.sendBeacon("/mein_kalender/<%- calendar.year %>/<%- calendar.month %>", blob);
-      newlyChangedAbwesenheiten = []
+      if (newlyChangedAbwesenheiten.length > 0) {
+        const body = {
+          newlyChangedAbwesenheiten: newlyChangedAbwesenheiten,
+          _csrf: "<%= csrfToken %>"
+        };
+        const headers = {
+          'Access-Control-Allow-Origin': '*',
+          type: 'application/json'
+        };
+        const blob = new Blob([JSON.stringify(body)], headers);
+        navigator.sendBeacon("/mein_kalender/<%- calendar.year %>/<%- calendar.month %>", blob);
+        newlyChangedAbwesenheiten = []
+      }
     }
   });
 
