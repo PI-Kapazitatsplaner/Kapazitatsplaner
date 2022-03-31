@@ -9,6 +9,7 @@
     <link rel="icon" href="/Images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="calendar.css">
     <link rel="stylesheet" href="common.css">
     <script src="controller.js"></script>
     <title>Team Kalender</title>
@@ -92,5 +93,10 @@
         <% } %>
     </div>
 </body>
+<script>
+    function updateYear(yearInput){
+        location.href="/team_kalender/"+ yearInput.value + "/PI-01";
+    }
+    </script>
 <%- include('colorScript') %>
 </html>

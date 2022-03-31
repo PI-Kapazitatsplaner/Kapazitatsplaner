@@ -9,19 +9,23 @@ const main = async () => {
     await prisma.sprint.deleteMany({});
     await prisma.pi.deleteMany({});
     await prisma.user.createMany({
-        data: [
-            {
-                sub: 'c2842822-67f5-4759-8db8-a431ddfc3500', //hr7 -- Default Test User
-                preferencesWhiteMode: false,
-                standardAbwesenheiten: [0, 2, 6],
-            },
-            {
-                sub: '4296e3d8-a609-4ffa-b27a-3106ed7a5126', //gif
-                preferencesWhiteMode: true,
-                standardAbwesenheiten: [0, 3],
-            }
-        ]
-    });
+      data: [
+          {
+              sub: 'c2842822-67f5-4759-8db8-a431ddfc3500', //hr7 -- Default Test User
+              firstname: "Rouven",
+              lastname: "Hänggi",
+              preferencesWhiteMode: false,
+              standardAbwesenheiten: [0, 2, 6],
+          },
+          {
+              sub: '4296e3d8-a609-4ffa-b27a-3106ed7a5126', //gif
+              firstname: "Gian",
+              lastname: "Federspiel",
+              preferencesWhiteMode: true,
+              standardAbwesenheiten: [0, 3],
+          }
+      ]
+  });
     const Kraftwerk = await prisma.team.create({
       data: {
         teamName: "Kraftwerk"
