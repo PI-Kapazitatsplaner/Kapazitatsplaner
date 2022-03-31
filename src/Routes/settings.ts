@@ -4,20 +4,45 @@ import prisma from '../prisma/client';
 
 let router = express.Router();
 
-router.get('/', async (req, res) => {  
-    let parent = 2;
-    if (req.headers.referer?.includes("team_kalender")){ parent = 1; }       
+router.get('/', async (req, res) => {   
+
+    let userTeams = [];
+    let userTeamPercentage = []
+    if(req.user.sub){
+        const user_team = await prisma.user_Team.findMany({
+            where:{
+                userSub: req.user.sub
+            }
+        })
+        for(let i = 0; i < user_team.length; i++){
+            let usersTeam = await prisma.team.findUnique({
+                where:{
+                    id: user_team[i].teamId
+                }
+            })
+            userTeamPercentage.push(user_team[i].productivityPercentage)  
+            userTeams.push(usersTeam);
+        }
+    } 
+
+    let parent = 1;
+    if (req.headers.referer?.includes("team_kalender")){ parent = 2; }       
     res.render("settings", { 
         prefersWhiteMode: req.user.prefersWhiteMode, 
-        productivity: req.user.productivityPercentage, 
+        productivity: userTeamPercentage, 
         standardAbwesenheiten:  req.user.standardAbwesenheiten,
         csrfToken: req.csrfToken(),
+        teams: userTeams,
         parent
     });
 });
 
 router.post('/', async (req, res) => {
-    if(req.body.productivity !== undefined) {
+    let totalPercentage = 0;
+    for (const p of req.body.productivity) {
+        totalPercentage += Number(p);
+    }
+    if(totalPercentage <= 100 && totalPercentage >= 0){
         let standardAbwesenheiten;
         if(req.body.standardAbwesenheiten === undefined) {
             standardAbwesenheiten = [];
@@ -38,14 +63,33 @@ router.post('/', async (req, res) => {
             },
             data: {
                 standardAbwesenheiten: standardAbwesenheiten,
-                productivityPercentage: parseInt(req.body.productivity),
                 preferencesWhiteMode: prefersWhiteMode
             }
         });
+        const user_teams = await prisma.user_Team.findMany({
+            where:{
+                userSub: req.user.sub
+            }
+        })    
+
+        for (let i = 0; i < user_teams.length; i++) { 
+            await prisma.user_Team.update({
+                where:{
+                    user_teamKey:{
+                        teamId: user_teams[i].teamId,
+                        userSub: req.user.sub
+                    }
+                },
+                data:{
+                    productivityPercentage: Number(req.body.productivity[i])
+                }
+            })
+        }
         res.redirect('/settings');
-    }else{
-        res.status(500).send('Error while Parsing data');
-    }
+    } 
+    else{
+        res.status(400).send("Du arbeitst zu viel");
+    }  
 });
 
 

@@ -63,12 +63,6 @@
 .saveBtn:hover {
   box-shadow: #43757a 0px 5px 15px;
 }
-.disableBtn {
-  background-color: lightgray;
-}
-.disableBtn:hover {
-  box-shadow: none !important;
-}
 .titleYear {
   outline: none;
   /* Chrome, Safari, Edge, Opera */

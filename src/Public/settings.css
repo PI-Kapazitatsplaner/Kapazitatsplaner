@@ -47,7 +47,7 @@
     box-shadow: #43757a 0px 5px 15px;
 }
 
-.userSettingForm{
+.settingForm{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -56,22 +56,29 @@
     margin-right: 5%;
 }
 
-.userSettingForm .flexItem {
+.settingForm .flexItem {
     padding: 2%;
 }
 
-.userSettingForm h2{
+.settingForm h2{
     margin-top: 0;
     margin-bottom: 5px;
     color: var(--text);
 
 }
+h3{
+    color: var(--line);
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 16px;
+}
 
-.userSettingForm h2::after{
+.settingForm h2::after{
     content: '?';
     vertical-align: super;
     font-size: 70%;
-}    
+}
+
 
 
 .tooltip .tooltiptext {
@@ -106,7 +113,7 @@
     opacity: 1;
 }
 
-.userSettingForm .days {
+.settingForm .days {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -114,52 +121,50 @@
     align-content: flex-start;
 }
 
-.userSettingForm .days .day input {
+.settingForm .days .day input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     margin: 0;
 }
 
-.userSettingForm .days .day label{
+.settingForm .days .day label{
     color: var(--text2);
     width: 30px;
     cursor: pointer;
 
 }
 
-.userSettingForm .days .day input[type="checkbox"] + label::before {
+.settingForm .days .day input[type="checkbox"] + label::before {
     content: "💻";
 }
 
-.userSettingForm .days .day input[type="checkbox"]:checked + label::before {
+.settingForm .days .day input[type="checkbox"]:checked + label::before {
     content: "🏖️";
 }
 
-.userSettingForm .percent{
+.settingForm .percent{
     display: table;
     margin: 0 auto;
 }
 
-.userSettingForm .percent::after{
+.settingForm .percent::after{
     content: '%';
     top: 20%;
     left: -40%;
-}    
-
-.firstFlexItem {
-    border-right: none;
-    border-bottom: 2px solid var(--line);
 }
-
-.twoElements {
+.settingForm .team::after{
+    content: '';
+}
+.teamBar{
     display: grid;
-    grid-template-columns: 1fr 2px 1fr;
-    margin: auto;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    align-items: center;
+    border: solid 1px;
+    margin-bottom: 3px;
 }
-
-.twoElements .element {
-    margin: auto;
+.element .themeDropDown{
+    width: 10%;
 }
 
 .twoElements hr {
@@ -173,3 +178,28 @@
     width: 100%;
 }
 
+
+
+@media screen and (max-width: 650px) {
+    .twoElements{
+        grid-template-columns: 100%;
+        align-items: sta;
+    }   
+    .twoElements .firstElement{
+        border-bottom: 2px solid var(--line);
+    } 
+    .twoElements hr {
+        visibility: hidden;
+    }
+    .twoElements .element{
+        width: 100%;
+    }
+    .themeDropDown {
+        width: 142px;
+    }
+
+    .element{
+        margin-bottom: 30px;
+        margin-left: 5%;
+        }
+}

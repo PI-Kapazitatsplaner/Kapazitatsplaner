@@ -102,4 +102,13 @@ body::-webkit-scrollbar {
     height: 2px;
     background-color: var(--line);
 }
+<<<<<<< Updated upstream
 
+=======
+.disableBtn {
+  background-color: lightgray;
+}
+.disableBtn:hover {
+  box-shadow: none !important;
+}
+>>>>>>> Stashed changes

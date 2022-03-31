@@ -19,104 +19,117 @@
 
 <body id="body" class="content">
   <div class="nav">
-    <% if (parent == 1){ %>
-    <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
-    <% }else if (parent == 2) { %>
-    <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
-    <% } %>
-    <h1 class="text titleR">Settings</h1>
+    <% if (parent==1){ %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+      <% }else if (parent==2) { %>
+        <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
+        <% } %>
+          <h1 class="text titleR">Settings</h1>
   </div>
   <div class="mainContent" id="mainContent">
     <h1 class="titleL">Settings</h1>
-
-    <!--User Settings-->
+    <!-- User Settings -->
     <div class="separator">
       <div class="line linecol"></div>
-      <h2 class="linecol">User Settings</h2>
+      <h3 class="linecol">User Settings</h3>
       <div class="line linecol"></div>
-      <br>
     </div>
-    <form action="/settings" method="post" class="userSettingForm">
-      <div class="firstFlexItem flexItem">
-        <div class="twoElements">
-          <div class="element firstElement">
-            <h2 class="tooltip"><label for="productivity">Produktivität im Team</label><span class="tooltiptext">Die Produktivität im Team wird bei der Berechnung der Velocity verwendet.</span></h2>
-            <div class="number-input percent-input">
-              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
-              <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
-              <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
-              <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
-              <script>
-                function scaleInputSize(input) {
-                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-                }
-                window.onload = function() {
-                  scaleInputSize(document.querySelector('.percent-input input'));
-                }
-              </script>
-            </div>
-          </div>
-          <hr>
-          <div class="element">
-            <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
-            <select class="themeDropDown" name="theme" id="theme" onchange='switchTheme(this.value)' >
-              <option value="dark" <% if(prefersWhiteMode === false) { __append("selected") } %>>Dunkel</option>
-              <option value="light" <% if(prefersWhiteMode === true) { __append("selected") } %>>Hell</option>
-            </select>
-          </div>
-        </div>
+    <!-- Form User Settings-->
+    <form action="/settings" method="post" class="settingForm">
+      
+      <div class="element">
+        <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der
+            Ganzen Applikation verwendet.</span></h2>
+        <input type="radio" name="theme" onchange='switchTheme(this.value)' value="dark" <% if(prefersWhiteMode===false)
+          { __append("checked='checked'") } %>><p class=" text" style="display: inline-block;">Dunkel</p></input>
+        <input type="radio" name="theme" onchange='switchTheme(this.value)' value="light" <% if(prefersWhiteMode===true)
+          { __append("checked='checked'") } %>><p class=" text" style="display: inline-block;">Hell</p></input>
       </div>
-      <div class="flexItem">
-        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
+      <div class="element">
+        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann
+            dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
         <div class="days">
           <div class="day">
-            <input type="checkbox" id="monday" name="standardAbwesenheiten" value="1" <% if(standardAbwesenheiten.includes(1)){__append("checked")}%>>
+            <input type="checkbox" id="monday" name="standardAbwesenheiten" value="1" <%
+              if(standardAbwesenheiten.includes(1)){__append("checked")}%>>
             <label for="monday"> Montag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="tuesday" name="standardAbwesenheiten" value="2" <% if(standardAbwesenheiten.includes(2)){__append("checked")}%>>
+            <input type="checkbox" id="tuesday" name="standardAbwesenheiten" value="2" <%
+              if(standardAbwesenheiten.includes(2)){__append("checked")}%>>
             <label for="tuesday"> Dienstag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="wednesday" name="standardAbwesenheiten" value="3" <% if(standardAbwesenheiten.includes(3)){__append("checked")}%>>
+            <input type="checkbox" id="wednesday" name="standardAbwesenheiten" value="3" <%
+              if(standardAbwesenheiten.includes(3)){__append("checked")}%>>
             <label for="wednesday"> Mittwoch</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="thursday" name="standardAbwesenheiten" value="4" <% if(standardAbwesenheiten.includes(4)){__append("checked")}%>>
+            <input type="checkbox" id="thursday" name="standardAbwesenheiten" value="4" <%
+              if(standardAbwesenheiten.includes(4)){__append("checked")}%>>
             <label for="thursday"> Donnerstag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="friday" name="standardAbwesenheiten" value="5" <% if(standardAbwesenheiten.includes(5)){__append("checked")}%>>
+            <input type="checkbox" id="friday" name="standardAbwesenheiten" value="5" <%
+              if(standardAbwesenheiten.includes(5)){__append("checked")}%>>
             <label for="friday"> Freitag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="saturday" name="standardAbwesenheiten" value="6" <% if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
+            <input type="checkbox" id="saturday" name="standardAbwesenheiten" value="6" <%
+              if(standardAbwesenheiten.includes(6)){__append("checked")}%>>
             <label for="saturday"> Samstag</label><br>
           </div>
           <div class="day">
-            <input type="checkbox" id="sunday" name="standardAbwesenheiten" value="0" <% if(standardAbwesenheiten.includes(0)){__append("checked")}%>>
+            <input type="checkbox" id="sunday" name="standardAbwesenheiten" value="0" <%
+              if(standardAbwesenheiten.includes(0)){__append("checked")}%>>
             <label for="sunday"> Sonntag</label><br>
           </div>
         </div>
       </div>
-      <input type="hidden" name="_csrf" value="<%- csrfToken %>">
-      <button class="saveBtn" type="submit">Sichern</button>
+
+      <!--Team Settings-->
+    <div class="separator">
+      <div class="line linecol"></div>
+      <h3 class="linecol">Team Settings</h3>
+      <div class="line linecol"></div>
+    </div>
+
+    <!-- Team Settings Form-->     
+      <% for(let i = 0; i < teams.length; i++){ %>
+        <div class="element teamBar">
+          <div class="teamSection">
+            <h2 class="text team">Team <%- teams[i].teamName %></h2>
+          </div>
+          <div class="percentageSection">
+            <h2 class="tooltip"><label for="productivity">
+                <p class="text" style="display: inline-block; margin: 0; padding: 0;">Entwicklungskapazität</p>
+              </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
+                verwendet.</span></h2>
+            <div class="number-input percent-input">
+              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
+                max="100" name="productivity" onchange="checkTotalProductivity()" value="<%- productivity[i] %>" type="number">
+              <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+              <button
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkTotalProductivity(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                class="plus" type="button"></button>
+              <button
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkTotalProductivity(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                class="minus" type="button"></button>
+              <script>
+                function scaleInputSize(input) {
+                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+                }
+              </script>
+            </div>
+          </div>
+          <i class="fa fa-trash-o text"></i>
+        </div>
+      <% } %>
+    <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
+    <input type="hidden" name="_csrf" value="<%- csrfToken %>">
     </form>
-
-    <!--Team Settings-->
-    <div class="separator">
-      <div class="line linecol"></div>
-      <h2 class="linecol">Team Settings</h2>
-      <div class="line linecol"></div>
-    </div>
-    <!--Overall Settings-->
-    <div class="separator">
-      <div class="line linecol"></div>
-      <h2 class="linecol">Overall Settings</h2>
-      <div class="line linecol"></div>
-    </div>
-
-    <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
+    <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span
+        style="font-size: 22px;">&rarr;</span></button>
 
   </div>
 </body>
@@ -126,18 +139,40 @@
   arrow.classList.remove('arrow');
 
   function switchTheme(theme) {
-    if(theme === "light") {
+    if (theme === "light") {
       setColors("light");
-    }else if(theme === "dark"){
+    } else if (theme === "dark") {
       setColors("dark");
-    }else if(theme === "browser"){
-      if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-          setColors("dark");
-      }else{
-          setColors("light");
-      }    
+    } else if (theme === "browser") {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setColors("dark");
+      } else {
+        setColors("light");
+      }
     }
   }
+  window.onload = function () {
+    const inputs = document.querySelectorAll('.percent-input input')
+    for (const input of inputs) {
+      scaleInputSize(input);
+    }
+  }
+  function checkTotalProductivity(){
+    let totalProductivity = 0;
+    let productivityFields = document.querySelectorAll('.percent-input input');
+    for (const productivityField of productivityFields) {
+      totalProductivity += productivityField.value;
+    }
+    if(totalProductivity >= 0 && totalProductivity <= 100){
+      document.getElementById('saveBtn').disabled = false;
+      document.getElementById("submitBtn").classList.remove("disableBtn");
+    }
+    else{
+      document.getElementById('saveBtn').disabled = true;      
+      document.getElementById("saveBtn").classList.add("disableBtn");
+    }
+  }
+
 </script>
 <%- include('colorScript') %>
 </html>
