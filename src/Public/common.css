@@ -104,3 +104,9 @@ body::-webkit-scrollbar {
   height: 2px;
   background-color: var(--line);
 }
+.disableBtn {
+  background-color: lightgray !important;
+}
+.disableBtn:hover {
+  box-shadow: none !important;
+}

@@ -28,7 +28,7 @@
   </div>
   <div class="mainContent" id="mainContent">
     <h1 class="titleL">Settings</h1>
-    <form action="/settings" method="post" class="userSettingForm">
+    <form action="/settings" method="post" id="settingsForm" class="userSettingForm">
       <!-- User Settings -->
       <div class="separator">
         <div class="line linecol"></div>
@@ -83,9 +83,8 @@
         <h3 class="linecol">Team Settings</h3>
         <div class="line linecol"></div>
       </div>
-
       <% for(let i = 0; i < teams.length; i++){ %>
-        <div class="element teamBar"">
+        <div class="element teamBar">
           <div class="teamSection">
             <h2 class="text team">Team <%- teams[i].teamName %></h2>
           </div>
@@ -96,13 +95,13 @@
                 verwendet.</span></h2>
             <div class="number-input percent-input">
               <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-                max="100" name="productivity" onchange="checkTotalProductivity()" value="<%- productivity[i] %>" type="number">
+                max="100" name="productivity" onchange="checkPercentage()" value="<%- productivity[i] %>" type="number">
               <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
               <button
-                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkTotalProductivity(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="plus" type="button"></button>
               <button
-                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkTotalProductivity(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="minus" type="button"></button>
               <script>
                 function scaleInputSize(input) {
@@ -111,11 +110,42 @@
               </script>
             </div>
           </div>
-          <i onclick="addIdentifier(this)" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+          <i onclick="location.href='/settings/delete/' + '<%- teams[i].teamName %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
         </div>
       <% } %>
-
-      <button class="saveBtn" type="submit">Sichern</button>
+      <div class="element teamBar addTeam" id="addTeam">
+        <div class="teamSection">
+          <input type="text" class="text team" name="newTeam" placeholder="Team Hinzufügen">
+        </div>
+        <div class="percentageSection">
+          <h2 class="tooltip"><label for="productivity">
+              <p class="text" style="display: inline-block; margin: 0; padding: 0;">Entwicklungskapazität</p>
+            </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
+              verwendet.</span></h2>
+          <div class="number-input percent-input">
+            <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
+              max="100" name="productivity" onchange="checkPercentage()" name="newPercentage" value="0" type="number">
+            <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+            <button
+              onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+              class="plus" type="button"></button>
+            <button
+              onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+              class="minus" type="button"></button>
+            <script>
+              function scaleInputSize(input) {
+                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+              }
+            </script>
+          </div>
+        </div>
+        <i class="fa fa-trash text binIcon" aria-hidden="true"></i>
+      </div>
+      <div class="settingsButtons">
+        <button type="button" class="addBtn" onclick="addEmpty()">+</button>
+        <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
+      </div>
+      
     </form>
     <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
 
@@ -126,17 +156,40 @@
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
 
-
-  function addIdentifier(input){
-    input.classList.add("toDelete")
-    deleteBar()
+  function addEmpty(){
+    var emptyElement = document.getElementById("addTeam");
+    if(emptyElement.classList.contains("showAddTeam")){
+      emptyElement.style.animation = 'markContainer 1s'
+      console.log("true")
+    }
+    else{
+      emptyElement.classList.add("showAddTeam")
+      console.log("false")
+    }
   }
-  function deleteBar(){
-    let teamBars = document.getElementsByClassName("teamBar")
-    for (const teamBar of teamBars) {
-      if(teamBar.children[2].classList.contains("toDelete")){
-        console.log(teamBar)
-      }
+
+  function scaleInputSize(input) {
+    input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+  }
+
+  window.onload = function() {
+    scaleInputSize(document.querySelector('.percent-input input'));
+  }
+
+  function checkPercentage(){
+    let percentageInputs = document.getElementsByClassName("percent")
+    let totalPercentage = 0;
+
+    for(const percentageInput of percentageInputs){
+      totalPercentage += Number(percentageInput.value)
+    }
+    if(totalPercentage > 100){
+      document.getElementById("saveBtn").disabled = true
+      document.getElementById("saveBtn").classList.add("disableBtn")
+    }
+    else{
+      document.getElementById("saveBtn").disabled = false
+      document.getElementById("saveBtn").classList.remove("disableBtn")
     }
   }
 
@@ -153,6 +206,8 @@
       }
     }
   }
+
+  checkPercentage();
 </script>
 <%- include('colorScript') %>
 

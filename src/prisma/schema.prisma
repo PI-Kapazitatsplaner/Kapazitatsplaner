@@ -67,6 +67,6 @@ model User_Team {
   teamId      Int
   user        User   @relation(fields: [userSub], references: [sub])
   team        Team   @relation(fields: [teamId], references: [id])
-  productivityPercentage Int           @default(100)
+  productivityPercentage Int           @default(0)
   @@unique(fields: [userSub, teamId], name: "user_teamKey")
 }
