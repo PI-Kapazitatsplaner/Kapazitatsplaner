@@ -8,27 +8,27 @@ var currentTime = new Date();
 
 //Read
 router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
+  if(req.params.pi.length > 1){
+    req.params.pi = req.params.pi.slice(4,5);
+  }
   if (
-    parseInt(req.params.year) >= 2020 &&
-    parseInt(req.params.year) <= 2100 &&
-    (req.params.pi == "PI-01" ||
-      req.params.pi == "PI-02" ||
-      req.params.pi == "PI-03" ||
-      req.params.pi == "PI-04")
+    Number(req.params.year) >= 2020 &&
+    Number(req.params.year) <= 2100 &&
+    (Number(req.params.pi) <= 4 && Number(req.params.pi) >= 1)
   ) {
     //PI nach Parameter suchen
     const pi = await prisma.pi.findUnique({
       where: {
         piKey: {
-          year: req.params.year,
-          iteration: req.params.pi,
+          year: Number(req.params.year),
+          iteration: Number(req.params.pi),
         },
       },
     });
     let sprintsInPi;
-    if(pi !== null){
+    if (pi !== null) {
       //Sprints Finden
-        sprintsInPi = await prisma.sprint.findMany({
+      sprintsInPi = await prisma.sprint.findMany({
         where: {
           piId: pi.id,
         },
@@ -42,27 +42,24 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
     });
   } else {
     res.redirect(
-      "/sprint_verwaltung/" + currentTime.getFullYear() + "/PI-01"
+      "/sprint_verwaltung/" + currentTime.getFullYear() + "/PI-01",
     );
   }
 });
 //Update
-router.post("/:year/:pi", async (req, res) => {  
-  if(req.body.planungStart !== "" && req.body.planungEnde !== ""){
+router.post("/:year/:pi", async (req, res) => {
+  if (req.body.planungStart !== "" && req.body.planungEnde !== "") {
     if (
       parseInt(req.params.year) >= 2020 &&
       parseInt(req.params.year) <= 2100 &&
-      (req.params.pi == "PI-01" ||
-        req.params.pi == "PI-02" ||
-        req.params.pi == "PI-03" ||
-        req.params.pi == "PI-04")
+      (Number(req.params.pi) <= 4 && Number(req.params.pi) >= 1)
     ) {
       //Planungstage Updaten
       const updatedPlanningDates = await prisma.pi.upsert({
         where: {
           piKey: {
-            year: req.params.year,
-            iteration: req.params.pi,
+            year: Number(req.params.year),
+            iteration: Number(req.params.pi),
           },
         },
         update: {
@@ -70,8 +67,8 @@ router.post("/:year/:pi", async (req, res) => {
           planungBis: req.body.planungEnde + "T00:00:00.000Z",
         },
         create: {
-          year: req.params.year,
-          iteration: req.params.pi,
+          year: Number(req.params.year),
+          iteration: Number(req.params.pi),
           planungVon: req.body.planungStart + "T00:00:00.000Z",
           planungBis: req.body.planungEnde + "T00:00:00.000Z",
         },
@@ -99,11 +96,13 @@ router.post("/:year/:pi", async (req, res) => {
           });
         }
       }
-      res.redirect("/sprint_verwaltung/" + req.params.year + "/" + req.params.pi);
+      res.redirect(
+        "/sprint_verwaltung/" + req.params.year + "/" + req.params.pi,
+      );
     } else {
       console.log("Params not valid");
     }
-  }else{
+  } else {
     res.status(400);
   }
 });

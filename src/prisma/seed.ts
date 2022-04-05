@@ -4,6 +4,7 @@ import sprintData from './data/sprints'
 
 //Add data here to seed the database
 const main = async () => {
+    await prisma.sprintTeam.deleteMany({});
     await prisma.abwesenheit.deleteMany({});
     await prisma.user_Team.deleteMany({})
     await prisma.user.deleteMany({})

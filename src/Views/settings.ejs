@@ -93,14 +93,6 @@
             <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
             <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
             <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
-            <script>
-              function scaleInputSize(input) {
-                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-              }
-              window.onload = function() {
-                scaleInputSize(document.querySelector('.percent-input input'));
-              }
-            </script>
           </div>
         </div>
       </div>

@@ -36,8 +36,8 @@ enum AbwesenheitsTyp {
 
 model Pi {
   id         Int       @id @default(autoincrement())
-  year       String
-  iteration  String
+  year       Int
+  iteration  Int
   planungVon DateTime?
   planungBis DateTime?
   sprint     Sprint[]
@@ -53,13 +53,15 @@ model Sprint {
   piId         Int
   sprintNumber Int?
 
+  SprintTeam SprintTeam[]
   @@unique(fields: [piId, sprintNumber], name: "sprintKey")
 }
 
 model Team {
-  id        Int         @id @default(autoincrement())
-  teamName  String      @unique
-  User_Team User_Team[]
+  id         Int          @id @default(autoincrement())
+  teamName   String       @unique
+  User_Team  User_Team[]
+  SprintTeam SprintTeam[]
 }
 
 model User_Team {
@@ -68,4 +70,15 @@ model User_Team {
   teamId      Int
   user        User   @relation(fields: [userSub], references: [sub])
   team        Team   @relation(fields: [teamId], references: [id])
+}
+
+model SprintTeam {
+  SprintTeamId          Int    @id @default(autoincrement())
+  sprintId              Int
+  teamId                Int
+  umgesetzteStorypoints Float
+  sprint                Sprint @relation(fields: [sprintId], references: [id])
+  team                  Team   @relation(fields: [teamId], references: [id])
+
+  @@unique(fields: [teamId, sprintId], name: "sprintTeamKey")
 }

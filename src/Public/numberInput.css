@@ -22,7 +22,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .number-input button {
-    outline:none;
+    outline: none;
     -webkit-appearance: none;
     background-color: transparent;
     border: none;
@@ -35,15 +35,17 @@ input[type=number]::-webkit-outer-spin-button {
     position: relative;
 }
 
-.number-input button:after {
+.number-input button.minus:after,
+.number-input button.plus:after {
     display: inline-block;
     position: absolute;
-    font-family: "Font Awesome 5 Free"; 
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: '\f077';
     color: var(--text2);
     transform: translate(-50%, -50%) rotate(180deg);
 }
+
 .number-input button.plus:after {
     transform: translate(-50%, -50%) rotate(0deg);
 }
@@ -61,14 +63,15 @@ input[type=number]::-webkit-outer-spin-button {
     color: var(--text);
 }
 
-.number-input input[type=number]:hover, .number-input input[type=number]:focus {
+.number-input input[type=number]:hover,
+.number-input input[type=number]:focus {
     border: none;
     outline: none;
 }
 
 .number-input input[type=number]:focus {
-    background: 
-      linear-gradient(var(--line), var(--line)) center bottom 5px /calc(100% + 10px) 1px no-repeat;
+    background:
+        linear-gradient(var(--line), var(--line)) center bottom 5px /calc(100% + 10px) 1px no-repeat;
     background-color: var(--background2);
 }
 
@@ -76,7 +79,7 @@ input[type=number]::-webkit-outer-spin-button {
     grid-template-columns: 4ch auto auto;
 }
 
-.percent-input span{
+.percent-input span {
     grid-row-start: 1;
     grid-row-end: 3;
     font-family: sans-serif;
@@ -89,9 +92,9 @@ input[type=number]::-webkit-outer-spin-button {
     color: var(--text);
 }
 
-.percent-input input[type=number]{
+.percent-input input[type=number] {
     font-size: 1.8rem;
-    width:100%;
+    width: 100%;
     font-weight: unset;
 }
 
@@ -108,8 +111,39 @@ input[type=number]::-webkit-outer-spin-button {
     grid-template-columns: 8rem auto;
 }
 
-.year-select input[type=number]{
+.year-select input[type=number] {
     color: var(--suva-color-primary);
     max-width: 7rem;
     font-size: 3rem;
+}
+
+.usp-select {
+    position: relative;
+}
+
+.usp-select input[type=number] {
+    color: var(--text);
+    font-size: 20px !important;
+    height: 28px !important;
+    font-weight: normal;
+    padding: 0;
+    width: 100%;
+}
+
+.usp-select button {
+    width: 1rem;
+    height: 12px;
+}
+
+.usp-select button.save {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 3;
+    visibility: hidden;
+    color: rgb(247, 8, 175);
+}  
+
+.usp-select {
+    height: 26px;
+    grid-template-columns: 4ch auto 0;
 }
