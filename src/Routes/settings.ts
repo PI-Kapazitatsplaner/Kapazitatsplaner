@@ -33,6 +33,7 @@ router.get('/', async (req, res) => {
         productivity: userTeamPercentage, 
         standardAbwesenheiten:  req.user.standardAbwesenheiten,
         csrfToken: req.csrfToken(),
+        teams: userTeams,
         parent
     });
 });

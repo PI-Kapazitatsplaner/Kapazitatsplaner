@@ -165,6 +165,26 @@
     background-color: var(--background2);
     width: 100%;
 }
+.teamBar{
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    align-items: center;
+    margin-bottom: 3px;
+    border-radius: 8px;
+}
+.teamSection{
+    text-align: left;
+}
+.percentageSection{
+    text-align: center;
+}
+.binIcon{
+    text-align: right;
+    padding-right: 15%;
+}
+.teamBar:hover{
+    background-color: rgb(39, 39, 39);
+}
 
 
 

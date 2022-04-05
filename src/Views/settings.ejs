@@ -76,7 +76,6 @@
         </div>
       </div>
       <input type="hidden" name="_csrf" value="<%- csrfToken %>">
-      <button class="saveBtn" type="submit">Sichern</button>
 
       <!--Team Settings-->
       <div class="separator">
@@ -84,27 +83,39 @@
         <h3 class="linecol">Team Settings</h3>
         <div class="line linecol"></div>
       </div>
-      <!-- loop -->
-      <div class="percentageSelection">
-        <div class="element">
-          <h2 class="tooltip"><label for="productivity">Entwicklungskapazität</label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity verwendet.</span></h2>
-          <div class="number-input percent-input">
-            <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0" max="100" name="productivity" value="<%- productivity %>" type="number">
-            <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
-            <script>
-              function scaleInputSize(input) {
-                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-              }
-              window.onload = function() {
-                scaleInputSize(document.querySelector('.percent-input input'));
-              }
-            </script>
-          </div>
-        </div>
-      </div>
 
+      <% for(let i = 0; i < teams.length; i++){ %>
+        <div class="element teamBar"">
+          <div class="teamSection">
+            <h2 class="text team">Team <%- teams[i].teamName %></h2>
+          </div>
+          <div class="percentageSection">
+            <h2 class="tooltip"><label for="productivity">
+                <p class="text" style="display: inline-block; margin: 0; padding: 0;">Entwicklungskapazität</p>
+              </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
+                verwendet.</span></h2>
+            <div class="number-input percent-input">
+              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
+                max="100" name="productivity" onchange="checkTotalProductivity()" value="<%- productivity[i] %>" type="number">
+              <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+              <button
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkTotalProductivity(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                class="plus" type="button"></button>
+              <button
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkTotalProductivity(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                class="minus" type="button"></button>
+              <script>
+                function scaleInputSize(input) {
+                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
+                }
+              </script>
+            </div>
+          </div>
+          <i onclick="addIdentifier(this)" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+        </div>
+      <% } %>
+
+      <button class="saveBtn" type="submit">Sichern</button>
     </form>
     <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
 
@@ -114,6 +125,20 @@
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
+
+
+  function addIdentifier(input){
+    input.classList.add("toDelete")
+    deleteBar()
+  }
+  function deleteBar(){
+    let teamBars = document.getElementsByClassName("teamBar")
+    for (const teamBar of teamBars) {
+      if(teamBar.children[2].classList.contains("toDelete")){
+        console.log(teamBar)
+      }
+    }
+  }
 
   function switchTheme(theme) {
     if (theme === "light") {

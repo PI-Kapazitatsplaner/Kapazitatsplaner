@@ -28,25 +28,37 @@ const main = async () => {
             }
         ]
     });
-    const team = await prisma.team.create({
-      data: {
-        teamName: "Kraftwerk"
-      }  
-    });
+    const Kraftwerk = await prisma.team.create({
+        data: {
+          teamName: "Kraftwerk"
+        }  
+      });
+      const Rigi = await prisma.team.create({
+          data: {
+            teamName: "Rigi"
+          }  
+        });
     //Gian Team Kraftwerk
     await prisma.user_Team.create({
       data: {
         userSub: '4296e3d8-a609-4ffa-b27a-3106ed7a5126',
-        teamId: team.id
+        teamId: Kraftwerk.id
       }
     });
     //Rouven Team Kraftwerk
     await prisma.user_Team.create({
       data: {
         userSub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
-        teamId: team.id
+        teamId: Kraftwerk.id
       }
+    });//Rouven Team Rigi
+    await prisma.user_Team.create({
+        data: {
+          userSub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
+          teamId: Rigi.id
+        }
     });
+
     await prisma.abwesenheit.createMany({
         data: [
             {
