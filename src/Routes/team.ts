@@ -101,7 +101,6 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
               });
             }
         }  
-//do du kenenklicke
       let vogaengerVelocity = 80;
 
       const kapazitaetProSprint: number[] = [];
@@ -163,6 +162,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           daysWithUserProductivity += Math.round(
             usersDaysInSprint * (member.productivityPercentage / 100) * 2,
           ) / 2;
+
         }
         tageProSprint.push(totalDaysInTeam);
         kapazitaetProSprint.push(
@@ -195,20 +195,27 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         vogaengerVelocity = velocity;
       }
 
+
+      if (currentUserTeam) {
+        usersTeams.push({
+          teamName: currentUserTeam?.teamName,
+          teamMembers: teamMembers,
+          kapazitaetProSprint: kapazitaetProSprint,
+          tageProSprint: tageProSprint,
+          velocitiesProSprint: velocitiesProSprint,
+          umgesetzteStorypoints: umgesetzteStorypoints,
+        });
+      }
+
+    }
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,
         header,
         prefersWhiteMode: req.user.prefersWhiteMode,
         params: req.params,
-        teamName: currentUserTeam?.teamName,
-        tageProSprint: tageProSprint,
-        kapazitaet: kapazitaetProSprint, //Kapazität
-        umgesetzteStorypoints: umgesetzteStorypoints,
-        velocitiesProSprint: velocitiesProSprint,
-        teamMembers: teamMembers,
+        userTeams: usersTeams,
         noTeam: false,
       });
-    }
     } else {
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,

@@ -35,10 +35,11 @@
     </div>
     <% if (piIsDefined) { %>
       <% if (noTeam === false) { %>
+        <% for (const team of userTeams) { %>
       <table cellspacing="0" class="velocityBoard">
         <tbody>
           <tr>
-            <th class="name firstElement borderTL">Name</th>
+            <th class="name firstElement borderTL"><%- team.teamName %></th>
             <th>Sprint 1</th>
             <th>Sprint 2</th>
             <th>Sprint 3</th>
@@ -46,12 +47,12 @@
             <th>Sprint 5</th>
             <th class="borderTR">Sprint 6</th>
           </tr>
-          <% for(const member of teamMembers){ %>
+          <% for(const member of team.teamMembers){ %>
           <tr>
             <td class="text firstElement tooltip">
               <p class="text ttContainer"><%- member.user.firstname + ' ' + member.user.lastname%>
                 <span class="tooltiptext">
-                  <%- member.user.firstname %> hat ein Pensum von <%- (7 - (member.user.standardAbwesenheiten.length)) * 20 %> % und ist dabei zu <%- member.user.productivityPercentage %>% am Entwickeln
+                  <%- member.user.firstname %> hat ein Pensum von <%- (7 - (member.user.standardAbwesenheiten.length)) * 20 %> % und ist dabei zu <%- member.productivityPercentage %>% am Entwickeln
                 </span>
               </p>
             </td>
@@ -62,25 +63,25 @@
           <% } %>
           <tr>
             <td class="text borderTop firstElement">Totale Tage</td>
-            <% for(const tps of tageProSprint){ %>
+            <% for(const tps of team.tageProSprint){ %>
             <td class="text borderTop"><%= tps %></td>
             <% } %>
           </tr>
           <tr>
             <td class="text firstElement">Kapazität</td>
-            <% for(const sp of kapazitaet){ %>
+            <% for(const sp of team.kapazitaetProSprint){ %>
             <td class="text"><%= sp %></td>
             <% } %>
           </tr>
           <tr>
             <td class="text firstElement">Umgesetzte Storypoints</td>
-            <% for(let i = 1; i < umgesetzteStorypoints.length + 1; i++){ %>
+            <% for(let i = 1; i < team.umgesetzteStorypoints.length + 1; i++){ %>
             <td class="text">
               <form action="/team_kalender/<%- params.year %>/<%- params.pi %>/<%= i %>" method="post">
                 <div class="number-input usp-select">
-                  <input class="text" step="0.5" min="0" onchange="updateUps(this,<%- umgesetzteStorypoints[i - 1] %>)" name="usp" value="<%- umgesetzteStorypoints[i - 1] %>" type="number">
-                  <button type="button" class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateUps(this,<%- umgesetzteStorypoints[i - 1] %>);"></button>
-                  <button type="button" class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateUps(this,<%- umgesetzteStorypoints[i - 1] %>);"></button>
+                  <input class="text" step="0.5" min="0" onchange="updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>)" name="usp" value="<%- team.umgesetzteStorypoints[i - 1] %>" type="number">
+                  <button type="button" class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>);"></button>
+                  <button type="button" class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>);"></button>
                   <button class="save">Save</button>
                 </div>
                   <input type="hidden" name="teamId" value="7">
@@ -90,10 +91,10 @@
           </tr>
           <tr>
             <td class="text firstElement">Velocity</td>
-            <% for(let i = 0; i < velocitiesProSprint.length -1 ; i++){ %>
-            <td class="text"><%= velocitiesProSprint[i] %>%</td>
+            <% for(let i = 0; i < team.velocitiesProSprint.length -1 ; i++){ %>
+            <td class="text"><%= team.velocitiesProSprint[i] %>%</td>
             <% } %>
-            <td class="text"><%= velocitiesProSprint[velocitiesProSprint.length -1] %>%</td>
+            <td class="text"><%= team.velocitiesProSprint[team.velocitiesProSprint.length -1] %>%</td>
           </tr>
           <tr>
             <td style="border: 0;"></td>
@@ -102,10 +103,11 @@
             <td style="border: 0;"></td>
             <td style="border: 0;"></td>
             <td class="text">Total:</td>
-            <td class="text borderBR"><%- umgesetzteStorypoints.reduce((a, b) => a + b) %></td>
+            <td class="text borderBR"><%- team.umgesetzteStorypoints.reduce((a, b) => a + b) %></td>
           </tr>
         </tbody>
       </table>
+        <% } %>
       <% } else{ %>
         <h1 class="text" style="text-align: center;">Du must erst einem Team beitreten!</h1>
       <% } %>
