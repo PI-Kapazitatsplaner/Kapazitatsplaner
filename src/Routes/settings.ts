@@ -6,8 +6,8 @@ import prisma from '../prisma/client';
 let router = express.Router();
 
 router.get('/', async (req, res) => {   
-    let parent = 1;
-    if (req.headers.referer?.includes("team_kalender")){ parent = 2; }       
+    let parent = 2;
+    if (req.headers.referer?.includes("mein_kalender")){ parent = 1; }       
     res.render("settings", { 
         prefersWhiteMode: req.user.prefersWhiteMode, 
         productivity: req.user.productivityPercentage, 

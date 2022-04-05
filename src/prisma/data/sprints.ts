@@ -25,15 +25,15 @@ export default [
     piId: 1,
     sprintNumber: 4,
   },
-  {
-    von: new Date(2022, 3, 26),
-    bis: new Date(2022, 3, 28),
+  {    
+    von: new Date(2022, 3, 15),
+    bis: new Date(2022, 3, 16),
     piId: 1,
     sprintNumber: 5,
   },
   {
-    von: new Date(2022, 3, 15),
-    bis: new Date(2022, 3, 16),
+    von: new Date(2022, 3, 26),
+    bis: new Date(2022, 3, 28),
     piId: 1,
     sprintNumber: 6,
   },
