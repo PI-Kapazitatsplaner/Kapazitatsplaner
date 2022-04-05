@@ -126,17 +126,8 @@
             <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
               max="100" name="productivity" onchange="checkPercentage()" name="newPercentage" value="0" type="number">
             <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
-            <button
-              onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
-              class="plus" type="button"></button>
-            <button
-              onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
-              class="minus" type="button"></button>
-            <script>
-              function scaleInputSize(input) {
-                input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-              }
-            </script>
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
           </div>
         </div>
         <i class="fa fa-trash text binIcon" aria-hidden="true"></i>
