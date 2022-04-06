@@ -202,10 +202,10 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           teamId: currentUserTeam.id,
           teamName: currentUserTeam?.teamName,
           teamMembers: teamMembers,
-          kapazitaetProSprint: kapazitaetProSprint,
-          tageProSprint: tageProSprint,
-          velocitiesProSprint: velocitiesProSprint,
-          umgesetzteStorypoints: umgesetzteStorypoints,
+          kapazitaetProSprint: kapazitaetProSprint.map((k) => k === NaN ? 0 : k),
+          tageProSprint: tageProSprint.map((k) => k === NaN ? 0 : k),
+          velocitiesProSprint: velocitiesProSprint.map((k) => k === NaN ? 0 : k),
+          umgesetzteStorypoints: umgesetzteStorypoints.map((k) => k === NaN ? 0 : k),
         });
       }
 
