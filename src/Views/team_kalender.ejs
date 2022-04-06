@@ -84,7 +84,7 @@
                   <button type="button" class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>);"></button>
                   <button class="save">Save</button>
                 </div>
-                  <input type="hidden" name="teamId" value="7">
+                  <input type="hidden" name="teamId" value="<%- team.teamId %>">
               </form>
             </td>
             <% } %>

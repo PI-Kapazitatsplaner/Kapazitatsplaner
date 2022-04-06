@@ -11,6 +11,7 @@ interface Member {
 }
 
 interface Team {
+  teamId: number;
   teamName: string;
   tageProSprint: number[];
   kapazitaetProSprint: number[];
@@ -23,7 +24,7 @@ let router = express.Router();
 var currentTime = new Date();
 
 router.get("/", (req, res) => {
-  res.redirect("/team_kalender/" + new Date().getFullYear() + "/1");
+  res.redirect("/team_kalender/" + new Date().getFullYear() + "/PI-01");
 });
 
 router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
@@ -198,6 +199,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
 
       if (currentUserTeam) {
         usersTeams.push({
+          teamId: currentUserTeam.id,
           teamName: currentUserTeam?.teamName,
           teamMembers: teamMembers,
           kapazitaetProSprint: kapazitaetProSprint,
