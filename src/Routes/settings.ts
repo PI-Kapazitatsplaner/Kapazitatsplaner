@@ -1,5 +1,6 @@
 import { log } from 'console';
 import express from 'express';
+import { uptime } from 'process';
 import prisma from '../prisma/client';
 
 
@@ -106,9 +107,13 @@ router.post('/', async (req, res) => {
     }
 
     if (req.body.newTeam) {
-        console.log(req.body.newPercentage)
-        const team = await prisma.team.findUnique({
-            where: {
+        const team = await prisma.team.upsert({
+            where:{
+                teamName: req.body.newTeam
+            },
+            update:{
+            },
+            create:{
                 teamName: req.body.newTeam
             }
         })
@@ -117,14 +122,10 @@ router.post('/', async (req, res) => {
                 data: {
                     userSub: req.user.sub,
                     teamId: team.id,
-                    productivityPercentage: req.body.newPercentage
+                    productivityPercentage: Number(req.body.newPercentage)
                 }
             })
         }
-        else {
-            res.send("invalid team")
-        }
-
     }
 
 

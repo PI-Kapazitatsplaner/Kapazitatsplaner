@@ -85,8 +85,6 @@ body::-webkit-scrollbar {
 .separator {
   display: flex;
   align-items: center;
-  padding-left: 1.5%;
-  padding-right: 1.5%;
 }
 .separator h2 {
   font-size: 15px;

@@ -113,6 +113,8 @@
           <i onclick="location.href='/settings/delete/' + '<%- teams[i].teamName %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
         </div>
       <% } %>
+
+
       <div class="element teamBar addTeam" id="addTeam">
         <div class="teamSection">
           <input type="text" class="text team" name="newTeam" placeholder="Team Hinzufügen">
@@ -124,22 +126,22 @@
               verwendet.</span></h2>
           <div class="number-input percent-input">
             <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-              max="100" name="productivity" onchange="checkPercentage()" name="newPercentage" value="0" type="number">
+              max="100" onchange="checkPercentage()" name="newPercentage" value="0" type="number">
             <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
             <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
             <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
           </div>
         </div>
-        <i class="fa fa-trash text binIcon" aria-hidden="true"></i>
+        <i class="fa fa-trash text binIcon" aria-hidden="true" onclick="location.reload()"></i>
       </div>
+
+
       <div class="settingsButtons">
         <button type="button" class="addBtn" onclick="addEmpty()">+</button>
         <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
       </div>
       
     </form>
-    <button onclick="location.href='/sprint_verwaltung/abc/PI-01'" class="dateBtn">Termine verwalten <span style="font-size: 22px;">&rarr;</span></button>
-
   </div>
 </body>
 <script>
