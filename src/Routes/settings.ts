@@ -89,8 +89,8 @@ router.get('/delete/:teamName', async (req, res) => {
                 }
             }
         })
-        res.redirect('/settings');
     }
+        res.redirect('/settings');
 
 
 });
@@ -138,6 +138,7 @@ router.post('/', async (req, res) => {
                 productivityPercentage: Number(req.body.productivity[i])
             }
         })
+        console.log(req.body.productivity[i]);
     }
 
     if (req.body.newTeam) {

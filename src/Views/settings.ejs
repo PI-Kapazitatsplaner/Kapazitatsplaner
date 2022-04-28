@@ -171,6 +171,7 @@
     let totalPercentage = 0;
 
     for(const percentageInput of percentageInputs){
+      console.log(percentageInput.value);
       totalPercentage += Number(percentageInput.value)
     }
     if(totalPercentage > 100){

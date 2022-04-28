@@ -57,14 +57,14 @@
               </p>
             </td>
             <% for(const dayInSprint of member.anwesendeTageProSprint){ %>
-            <td class="text"><%= dayInSprint%> </td>
+            <td class="text"><%= Math.round(dayInSprint*2)/2%> </td>
             <% } %>
           </tr>
           <% } %>
           <tr>
             <td class="text borderTop firstElement">Totale Tage</td>
             <% for(const tps of team.tageProSprint){ %>
-            <td class="text borderTop"><%= tps %></td>
+            <td class="text borderTop"><%= Math.round(tps*2)/2 %></td>
             <% } %>
           </tr>
           <tr>
