@@ -95,8 +95,17 @@ router.get('/delete/:teamName', async (req, res) => {
 
 });
 
+router.post('/add', async (req, res) => {
+    await saveSettings(req);
+    res.redirect('/settings/add');
+});
 
 router.post('/', async (req, res) => {
+    await saveSettings(req);
+    res.redirect('/settings');
+});
+
+async function saveSettings(req: any){
     let standardAbwesenheiten;
     if (req.body.standardAbwesenheiten === undefined) {
         standardAbwesenheiten = [];
@@ -125,21 +134,24 @@ router.post('/', async (req, res) => {
             userSub: req.user.sub
         }
     })
+    if(typeof req.body.productivity === "string"){
 
-    for (let i = 0; i < user_teams.length; i++) {
-        await prisma.user_Team.update({
-            where: {
-                user_teamKey: {
-                    teamId: user_teams[i].teamId,
-                    userSub: req.user.sub
+    }else{
+        for (let i = 0; i < user_teams.length; i++) {
+            await prisma.user_Team.update({
+                where: {
+                    user_teamKey: {
+                        teamId: user_teams[i].teamId,
+                        userSub: req.user.sub
+                    }
+                },
+                data: {
+                    productivityPercentage: Number(req.body.productivity[i])
                 }
-            },
-            data: {
-                productivityPercentage: Number(req.body.productivity[i])
-            }
-        })
-        console.log(req.body.productivity[i]);
-    }
+            })
+            console.log(req.body.productivity[i]);
+        }
+    }  
 
     if (req.body.newTeam) {
         const team = await prisma.team.upsert({
@@ -151,23 +163,17 @@ router.post('/', async (req, res) => {
             create:{
                 teamName: req.body.newTeam
             }
-        })
-        if (team) {
+        })        
+        if (team && user_teams.map(ut => ut.teamId ).includes(team.id) === false) {
             await prisma.user_Team.create({
                 data: {
                     userSub: req.user.sub,
                     teamId: team.id,
-                    productivityPercentage: Number(req.body.newPercentage)
+                    productivityPercentage: Number(req.body.newPercentage) === NaN ? 0 : Number(req.body.newPercentage)
                 }
             })
         }
     }
-
-
-
-
-    res.redirect('/settings');
-});
-
+}
 
 export = router;

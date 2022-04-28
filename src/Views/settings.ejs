@@ -135,13 +135,19 @@
         </div>
       <% } %> 
       <div class="settingsButtons">
-        <button type="button" class="addBtn" onclick="location.href='/settings/add'">+</button>
+        <button type="button" class="addBtn" onclick="addTeam()">+</button>
         <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
       </div>     
     </form>
   </div>
 </body>
 <script>
+
+  function addTeam(){
+    document.getElementById("settingsForm").action = "/settings/add";
+    document.getElementById("settingsForm").submit();
+  }
+
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
