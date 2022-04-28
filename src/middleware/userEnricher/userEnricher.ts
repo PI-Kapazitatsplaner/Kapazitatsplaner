@@ -42,7 +42,6 @@ export default async function enrichUser(
     email: content.email,
     prefersWhiteMode: user.preferencesWhiteMode,
     standardAbwesenheiten: user.standardAbwesenheiten,
-    productivityPercentage: user.productivityPercentage,
   }
   next();
 }

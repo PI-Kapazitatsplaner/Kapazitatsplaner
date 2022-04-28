@@ -2,51 +2,38 @@
     color: var(--suva-color-primary) !important;
 }
 
-.nav{
+.nav {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
     margin-left: 5%;
     margin-right: 5%;
 }
-.nav .titleR{
+
+.nav .titleR {
     margin-left: auto;
 }
-.arrow{
+
+.arrow {
     height: 30px;
     padding-top: 23px;
 }
-.arrow:hover{
+
+.arrow:hover {
     filter: brightness(0) contrast(100%) invert(50%) sepia(92%) saturate(1629%) hue-rotate(359deg) brightness(100%) contrast(109%);
 }
-.arrow-dark{
+
+.arrow-dark {
     filter: brightness(0) contrast(100%) invert(92%) sepia(8%) saturate(0%) hue-rotate(249deg) brightness(95%) contrast(84%);
     height: 30px;
     padding-top: 23px;
 }
-.arrow-dark:hover{
+
+.arrow-dark:hover {
     filter: brightness(0) contrast(100%) invert(50%) sepia(92%) saturate(1629%) hue-rotate(359deg) brightness(100%) contrast(109%);
 }
 
-.saveBtn {
-    background-color: var(--suva-color-blue) ;
-    border: none;
-    color: white;
-    padding: 10px 22px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 4px;
-    grid-column: 7 / span 1;
-    grid-row-start: 1;
-    grid-row-end: 2;
-}
-.saveBtn:hover {
-    box-shadow: #43757a 0px 5px 15px;
-}
-
-.userSettingForm{
+.userSettingForm {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -59,24 +46,25 @@
     padding: 2%;
 }
 
-.userSettingForm h2{
+.userSettingForm h2 {
     margin-top: 0;
     margin-bottom: 5px;
     color: var(--text);
 
 }
-.userSettingForm h3{
+
+.userSettingForm h3 {
     color: var(--text);
     padding-left: 10px;
     padding-right: 10px;
     font-size: 16px;
 }
 
-.userSettingForm h2::after{
+.userSettingForm h2.tooltip::after {
     content: '?';
     vertical-align: super;
     font-size: 70%;
-}    
+}
 
 
 .tooltip .tooltiptext {
@@ -103,7 +91,7 @@
     border-width: 5px;
     border-style: solid;
     border-color: var(--background) transparent transparent transparent;
-    transform: rotate(90deg); 
+    transform: rotate(90deg);
 }
 
 .tooltip:hover .tooltiptext {
@@ -126,38 +114,39 @@
     margin: 0;
 }
 
-.userSettingForm .days .day label{
+.userSettingForm .days .day label {
     color: var(--text2);
     width: 30px;
     cursor: pointer;
 
 }
 
-.userSettingForm .days .day input[type="checkbox"] + label::before {
+.userSettingForm .days .day input[type="checkbox"]+label::before {
     content: "💻";
 }
 
-.userSettingForm .days .day input[type="checkbox"]:checked + label::before {
+.userSettingForm .days .day input[type="checkbox"]:checked+label::before {
     content: "🏖️";
 }
 
-.userSettingForm .percent{
+.userSettingForm .percent {
     display: table;
     margin: 0 auto;
 }
 
-.userSettingForm .percent::after{
+.userSettingForm .percent::after {
     content: '%';
     top: 20%;
     left: -40%;
-}    
-.element .themeDropDown{
+}
+
+.element .themeDropDown {
     width: 10%;
 }
 
 .twoElements hr {
-    width:0;
-    border:1px solid var(--line);
+    width: 0;
+    border: 1px solid var(--line);
 }
 
 .themeDropDown {
@@ -166,27 +155,119 @@
     width: 100%;
 }
 
+.teamBar {
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    align-items: center;
+    margin-bottom: 3px;
+    border-radius: 8px;
+}
+
+.teamSection {
+    text-align: left;
+}
+
+.percentageSection {
+    text-align: center;
+}
+
+.binIcon {
+    text-align: right;
+    padding-right: 15%;
+}
+
+.teamBar:hover {
+    background-color: var(--team-hover);
+}
+.teamBar:hover .number-input input[type=number] {
+    background-color: var(--team-hover);
+}
+.addTeam .team{
+    background:
+        linear-gradient(var(--line), var(--line)) left bottom 5px /60% 1px no-repeat;
+    background-color: var(--background2);
+    border: none;
+    outline: none;
+
+    font-family: sans-serif;
+    font-size: 29px;
+    height: 3rem;
+    text-align: left;
+    background-color: var(--background2);
+    color: var(--text);
+}
+.addTeam .team::placeholder{
+    font-size: 18px;
+}
+.addTeam:hover .team {
+    background-color: var(--team-hover);
+}
 
 
 @media screen and (max-width: 650px) {
-    .twoElements{
+    .twoElements {
         grid-template-columns: 100%;
         align-items: sta;
-    }   
-    .twoElements .firstElement{
+    }
+
+    .twoElements .firstElement {
         border-bottom: 2px solid var(--line);
-    } 
+    }
+
     .twoElements hr {
         visibility: hidden;
     }
-    .twoElements .element{
+
+    .twoElements .element {
         width: 100%;
     }
+
     .themeDropDown {
         width: 142px;
     }
 
-.element{
-    margin-bottom: 30px;
-    margin-left: 5%;
+    .element {
+        margin-bottom: 30px;
+        margin-left: 5%;
+    }
+}
+
+.settingsButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.saveBtn {
+    background-color: var(--suva-color-blue);
+    border: none;
+    color: white;
+    padding: 10px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.saveBtn:hover{
+    box-shadow: #43757a 0px 5px 15px;
+}
+
+.addBtn {
+    width: 50px;
+    height: 50px;
+    border: var(--suva-color-blue) solid 2px;
+    border-radius: 4px;
+    color: var(--suva-color-blue);
+    font-weight: 200;
+    font-size: 30px;
+    background-color: #ffffff00;
+}
+.addBtn:hover{
+    border: 4px var(--suva-color-blue) solid;
+    font-weight: bold;
+}
+.showAddTeam{
+    visibility: visible !important;
 }

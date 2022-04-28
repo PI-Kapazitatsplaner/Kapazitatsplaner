@@ -85,8 +85,6 @@ body::-webkit-scrollbar {
 .separator {
   display: flex;
   align-items: center;
-  padding-left: 1.5%;
-  padding-right: 1.5%;
 }
 .separator h2 {
   font-size: 15px;
@@ -103,4 +101,10 @@ body::-webkit-scrollbar {
   flex: 1;
   height: 2px;
   background-color: var(--line);
+}
+.disableBtn {
+  background-color: lightgray !important;
+}
+.disableBtn:hover {
+  box-shadow: none !important;
 }

@@ -2,19 +2,29 @@ import express from "express";
 import prisma from "../prisma/client";
 import sendFileIfParamEqualsName from "../middleware/fileSender/fileSender";
 import { AbwesenheitsTyp, User } from "@prisma/client";
-import { listenerCount } from "process";
 
 interface Member {
   user: User;
+  productivityPercentage: number;
   anwesendeTageProSprint: number[];
   kapazitaetProSprint: number[];
+}
+
+interface Team {
+  teamId: number;
+  teamName: string;
+  tageProSprint: number[];
+  kapazitaetProSprint: number[];
+  umgesetzteStorypoints: number[];
+  velocitiesProSprint: number[];
+  teamMembers: Member[];
 }
 
 let router = express.Router();
 var currentTime = new Date();
 
 router.get("/", (req, res) => {
-  res.redirect("/team_kalender/" + new Date().getFullYear() + "/1");
+  res.redirect("/team_kalender/" + new Date().getFullYear() + "/PI-01");
 });
 
 router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
@@ -44,43 +54,54 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
       },
     });
 
-    //Find Team to current user
-    const _currentUserTeam = await prisma.user_Team.findFirst({
+  //Find Teams to current user
+  const currentUserTeams = await prisma.user_Team.findMany({
       where: {
         userSub: req.user.sub,
       },
     });
-    if (_currentUserTeam) {
-      //Get Team name to id
-      const currentUserTeam = await prisma.team.findUnique({
-        where: {
-          id: _currentUserTeam?.teamId,
-        },
-      });
-      //Get Team members ID
-      const _teamMembers = await prisma.user_Team.findMany({
-        where: {
-          teamId: _currentUserTeam?.teamId,
-        },
-      });
+    if (currentUserTeams) {
+      let usersTeams: Team[] = [];
 
-      //Get Team members
-      let teamMembers: Member[] = [];
-      for (let i = 0; i < _teamMembers.length; i++) {
-        const teamMember = await prisma.user.findUnique({
+      for (const team of currentUserTeams) {
+          //Get Team name to id
+        const currentUserTeam = await prisma.team.findUnique({
           where: {
-            sub: _teamMembers[i].userSub,
+            id: team?.teamId,
           },
         });
-        if (teamMember) {
-          teamMembers.push({
-            user: teamMember,
-            anwesendeTageProSprint: [],
-            kapazitaetProSprint: [],
-          });
-        }
-      }
+        //Get Team members ID
+        const user_Teams = await prisma.user_Team.findMany({
+          where: {
+            teamId: team?.teamId,
+          },
+        });
+        //Get Team members by team
+        let teamMembers:Member[] = [];
+        for (let i = 0; i < user_Teams.length; i++) {
+          const teamMember = await prisma.user.findUnique({
+            where: {
+              sub: user_Teams[i].userSub,
+            },
+          }); 
+          const productivityPercentage = await prisma.user_Team.findUnique({
+            where: {
+              user_teamKey:{
+                userSub: user_Teams[i].userSub,
+                teamId: team?.teamId,
+              }
+            },
+          }).then(user_team => user_team?.productivityPercentage);
 
+          if(teamMember){
+              teamMembers.push({
+                user: teamMember,
+                productivityPercentage: productivityPercentage ? productivityPercentage : 0,
+                anwesendeTageProSprint: [],
+                kapazitaetProSprint: [],
+              });
+            }
+        }  
       let vogaengerVelocity = 80;
 
       const kapazitaetProSprint: number[] = [];
@@ -140,8 +161,9 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           member.anwesendeTageProSprint.push(usersDaysInSprint);
           totalDaysInTeam += usersDaysInSprint;
           daysWithUserProductivity += Math.round(
-            usersDaysInSprint * (member.user.productivityPercentage / 100) * 2,
+            usersDaysInSprint * (member.productivityPercentage / 100) * 2,
           ) / 2;
+
         }
         tageProSprint.push(totalDaysInTeam);
         kapazitaetProSprint.push(
@@ -154,7 +176,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           where: {
             sprintTeamKey: {
               sprintId: sprint.id,
-              teamId: _currentUserTeam.teamId,
+              teamId: team.teamId,
             },
           },
         }).then((res) => res?.umgesetzteStorypoints);
@@ -174,17 +196,26 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         vogaengerVelocity = velocity;
       }
 
+
+      if (currentUserTeam) {
+        usersTeams.push({
+          teamId: currentUserTeam.id,
+          teamName: currentUserTeam?.teamName,
+          teamMembers: teamMembers,
+          kapazitaetProSprint: kapazitaetProSprint.map((k) =>isNaN(k) ? 0 : k),
+          tageProSprint: tageProSprint.map((k) =>isNaN(k) ? 0 : k),
+          velocitiesProSprint: velocitiesProSprint.map((k) =>isNaN(k) ? 0 : k),
+          umgesetzteStorypoints: umgesetzteStorypoints.map((k) =>isNaN(k) ? 0 : k),
+        });
+      }
+
+    }
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,
         header,
         prefersWhiteMode: req.user.prefersWhiteMode,
         params: req.params,
-        teamName: currentUserTeam?.teamName,
-        tageProSprint: tageProSprint,
-        kapazitaet: kapazitaetProSprint, //Kapazität
-        umgesetzteStorypoints: umgesetzteStorypoints,
-        velocitiesProSprint: velocitiesProSprint,
-        teamMembers: teamMembers,
+        userTeams: usersTeams,
         noTeam: false,
       });
     } else {

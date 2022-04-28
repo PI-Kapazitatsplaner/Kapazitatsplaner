@@ -10,7 +10,6 @@ datasource db {
 model User {
   sub                    String        @id //The subject Presentet by Keycloak
   preferencesWhiteMode   Boolean?
-  productivityPercentage Int           @default(100)
   abwesenheiten          Abwesenheit[]
   standardAbwesenheiten  Int[]
   firstname              String
@@ -70,6 +69,8 @@ model User_Team {
   teamId      Int
   user        User   @relation(fields: [userSub], references: [sub])
   team        Team   @relation(fields: [teamId], references: [id])
+  productivityPercentage Int           @default(0)
+  @@unique(fields: [userSub, teamId], name: "user_teamKey")
 }
 
 model SprintTeam {
