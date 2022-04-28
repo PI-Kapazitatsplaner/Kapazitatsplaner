@@ -8,3 +8,4 @@
       * [Architektur Ziele](readme/architektur-dokumentation/einfuehrung-und-ziele/architektur-ziele.md)
       * [Stakeholder](readme/architektur-dokumentation/einfuehrung-und-ziele/stakeholder.md)
     * [🛑 Randbedingungen](readme/architektur-dokumentation/randbedingungen.md)
+    * [🪜 Kontextabgrenzungen](readme/architektur-dokumentation/kontextabgrenzungen.md)
