@@ -62,11 +62,9 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: var(--background2);
     color: var(--text);
 }
-
 .number-input input[type=number]:hover,
 .number-input input[type=number]:focus {
-    border: none;
-    outline: none;
+    
 }
 
 .number-input input[type=number]:focus {

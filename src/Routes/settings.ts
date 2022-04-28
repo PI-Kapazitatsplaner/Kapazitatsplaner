@@ -35,7 +35,41 @@ router.get('/', async (req, res) => {
         standardAbwesenheiten: req.user.standardAbwesenheiten,
         csrfToken: req.csrfToken(),
         teams: userTeams,
-        parent
+        parent,
+        addTeam: false,
+    });
+});
+
+router.get('/add', async (req, res) => {
+    let userTeams = [];
+    let userTeamPercentage = []
+    if (req.user.sub) {
+        const user_team = await prisma.user_Team.findMany({
+            where: {
+                userSub: req.user.sub
+            }
+        })
+        for (let i = 0; i < user_team.length; i++) {
+            let usersTeam = await prisma.team.findUnique({
+                where: {
+                    id: user_team[i].teamId
+                }
+            })
+            userTeamPercentage.push(user_team[i].productivityPercentage)
+            userTeams.push(usersTeam);
+        }
+    }
+
+    let parent = 2;
+    if (req.headers.referer?.includes("mein_kalender")){ parent = 1; }    
+    res.render("settings", {
+        prefersWhiteMode: req.user.prefersWhiteMode,
+        productivity: userTeamPercentage,
+        standardAbwesenheiten: req.user.standardAbwesenheiten,
+        csrfToken: req.csrfToken(),
+        teams: userTeams,
+        parent,
+        addTeam: true,
     });
 });
 

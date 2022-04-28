@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,10 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
   <link rel="icon" href="/Images/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="common.css">
-  <link rel="stylesheet" href="settings.css">
-  <link rel="stylesheet" href="numberInput.css">
-  <script src="controller.js"></script>
+  <link rel="stylesheet" href="/common.css">
+  <link rel="stylesheet" href="/settings.css">
+  <link rel="stylesheet" href="/numberInput.css">
+  <script src="/controller.js"></script>
   <title>Settings</title>
 </head>
 
@@ -86,7 +85,7 @@
       <% for(let i = 0; i < teams.length; i++){ %>
         <div class="element teamBar">
           <div class="teamSection">
-            <h2 class="text team">Team <%- teams[i].teamName %></h2>
+            <h2 class="text team"><%- teams[i].teamName %></h2>
           </div>
           <div class="percentageSection">
             <h2 class="tooltip"><label for="productivity">
@@ -114,33 +113,31 @@
         </div>
       <% } %>
 
-
-      <div class="element teamBar addTeam" id="addTeam">
-        <div class="teamSection">
-          <input type="text" class="text team" name="newTeam" placeholder="Team Hinzufügen">
-        </div>
-        <div class="percentageSection">
-          <h2 class="tooltip"><label for="productivity">
-              <p class="text" style="display: inline-block; margin: 0; padding: 0;">Entwicklungskapazität</p>
-            </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
-              verwendet.</span></h2>
-          <div class="number-input percent-input">
-            <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-              max="100" onchange="checkPercentage()" name="newPercentage" value="0" type="number">
-            <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
+      <% if(addTeam){ %>
+        <div class="element teamBar addTeam" id="addTeam">
+          <div class="teamSection">
+            <input type="text" id="teamInput" class="text team" name="newTeam" placeholder="Team Hinzufügen" oninput='checkContent(this)'>
           </div>
+          <div class="percentageSection">
+            <h2 class="tooltip"><label for="productivity">
+                <p class="text" style="display: inline-block; margin: 0; padding: 0;">Entwicklungskapazität</p>
+              </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
+                verwendet.</span></h2>
+            <div class="number-input percent-input">
+              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
+                max="100" name="newPercentage" value="0" type="number">
+              <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
+              <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
+              <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
+            </div>
+          </div>
+          <i class="fa fa-trash text binIcon" aria-hidden="true" onclick="location.href='/settings'"></i>
         </div>
-        <i class="fa fa-trash text binIcon" aria-hidden="true" onclick="location.reload()"></i>
-      </div>
-
-
+      <% } %> 
       <div class="settingsButtons">
-        <button type="button" class="addBtn" onclick="addEmpty()">+</button>
+        <button type="button" class="addBtn" onclick="location.href='/settings/add'">+</button>
         <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
-      </div>
-      
+      </div>     
     </form>
   </div>
 </body>
@@ -148,20 +145,20 @@
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
-
-  function addEmpty(){
-    var emptyElement = document.getElementById("addTeam");
-    if(emptyElement.classList.contains("showAddTeam")){
-      emptyElement.style.animation = 'markContainer 1s'
-      console.log("true")
-    }
-    else{
-      emptyElement.classList.add("showAddTeam")
-      console.log("false")
-    }
+  function checkContent(teamInput){
+    var saveBtn = document.getElementById('saveBtn');
+      if(teamInput.value.length > 0){
+      saveBtn.classList.remove('disableBtn');
+      saveBtn.disabled = false;
+      } 
+      else {
+        saveBtn.classList.add('disableBtn');
+        saveBtn.disabled = true;
+      }
   }
 
   function scaleInputSize(input) {
+    checkPercentage();
     input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
   }
 
@@ -177,12 +174,12 @@
       totalPercentage += Number(percentageInput.value)
     }
     if(totalPercentage > 100){
-      document.getElementById("saveBtn").disabled = true
-      document.getElementById("saveBtn").classList.add("disableBtn")
+      document.getElementById("saveBtn").disabled = true;
+      document.getElementById("saveBtn").classList.add("disableBtn");
     }
     else{
-      document.getElementById("saveBtn").disabled = false
-      document.getElementById("saveBtn").classList.remove("disableBtn")
+      document.getElementById("saveBtn").disabled = false;
+      document.getElementById("saveBtn").classList.remove("disableBtn");
     }
   }
 

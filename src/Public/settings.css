@@ -177,9 +177,31 @@
 }
 
 .teamBar:hover {
-    background-color: rgb(39, 39, 39);
+    background-color: var(--team-hover);
 }
+.teamBar:hover .number-input input[type=number] {
+    background-color: var(--team-hover);
+}
+.addTeam .team{
+    background:
+        linear-gradient(var(--line), var(--line)) left bottom 5px /60% 1px no-repeat;
+    background-color: var(--background2);
+    border: none;
+    outline: none;
 
+    font-family: sans-serif;
+    font-size: 29px;
+    height: 3rem;
+    text-align: left;
+    background-color: var(--background2);
+    color: var(--text);
+}
+.addTeam .team::placeholder{
+    font-size: 18px;
+}
+.addTeam:hover .team {
+    background-color: var(--team-hover);
+}
 
 
 @media screen and (max-width: 650px) {
@@ -246,13 +268,6 @@
     border: 4px var(--suva-color-blue) solid;
     font-weight: bold;
 }
-.addTeam{
-    visibility: hidden;
-}
 .showAddTeam{
     visibility: visible !important;
-}
-@keyframes markContainer{
-    from {border: red solid 3px;}
-    to {border: var(--background2) solid 3px;}
 }
