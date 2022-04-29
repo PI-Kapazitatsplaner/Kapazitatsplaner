@@ -9,3 +9,5 @@
       * [Stakeholder](readme/architektur-dokumentation/einfuehrung-und-ziele/stakeholder.md)
     * [🛑 Randbedingungen](readme/architektur-dokumentation/randbedingungen.md)
     * [🪜 Kontextabgrenzungen](readme/architektur-dokumentation/kontextabgrenzungen.md)
+    * [🪐 Lösungsstrategien](readme/architektur-dokumentation/loesungsstrategien/README.md)
+      * [Login](readme/architektur-dokumentation/loesungsstrategien/login.md)
