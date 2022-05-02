@@ -34,4 +34,5 @@ jobs:
           # pass GitHub token to allow accurately detecting a build vs a re-run build
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports['5432'] }}/dbname
+          mockKeycloak: true
           seed: true
