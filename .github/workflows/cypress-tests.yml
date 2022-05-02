@@ -26,7 +26,7 @@ jobs:
         with:
           build: npm run pretest
           start: npm run start
-          wait-on: http://localhost:3000/
+          wait-on: 'http://localhost:3000/'
           record: true
         env:
           # pass the Dashboard record key as an environment variable
