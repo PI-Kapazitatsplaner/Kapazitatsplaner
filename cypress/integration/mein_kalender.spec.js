@@ -41,5 +41,18 @@ describe ('Mein Kalender', () => {
             .click().should('have.class', 'anwesend');
     })
 
-
+    if(!Cypress.env('onGitHub')) {
+        it('should save changes to days when switching to other calendars', () => {
+            cy.get('div.calendar').get('ul.days').children().filter('.anwesend').eq(1).invoke('attr', 'id').as('idOfDay');
+            cy.get('@idOfDay').then((idValue) => {
+                cy.get('[id=' + idValue + ']').click()
+                    .should('have.class', 'abwesend');
+                cy.nextCalendar();
+                cy.prevCalendar();
+                cy.get('[id=' + idValue + ']').should('have.class', 'abwesend')
+                    .click().should('have.class', 'halbAbwesend')
+                    .click().should('have.class', 'anwesend');
+            })
+        }) 
+    }
 })
