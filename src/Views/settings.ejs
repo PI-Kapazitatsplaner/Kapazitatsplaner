@@ -109,7 +109,7 @@
               </script>
             </div>
           </div>
-          <i onclick="location.href='/settings/delete/' + '<%- teams[i].teamName %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+          <i onclick="location.href='/settings/delete/<%- teams[i].teamName %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
         </div>
       <% } %>
 
@@ -135,7 +135,7 @@
         </div>
       <% } %> 
       <div class="settingsButtons">
-        <button type="button" class="addBtn" onclick="location.href='/settings/add'">+</button>
+      <button type="button" class="addBtn" onclick="location.href='/settings/add'">+</button>
         <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
       </div>     
     </form>
@@ -159,6 +159,9 @@
 
   function scaleInputSize(input) {
     checkPercentage();
+    if(input == null){
+      return;
+    }
     input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
   }
 

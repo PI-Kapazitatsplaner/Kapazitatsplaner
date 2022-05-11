@@ -31,3 +31,4 @@ Cypress.Commands.add('prevCalendar', () => {
 Cypress.Commands.add('nextCalendar', () => { 
     cy.get('div.calendar').get('div.month').get('li.next').click()
 })
+

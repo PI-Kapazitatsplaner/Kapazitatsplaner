@@ -46,9 +46,6 @@ app.use(userEnricher);
 
 //Routers
 app.use('/', indexRouter);
-app.use('/a', (req, res) => { console.log("a" + new Date()); res.send('Hello World!') });
-
-app.use('/b', (req, res) => { console.log("b" + new Date()); res.send('Hello World!') });
 
 app.use('/settings', csrfProtection ,settingsRouter);
 app.use('/mein_kalender', csrfProtection ,userRouter);
