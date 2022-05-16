@@ -24,12 +24,9 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: npm run pretest
-          start: npm run start
-          wait-on: 'http://localhost:3000/'
-          record: true
-          env: 
-            onGitHub: true
-            port: 3000        
+          start: npm run cys
+          wait-on: 'http://localhost:2005/'
+          record: true             
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
