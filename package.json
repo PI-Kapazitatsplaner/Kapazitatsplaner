@@ -20,8 +20,8 @@
     "prisma:generate": "prisma generate",
     "ps": "prisma studio",
     "prisma:studio": "prisma studio",
-    "cys" : "cross-env mockKeycloak=true port=2005 npm run start",
-    "cyd" : "cross-env mockKeycloak=true port=2005 npm run dev",
+    "cys" : "cross-env mockKeycloak=true PORT=2005 npm run start",
+    "cyd" : "cross-env mockKeycloak=true PORT=2005 npm run dev",
     "cyr": "cypress run",
     "cyo": "cypress open"
   },
