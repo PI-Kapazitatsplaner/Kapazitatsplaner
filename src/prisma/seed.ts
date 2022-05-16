@@ -43,6 +43,7 @@ const main = async () => {
     await prisma.user_Team.create({
       data: {
         userSub: '4296e3d8-a609-4ffa-b27a-3106ed7a5126',
+        productivityPercentage: 100,
         teamId: Kraftwerk.id
       }
     });
@@ -50,42 +51,37 @@ const main = async () => {
     await prisma.user_Team.create({
       data: {
         userSub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
+        productivityPercentage: 50,
         teamId: Kraftwerk.id
       }
     });//Rouven Team Rigi
     await prisma.user_Team.create({
         data: {
           userSub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
+          productivityPercentage: 50,
           teamId: Rigi.id
         }
     });
 
-    await prisma.abwesenheit.createMany({
-        data: [
-            {
-                userSub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
-                date: new Date(2022, 1, 3)
-            },
-            {
-                userSub: 'c2842822-67f5-4759-8db8-a431ddfc3500',
-                date: new Date(2022, 2, 5)
-            },
-        ]
-    });
+  
     await prisma.pi.createMany({ data: piData });
     await prisma.sprint.createMany({ data: sprintData });
 
 };
 
 if (process.env.seed?.toLowerCase() === 'true') {
-    main()
-        .catch((error) => {
-            console.error(error);
-            process.exit(1);
-        })
-        .finally(async () => {
-            await prisma.$disconnect();
-        });
+  seed();
 } else {
-    console.log('\nSeeding is disabled. Set the "seed" environment variable to "true" to enable.')
+  console.log('\nSeeding is disabled. Set the "seed" environment variable to "true" to enable.')
+}
+
+export default function seed(){
+  main()
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
 }

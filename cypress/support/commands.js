@@ -32,3 +32,15 @@ Cypress.Commands.add('nextCalendar', () => {
     cy.get('div.calendar').get('div.month').get('li.next').click()
 })
 
+Cypress.Commands.add('getCountOfMondaysInCurrentMonth', () => {
+    let d = new Date();
+    d.setDate(1);
+    const month = d.getMonth();
+    let mondays = 0;
+    while (d.getDay() !== 1) { d.setDate(d.getDate() + 1);}
+    while (d.getMonth() === month) {
+        mondays++;
+        d.setDate(d.getDate() + 7);
+    }
+    return mondays;
+})

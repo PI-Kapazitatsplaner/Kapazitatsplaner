@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
                 where: {
                     id: user_team[i].teamId
                 }
-            })
+            })           
             userTeamPercentage.push(user_team[i].productivityPercentage)
             userTeams.push(usersTeam);
         }
@@ -135,7 +135,7 @@ router.post('/', async (req, res) => {
                 }
             },
             data: {
-                productivityPercentage: Number(req.body.productivity[i])
+                productivityPercentage: user_teams.length > 1 ? Number(req.body.productivity[i]) : Number(req.body.productivity)
             }
         })
     }
