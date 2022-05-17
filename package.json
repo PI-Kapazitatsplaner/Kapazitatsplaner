@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/PI-Kapazitatsplaner/Kapazitaetsplaner#readme",
   "dependencies": {
-    "@prisma/client": "^3.13.0",
+    "@prisma/client": "^3.14.0",
     "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
