@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="/Images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/common.css">
+  <link rel="stylesheet" href="/settings.css">
+  <link rel="stylesheet" href="/numberInput.css">
+  <link rel="stylesheet" href="/sprint_verwaltung.css">
+  <link rel="stylesheet" href="/feiertage_verwaltung.css">
+  <script src="controller.js"></script>
+  <title>Sprint Verwaltung</title>
+</head>
+
+<body id="body" class="content">
+  <div class="nav">
+    <% if (parent == 1){ %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+    <% }else if (parent == 2) { %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
+    <% } %>
+    <div class="titleR termineNav">
+      <h2><a href="/sprint_verwaltung/2022/PI-01" class="text">Sprint Verwaltung</a></h1>
+      <h1><a href="" class="text">Feiertage Verwaltung</a></h2>
+    </div>
+  </div>
+  <div class="mainContent" id="mainContent">
+      <form action="/feiertage_verwaltung/<%- parent %>" method="post" id="feiertageForm">
+        <% for (const feiertag of feiertage) { %>
+            <div class="feiertagBar">
+                <h2 class="text"><%- feiertag.titel %></h2>
+                <input type="date" placeholder="von" class="input" value="<%- getFormattedDate(feiertag.von) %>">
+                <p></p>
+                <input type="date" placeholder="bis" class="input" value="<%- getFormattedDate(feiertag.von) %>">
+                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/delete/' + '<%- feiertag.id %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+            </div>
+        <% } %> 
+        <% if(addTeam){ %>
+            <div class="feiertagBar">
+                <input type="text" placeholder="Titel" name="addFeiertagTitel">
+                <input type="date" placeholder="von" class="input" name="addFeiertagVon">
+                <p></p>
+                <input type="date" placeholder="bis" class="input" name="addFeiertagBis">
+                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+            </div>
+        <% } %> 
+        <div class="feiertageButtons">
+            <button type="button" class="addBtn" onclick="location.href = '/feiertage_verwaltung/<%- parent %>/add'">+</button>
+            <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
+        </div>  
+      </form>
+  </div>
+  <% function getFormattedDate(date){
+    return new Date(date.getFullYear(),date.getMonth(),date.getDate(),4).toISOString().split("T")[0];
+    } %>
+    
+</body>
+</html>

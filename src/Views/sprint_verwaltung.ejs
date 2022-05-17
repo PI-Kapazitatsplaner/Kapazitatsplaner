@@ -20,8 +20,16 @@
 
 <body id="body" class="content">
   <div class="nav">
-    <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/settings'">
-    <h1 class="text titleR">Sprint Verwaltung</h1>
+    <% if (parent == 1){ %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+    <% }else if (parent == 2) { %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
+    <% } %>
+    <div class="titleR termineNav">
+      <h1><a href="" class="text">Sprint Verwaltung</a></h1>
+      <h2><a href="/feiertage_verwaltung/<%- parent  %> " class="text">Feiertage Verwaltung</a></h2>
+    </div>
+    
   </div>
   <div class="mainContent" id="mainContent">
     <% let dateValid = true ; %>
@@ -65,7 +73,7 @@
       <% } %>
       <% function getFormattedDate(date){
                     return new Date(date.getFullYear(),date.getMonth(),date.getDate(),4).toISOString().split("T")[0];
-                } %>
+      } %>
       <% if(dateValid === false){%>
       <button class="saveBtn tooltip">Sichern<span class="tooltiptext">Der Datumsbereich ist ungültig!</span></button>
       <%}else if(dateValid === true){%>

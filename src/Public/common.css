@@ -2,14 +2,6 @@ body {
     --suva-color-primary: #FF8200;
     --suva-color-blue: #00b8cf;
     --suva-color-blue-secondary:#7dd0db;
-    /*
-        --background: #ffffff;
-        --background2: #f7f7f7;
-        --text: #666666;
-        --text2: #f10000;
-        --text-hover: #FF8200;
-        --line: #d3d3d3;
-    */
 
   user-select: none;
 
@@ -107,4 +99,12 @@ body::-webkit-scrollbar {
 }
 .disableBtn:hover {
   box-shadow: none !important;
+}
+
+.nav .titleR {
+  margin-left: auto;
+}
+
+.titleL {
+  color: var(--suva-color-primary) !important;
 }

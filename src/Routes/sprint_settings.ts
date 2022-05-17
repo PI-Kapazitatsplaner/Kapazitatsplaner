@@ -8,6 +8,9 @@ var currentTime = new Date();
 
 //Read
 router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
+  
+  let parent = 2;
+  if (req.headers.referer?.includes("mein_kalender")){ parent = 1; }    
   if(req.params.pi.length > 1){
     req.params.pi = req.params.pi.slice(4,5);
   }
@@ -39,6 +42,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
       sprints: sprintsInPi,
       pi: pi,
       prefersWhiteMode: req.user.prefersWhiteMode,
+      parent,
     });
   } else {
     res.redirect(

@@ -1,6 +1,4 @@
-.titleL {
-    color: var(--suva-color-primary) !important;
-}
+
 
 .nav {
     display: flex;
@@ -10,9 +8,7 @@
     margin-right: 5%;
 }
 
-.nav .titleR {
-    margin-left: auto;
-}
+
 
 .arrow {
     height: 30px;
@@ -182,7 +178,7 @@
 .teamBar:hover .number-input input[type=number] {
     background-color: var(--team-hover);
 }
-.addTeam .team{
+. .team{
     background:
         linear-gradient(var(--line), var(--line)) left bottom 5px /60% 1px no-repeat;
     background-color: var(--background2);

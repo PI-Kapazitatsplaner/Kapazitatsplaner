@@ -151,6 +151,14 @@
   grid-column: 4 / span 1;
 }
 
+.termineNav{
+  align-items: center;
+  display: flex;
+}
+.termineNav a:hover{
+  color: var(--text-hover);
+}
+
 @media screen and (max-width: 1546px) {
   .grid{
     grid-template-columns: 15% 18% 18% 30% 0 0 20% 5%;

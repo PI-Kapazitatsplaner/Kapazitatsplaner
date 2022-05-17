@@ -72,8 +72,25 @@ const main = async () => {
             },
         ]
     });
+    await prisma.feiertag.createMany({
+        data: [
+          {
+            titel: "Nationalfeiertag",
+            von: new Date(2022, 8, 1),
+            bis: new Date(2022, 8, 1),
+          },
+          {
+            titel: "Weihnachten",
+            von: new Date(2022, 12, 25),
+            bis: new Date(2022, 12, 25),
+          }
+        ]
+    });
+
     await prisma.pi.createMany({ data: piData });
     await prisma.sprint.createMany({ data: sprintData });
+
+
 
 };
 

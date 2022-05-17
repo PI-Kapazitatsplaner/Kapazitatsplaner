@@ -83,3 +83,9 @@ model SprintTeam {
 
   @@unique(fields: [teamId, sprintId], name: "sprintTeamKey")
 }
+model Feiertag{
+  id      Int             @id @default(autoincrement())
+  titel   String
+  von     DateTime
+  bis     DateTime
+}
