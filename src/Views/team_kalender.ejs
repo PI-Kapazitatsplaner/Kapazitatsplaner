@@ -1,8 +1,7 @@
-  
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,32 +9,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/Images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="header.css">
-    <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="team.css">
-    <link rel="stylesheet" href="numberInput.css">
-    <script src="controller.js"></script>
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/team.css">
+    <link rel="stylesheet" href="/numberInput.css">
+    <script src="/controller.js"></script>
     <title>Team Kalender</title>
-</head>
-<body id="body" class="content">
-  <%- include('header') %>
-  <div class="mainContent" id="mainContent">
-    <div class="titleGrid">
-      <div class="number-input year-select">
-        <input oninput="updateYear(this)" min="0" name="quantity" max="2100" value="<%- params.year %>" type="number">
-        <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
-        <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+  </head>
+
+  <body id="body" class="content">
+    <%- include('header') %>
+    <div class="mainContent" id="mainContent">
+      <div class="titleGrid">
+        <div class="number-input year-select">
+          <input oninput="updateYear(this)" min="0" name="quantity" max="2100" value="<%- params.year %>" type="number">
+          <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+          <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+        </div>
+        <div class="titles">
+          <a <% if(params.pi==1){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-01">PI-01</a>
+          <a <% if(params.pi==2){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-02">PI-02</a>
+          <a <% if(params.pi==3){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-03">PI-03</a>
+          <a <% if(params.pi==4){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-04">PI-04</a>
+        </div>
       </div>
-      <div class="titles">
-        <a <% if(params.pi==1){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-01">PI-01</a>
-        <a <% if(params.pi==2){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-02">PI-02</a>
-        <a <% if(params.pi==3){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-03">PI-03</a>
-        <a <% if(params.pi==4){%> style="font-weight: bold;" <% } %> class="title" href="/team_kalender/<%- params.year %>/PI-04">PI-04</a>
-      </div>
-    </div>
-    <% if (piIsDefined) { %>
+      <% if (piIsDefined) { %>
       <% if (noTeam === false) { %>
-        <% for (const team of userTeams) { %>
+      <% for (const team of userTeams) { %>
       <table cellspacing="0" class="velocityBoard">
         <tbody>
           <tr>
@@ -84,7 +84,7 @@
                   <button type="button" class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>);"></button>
                   <button class="save">Save</button>
                 </div>
-                  <input type="hidden" name="teamId" value="<%- team.teamId %>">
+                <input type="hidden" name="teamId" value="<%- team.teamId %>">
               </form>
             </td>
             <% } %>
@@ -107,28 +107,29 @@
           </tr>
         </tbody>
       </table>
-        <% } %>
-      <% } else{ %>
-        <h1 class="text" style="text-align: center;">Du must erst einem Team beitreten!</h1>
       <% } %>
-    <% } else{ %>
+      <% } else{ %>
+      <h1 class="text" style="text-align: center;">Du must erst einem Team beitreten!</h1>
+      <% } %>
+      <% } else{ %>
       <h1 class="text" style="text-align: center;">Für dieses Pi sind keine Daten vorhanden</h1>
-    <% } %>
-  </div>
-</body>
-<script>
-  function updateYear(yearInput) {
-    location.href = "/team_kalender/" + yearInput.value + "/PI-01";
-  }
-
-  function updateUps(uspInput, oldUsp) {
-    const newUsp = uspInput.parentNode.querySelector('input[type=number]').value;
-    if(newUsp != oldUsp){
-        uspInput.parentNode.querySelector('button.save').style.visibility = "visible";
-    } else {
-        uspInput.parentNode.querySelector('button.save').style.visibility = "hidden";
+      <% } %>
+    </div>
+  </body>
+  <script>
+    function updateYear(yearInput) {
+      location.href = "/team_kalender/" + yearInput.value + "/PI-01";
     }
-  }
-</script>
-<%- include('colorScript') %>
-</html>
+
+    function updateUps(uspInput, oldUsp) {
+      const newUsp = uspInput.parentNode.querySelector('input[type=number]').value;
+      if (newUsp != oldUsp) {
+        uspInput.parentNode.querySelector('button.save').style.visibility = "visible";
+      } else {
+        uspInput.parentNode.querySelector('button.save').style.visibility = "hidden";
+      }
+    }
+  </script>
+  <%- include('colorScript') %>
+
+  </html>

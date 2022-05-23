@@ -20,8 +20,8 @@ export default [
     sprintNumber: 3,
   },
   {
-    von: new Date(2022, 2, 26),
-    bis: new Date(2022, 2, 28),
+    von: new Date(2022, 2, 27),
+    bis: new Date(2022, 2, 29),
     piId: 1,
     sprintNumber: 4,
   },

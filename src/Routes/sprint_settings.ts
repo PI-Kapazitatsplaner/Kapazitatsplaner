@@ -1,21 +1,13 @@
 import express from "express";
-import path from "path";
-import sendFileIfParamEqualsName from "../middleware/fileSender/fileSender";
 import prisma from "../prisma/client";
 
 let router = express.Router();
 var currentTime = new Date();
 
 //Read
-router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
-  if(req.params.pi.length > 1){
-    req.params.pi = req.params.pi.slice(4,5);
-  }
-  if (
-    Number(req.params.year) >= 2020 &&
-    Number(req.params.year) <= 2100 &&
-    (Number(req.params.pi) <= 4 && Number(req.params.pi) >= 1)
-  ) {
+router.get("/:year?/:pi?", async (req, res) => {
+  if (validateParams(req.params)) {
+    req.params.pi = req.params.pi ? req.params.pi.length > 1 ? req.params.pi.slice(4, 5) : req.params.pi : "";
     //PI nach Parameter suchen
     const pi = await prisma.pi.findUnique({
       where: {
@@ -49,11 +41,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
 //Update
 router.post("/:year/:pi", async (req, res) => {
   if (req.body.planungStart !== "" && req.body.planungEnde !== "") {
-    if (
-      parseInt(req.params.year) >= 2020 &&
-      parseInt(req.params.year) <= 2100 &&
-      (Number(req.params.pi) <= 4 && Number(req.params.pi) >= 1)
-    ) {
+    if (validateParams(req.params)) {
       //Planungstage Updaten
       const updatedPlanningDates = await prisma.pi.upsert({
         where: {
@@ -106,5 +94,12 @@ router.post("/:year/:pi", async (req, res) => {
     res.status(400);
   }
 });
+
+function validateParams(params: any): Boolean {
+  return (!(params.year === undefined || params.pi === undefined) &&
+    Number(params.year) >= 2020 && Number(params.year) < 2100 &&
+    (Number(params.pi.length > 1 ? params.pi.slice(4, 5) : params.pi) <= 4 &&
+      Number(params.pi.length > 1 ? params.pi.slice(4, 5) : params.pi) >= 1));
+}
 
 export = router;
