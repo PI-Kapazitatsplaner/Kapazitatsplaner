@@ -178,7 +178,7 @@
 .teamBar:hover .number-input input[type=number] {
     background-color: var(--team-hover);
 }
-. .team{
+.team{
     background:
         linear-gradient(var(--line), var(--line)) left bottom 5px /60% 1px no-repeat;
     background-color: var(--background2);

@@ -136,19 +136,35 @@ async function saveSettings(req: any) {
       userSub: req.user.sub,
     },
   });
-  for (let i = 0; i < user_teams.length; i++) {
+  if(req.body.productivity != undefined && req.body.productivity instanceof Array) {
+    for (let i = 0; i < user_teams.length; i++) {
+      await prisma.user_Team.update({
+        where: {
+          user_teamKey: {
+            teamId: user_teams[i].teamId,
+            userSub: req.user.sub,
+          },
+        },
+        data: {
+          productivityPercentage: Number(req.body.productivity[i]),
+        },
+      });
+    }
+  }
+  else if(req.body.productivity != undefined && !(req.body.productivity instanceof Array)) {
     await prisma.user_Team.update({
       where: {
         user_teamKey: {
-          teamId: user_teams[i].teamId,
+          teamId: user_teams[0].teamId,
           userSub: req.user.sub,
         },
       },
       data: {
-        productivityPercentage: Number(req.body.productivity[i]),
+        productivityPercentage: Number(req.body.productivity),
       },
     });
   }
+  
 
   if (req.body.newTeam) {
     const team = await prisma.team.upsert({
