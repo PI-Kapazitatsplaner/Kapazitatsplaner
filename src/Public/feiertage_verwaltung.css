@@ -2,17 +2,25 @@
     display: grid;
     align-items: center;
     grid-template-columns: 40% 20% 10% 20% 10%;
-    background-color: var(--team-hover);
     height: 80px;
 }
 .feiertagBar:hover{
-    background-color: gray;
-}
-.mainContent{
-    background-color: rgb(199, 199, 199);
-}   
+    background-color: var(--team-hover);
+} 
 .feiertageButtons {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+}
+.feiertagBar{
+    border-radius: 8px;
+    margin-left: 7%;
+    margin-right: 7%;
+}
+.year-select{
+    margin-left: 7%;
+}
+.feiertageButtons{
+    margin-left: 7%;
+    margin-right: 7%;
 }

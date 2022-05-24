@@ -76,13 +76,13 @@ const main = async () => {
         data: [
           {
             titel: "Nationalfeiertag",
-            von: new Date(2022, 8, 1),
-            bis: new Date(2022, 8, 1),
+            von: new Date(2022, 7, 1),
+            bis: new Date(2022, 7, 1),
           },
           {
             titel: "Weihnachten",
-            von: new Date(2022, 12, 25),
-            bis: new Date(2022, 12, 25),
+            von: new Date(2022, 11, 25),
+            bis: new Date(2022, 11, 25),
           }
         ]
     });

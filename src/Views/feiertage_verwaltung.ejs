@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="/numberInput.css">
   <link rel="stylesheet" href="/sprint_verwaltung.css">
   <link rel="stylesheet" href="/feiertage_verwaltung.css">
-  <script src="controller.js"></script>
+  <script src="/controller.js"></script>
   <title>Sprint Verwaltung</title>
 </head>
 
@@ -32,27 +32,32 @@
     </div>
   </div>
   <div class="mainContent" id="mainContent">
-      <form action="/feiertage_verwaltung/<%- parent %>" method="post" id="feiertageForm">
+      <div class="number-input year-select">
+        <input oninput="updateYear(this)" min="0" name="quantity" max="2100" value="<%- params.year %>" type="number">
+        <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+        <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+      </div>
+      <form action="/feiertage_verwaltung/<%- parent %>/<%- params.year %> " method="post" id="feiertageForm">
         <% for (const feiertag of feiertage) { %>
             <div class="feiertagBar">
                 <h2 class="text"><%- feiertag.titel %></h2>
-                <input type="date" placeholder="von" class="input" value="<%- getFormattedDate(feiertag.von) %>">
+                <input type="date" placeholder="von" onchange="validate()" name="feiertagVon" class="input" value="<%- getFormattedDate(feiertag.von) %>">
                 <p></p>
-                <input type="date" placeholder="bis" class="input" value="<%- getFormattedDate(feiertag.von) %>">
-                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/delete/' + '<%- feiertag.id %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+                <input type="date" placeholder="bis" onchange="validate()" name="feiertagBis" class="input" value="<%- getFormattedDate(feiertag.bis) %>">
+                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year%>/delete/' + '<%- feiertag.id %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
             </div>
         <% } %> 
         <% if(addTeam){ %>
             <div class="feiertagBar">
                 <input type="text" placeholder="Titel" name="addFeiertagTitel">
-                <input type="date" placeholder="von" class="input" name="addFeiertagVon">
+                <input type="date" placeholder="von" onchange="validate()" class="input" name="addFeiertagVon" required>
                 <p></p>
-                <input type="date" placeholder="bis" class="input" name="addFeiertagBis">
-                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+                <input type="date" placeholder="bis" onchange="validate()" class="input" name="addFeiertagBis" required>
+                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
             </div>
         <% } %> 
         <div class="feiertageButtons">
-            <button type="button" class="addBtn" onclick="location.href = '/feiertage_verwaltung/<%- parent %>/add'">+</button>
+            <button type="button" class="addBtn" onclick="addFeiertag()">+</button>
             <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
         </div>  
       </form>
@@ -62,4 +67,31 @@
     } %>
     
 </body>
+<script>
+  function validate(){
+    const inputs = document.querySelectorAll("input[type='date']");
+    let oneInvalidDate = false;
+    for (let i = 0; i < inputs.length; i += 2) {
+      if ((inputs[i].value + "T00:00:00Z") > (inputs[i + 1].value + "T00:00:00Z")) {
+        console.log("test")
+        oneInvalidDate = true;
+      }
+    }
+    if (!oneInvalidDate) {
+      document.getElementById("saveBtn").classList.remove("disableBtn");
+      document.getElementById("saveBtn").disabled = false;
+    } else {
+      document.getElementById("saveBtn").classList.add("disableBtn");
+      document.getElementById("saveBtn").disabled = true;
+    }
+  }
+
+  function addFeiertag(){
+    document.getElementById("feiertageForm").action = "/feiertage_verwaltung/<%- parent %>/<%- params.year %>/add";
+    document.getElementById("feiertageForm").submit();
+  }
+  function updateYear(yearInput) {
+    location.href = "/feiertage_verwaltung/" + "<%- parent %>/" + yearInput.value;
+  }
+</script>
 </html>
