@@ -6,28 +6,30 @@ let router = express.Router();
 router.get("/:parent/:year", async (req, res) => {
   const feiertage = await prisma.feiertag.findMany({
     where: {
-      von: {
+      datum: {
         gte: new Date(req.params.year + "-01-01"),
         lte: new Date(req.params.year + "-12-31"),
       },
     }
   });
   res.render("feiertage_verwaltung", {
+    prefersWhiteMode: req.user.prefersWhiteMode,
     parent: req.params.parent,
     feiertage: feiertage,
-    addTeam: false,
+    addFeiertag: false,
     params: req.params,
   });
 });
 
 router.get("/:parent/:year/add", async (req, res) => {
     const feiertage = await prisma.feiertag.findMany({});
-  res.render("feiertage_verwaltung", {
-    parent: req.params.parent,
-    feiertage: feiertage,
-    addTeam: true,
-    params: req.params,
-  });
+    res.render("feiertage_verwaltung", {
+      prefersWhiteMode: req.user.prefersWhiteMode,
+      parent: req.params.parent,
+      feiertage: feiertage,
+      addFeiertag: true,
+      params: req.params,
+    });
 });
 
 router.get("/:parent/:year/delete/:id", async (req, res) => {
@@ -40,7 +42,7 @@ router.get("/:parent/:year/delete/:id", async (req, res) => {
 });
 
 router.post("/:parent/:year", async (req, res) => {
-  const feiertage = await prisma.feiertag.findMany({});
+  const feiertage = await prisma.feiertag.findMany({});  
   if (feiertage.length > 1) {
     for (let i = 0; i < feiertage.length; i++) {
       await prisma.feiertag.update({
@@ -48,8 +50,8 @@ router.post("/:parent/:year", async (req, res) => {
           id: feiertage[i].id,
         },
         data: {
-          von: req.body.feiertagVon[i] + "T00:00:00.000Z",
-          bis: req.body.feiertagBis[i] + "T00:00:00.000Z",
+          datum: req.body.feiertagDatum[i] + "T00:00:00.000Z",
+          halberTag: req.body.halberTag instanceof Array ? req.body.halberTag.includes(feiertage[i].titel) : req.body.halberTag === feiertage[i].titel,
         }
       });
     }
@@ -60,8 +62,8 @@ router.post("/:parent/:year", async (req, res) => {
         id: feiertage[0].id,
       },
       data: {
-        von: req.body.feiertagVon + "T00:00:00.000Z",
-        bis: req.body.feiertagBis + "T00:00:00.000Z",
+        datum: req.body.feiertagDatum + "T00:00:00.000Z",
+        halberTag: req.body.halberTag instanceof Array ? req.body.halberTag.includes(feiertage[0].titel) : req.body.halberTag === feiertage[0].titel,
       }
     });
   }
@@ -69,26 +71,16 @@ router.post("/:parent/:year", async (req, res) => {
     await prisma.feiertag.create({
       data: {
         titel: req.body.addFeiertagTitel,
-        von: req.body.addFeiertagVon + "T00:00:00.000Z",
-        bis: req.body.addFeiertagBis + "T00:00:00.000Z",
+        datum: req.body.addFeiertagDatum + "T00:00:00.000Z",
+        halberTag: req.body.halberTag instanceof Array ? req.body.halberTag.includes("nameeinesfeiertagesdenniejemandverwendenwird") : req.body.halberTag === "nameeinesfeiertagesdenniejemandverwendenwird",
       }
     });
-  }
-
-  
+  }  
   res.redirect("/feiertage_verwaltung/" + req.params.parent + "/" + req.params.year);
 });
 
 router.post("/:parent/:year/add", async (req, res) => {
-
-  /*await prisma.feiertag.create({
-        data: {
-            titel:req.body.addFeiertagTitel,
-            von: req.body.addFeiertagVon,
-            bis: req.body.addFeiertagBis,
-        }
-    })*/
-    res.redirect("/feiertage_verwaltung/" + req.params.parent + "/" + req.params.year +"/add");
-});
+  res.redirect("/feiertage_verwaltung/" + req.params.parent + "/" + req.params.year + "/add");
+})
 
 export = router;

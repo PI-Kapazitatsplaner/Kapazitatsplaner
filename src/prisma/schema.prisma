@@ -86,6 +86,6 @@ model SprintTeam {
 model Feiertag{
   id      Int             @id @default(autoincrement())
   titel   String
-  von     DateTime
-  bis     DateTime
+  datum   DateTime
+  halberTag Boolean @default(false)
 }

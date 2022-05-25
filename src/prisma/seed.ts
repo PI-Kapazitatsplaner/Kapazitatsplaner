@@ -76,13 +76,16 @@ const main = async () => {
         data: [
           {
             titel: "Nationalfeiertag",
-            von: new Date(2022, 7, 1),
-            bis: new Date(2022, 7, 1),
+            datum: new Date(2022, 7, 1),
           },
           {
             titel: "Weihnachten",
-            von: new Date(2022, 11, 25),
-            bis: new Date(2022, 11, 25),
+            datum: new Date(2022, 11, 25),
+          },
+          {
+            titel: "Heiligabend",
+            datum: new Date(2022, 11, 24),
+            halberTag: true,
           }
         ]
     });

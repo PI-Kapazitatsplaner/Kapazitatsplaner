@@ -41,18 +41,25 @@
         <% for (const feiertag of feiertage) { %>
             <div class="feiertagBar">
                 <h2 class="text"><%- feiertag.titel %></h2>
-                <input type="date" placeholder="von" onchange="validate()" name="feiertagVon" class="input" value="<%- getFormattedDate(feiertag.von) %>">
+                <input type="date" placeholder="datum" name="feiertagDatum" class="input" value="<%- getFormattedDate(feiertag.datum) %>">
                 <p></p>
-                <input type="date" placeholder="bis" onchange="validate()" name="feiertagBis" class="input" value="<%- getFormattedDate(feiertag.bis) %>">
+                <label class="switch">
+                  <label class="textR" for="halberTag">Halbtag</label>
+                  <input type="checkbox" id="halberTag" value="<%= feiertag.titel %>" name="halberTag" <% if(feiertag.halberTag === true){ %>checked<% } %>>
+                  <span class="slider round"></span>
+                </label>
                 <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year%>/delete/' + '<%- feiertag.id %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
             </div>
         <% } %> 
-        <% if(addTeam){ %>
+        <% if(addFeiertag){ %>
             <div class="feiertagBar">
-                <input type="text" placeholder="Titel" name="addFeiertagTitel">
-                <input type="date" placeholder="von" onchange="validate()" class="input" name="addFeiertagVon" required>
+                <input type="text" id="teamInput" class="text team" name="addFeiertagTitel" placeholder="Feiertag Hinzufügen" oninput='checkContent(this)'>
+                <input type="date" placeholder="Datum" class="input" name="addFeiertagDatum" required>
                 <p></p>
-                <input type="date" placeholder="bis" onchange="validate()" class="input" name="addFeiertagBis" required>
+                <div style="display: flex;">
+                  <label for="addHalberTag">Halber Tag</label>
+                  <input type="checkbox" id="addHalberTag" value="nameeinesfeiertagesdenniejemandverwendenwird" name="addHalberTag">
+                </div>  
                 <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
             </div>
         <% } %> 
@@ -68,24 +75,6 @@
     
 </body>
 <script>
-  function validate(){
-    const inputs = document.querySelectorAll("input[type='date']");
-    let oneInvalidDate = false;
-    for (let i = 0; i < inputs.length; i += 2) {
-      if ((inputs[i].value + "T00:00:00Z") > (inputs[i + 1].value + "T00:00:00Z")) {
-        console.log("test")
-        oneInvalidDate = true;
-      }
-    }
-    if (!oneInvalidDate) {
-      document.getElementById("saveBtn").classList.remove("disableBtn");
-      document.getElementById("saveBtn").disabled = false;
-    } else {
-      document.getElementById("saveBtn").classList.add("disableBtn");
-      document.getElementById("saveBtn").disabled = true;
-    }
-  }
-
   function addFeiertag(){
     document.getElementById("feiertageForm").action = "/feiertage_verwaltung/<%- parent %>/<%- params.year %>/add";
     document.getElementById("feiertageForm").submit();
@@ -94,4 +83,5 @@
     location.href = "/feiertage_verwaltung/" + "<%- parent %>/" + yearInput.value;
   }
 </script>
+<%- include('colorScript') %>
 </html>

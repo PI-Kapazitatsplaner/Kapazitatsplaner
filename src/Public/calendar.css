@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  --feiertags-farbe: #9e3434;
+  --feiertags-farbe-secondary: #a35353;
 }
 .calendar{
   padding-left: 7%;
@@ -86,6 +88,11 @@ ul {list-style-type: none;}
   color: white !important
 }
 
+.days .feiertag:not(.anwesend) {
+  background: var(--feiertags-farbe) !important;
+  color: white !important
+}
+
 .days .abwesend {
   color: white;
   background: var(--suva-color-blue);
@@ -95,12 +102,24 @@ ul {list-style-type: none;}
   color: white;
 }
 
-.days .halbAbwesend.gestrichelt1{
+.days .halbAbwesend.gestrichelt1:not(.feiertag){
   background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 4px, var(--suva-color-blue-secondary) 4px, var(--suva-color-blue-secondary) 8px );
 }
 
-.days .halbAbwesend.gestrichelt2{
+.days .halbAbwesend.gestrichelt2:not(.feiertag){
   background: repeating-linear-gradient( -45deg, var(--suva-color-blue-secondary), var(--suva-color-blue-secondary) 4px, var(--suva-color-blue) 4px, var(--suva-color-blue) 8px );
+}
+
+.days .feiertag.halbAbwesend.gestrichelt2:not(.anwesend){
+  background: repeating-linear-gradient( -45deg, var(--feiertags-farbe-secondary), var(--feiertags-farbe-secondary) 4px, var(--feiertags-farbe) 4px, var(--feiertags-farbe) 8px ) !important;
+}
+
+.days .feiertag.halbAbwesend.gestrichelt1:not(.anwesend) {
+  background: repeating-linear-gradient( -45deg, var(--feiertags-farbe), var(--feiertags-farbe) 4px, var(--feiertags-farbe-secondary) 4px, var(--feiertags-farbe-secondary) 8px ) !important;
+}
+
+.days .anwesend {
+  color: var(--text);
 }
 
 .borderTop{
@@ -150,8 +169,13 @@ ul {list-style-type: none;}
 }
 
 .farbLegende li[tertiary] div div{
+  background: var(--feiertags-farbe);
+}
+
+.farbLegende li[quaternary] div div{
   background: repeating-linear-gradient( -45deg, var(--suva-color-blue), var(--suva-color-blue) 3px, var(--suva-color-blue-secondary) 3px, var(--suva-color-blue-secondary) 6px );
 }
+
 
 @media screen and (max-width: 900px) {
   .weekend{

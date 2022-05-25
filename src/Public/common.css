@@ -54,6 +54,7 @@ body::-webkit-scrollbar {
   box-shadow: #43757a 0px 5px 15px;
 }
 .input {
+  width: 130px;
   font-size: 17px;
   margin-top: 7%;
   margin-bottom: 7%;

@@ -63,6 +63,13 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
     if (currentUserTeams) {
       let usersTeams: Team[] = [];
 
+      //Get Feiertage
+      const feiertage = await prisma.feiertag.findMany({}).then((feiertage) => {
+        return feiertage.map((feiertag) => {
+          return feiertag.datum.getTime()
+        });
+      })
+
       for (const team of currentUserTeams) {
           //Get Team name to id
         const currentUserTeam = await prisma.team.findUnique({
@@ -102,7 +109,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
               });
             }
         }  
-      let vogaengerVelocity = 80;
+      let vorgaengerVelocity = 80;
 
       const kapazitaetProSprint: number[] = [];
       const tageProSprint: number[] = [];
@@ -127,8 +134,9 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
             const date = new Date(sprint.von);
             date <= sprint.bis;
             date.setDate(date.getDate() + 1)
-          ) {
-            if (member.user.standardAbwesenheiten.includes(date.getDay())) {
+          ) {            
+            if (member.user.standardAbwesenheiten.includes(date.getDay()) || 
+              feiertage.includes(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 1, 0 ,0).getTime())) {
               if (abwesenheiten) {
                 usersDaysInSprint = abwesenheiten.filter((a) =>
                     a.date == date.getTime() && a.typ === "anwesend"
@@ -167,7 +175,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         }
         tageProSprint.push(totalDaysInTeam);
         kapazitaetProSprint.push(
-          Math.round(daysWithUserProductivity * (vogaengerVelocity / 100)),
+          Math.round(daysWithUserProductivity * (vorgaengerVelocity / 100)),
         );
 
         let umgesetzteStorypointsInSprint = undefined;
@@ -189,11 +197,11 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         }
         
         const velocity = Math.round(
-          (vogaengerVelocity +
+          (vorgaengerVelocity +
           (umgesetzteStorypoints[umgesetzteStorypoints.length - 1] / kapazitaetProSprint[kapazitaetProSprint.length - 1] * 100)) / 2
         );
         velocitiesProSprint.push(velocity);
-        vogaengerVelocity = velocity;
+        vorgaengerVelocity = velocity;
       }
 
 

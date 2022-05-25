@@ -54,10 +54,11 @@
           }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
             __append("halbAbwesend")
           }else{
-            if(isStandardAbwesenheit() && !(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend'))){
+            if(isStandardAbwesenheit()){
               __append("abwesend")
-            }else{
-              __append("anwesend") 
+            }
+            if(isFeiertag() || isHalberFeiertag()){
+              __append("anwesend")
             }
           } 
           if(isWeekend()){
@@ -68,12 +69,24 @@
           }else{
             __append(" gestrichelt1")
           }
+          if(isFeiertag()){
+            __append(" feiertag")
+          }
+          if(isHalberFeiertag()){
+            __append(" feiertag halbAbwesend")
+          }  
         }
         function isSecondRow() {
           return Math.ceil((i+ calendar.fillerDays) / 7) % 2 === 0
         }
         function isWeekend() {
           return ((i + calendar.fillerDays) % 7 === 0 || (i + calendar.fillerDays + 7 - 6) % 7 === 0 )
+        }
+        function isFeiertag() {
+          return (calendar.feiertage.some(feiertag => feiertag === i))
+        }
+        function isHalberFeiertag() {
+          return (calendar.halbeFeiertage.some(halberFeiertag => halberFeiertag === i))
         }
         function isStandardAbwesenheit() {
           //so = 0; mo = 1; di = 2; mi = 3; do = 4; fr = 5; sa = 6;
@@ -93,6 +106,11 @@
           </div> Abwesend
         </li>
         <li tertiary>
+          <div>
+            <div></div>
+          </div> Feiertag
+        </li>
+        <li quaternary>
           <div>
             <div></div>
           </div> Halber Tag Abwesend
@@ -160,7 +178,7 @@
       element.classList.add("anwesend");
       setBorder();
       return "anwesend"
-    } else if (element.classList.contains("anwesend")) {
+    } else {
       element.classList.remove("anwesend");
       element.classList.add("abwesend");
       setBorder();
@@ -169,7 +187,7 @@
   }
 
   function setBorder() {
-    let listElements = Array.from(document.querySelectorAll("li.abwesend, li.halbAbwesend"));
+    let listElements = Array.from(document.querySelectorAll("li.abwesend, li.halbAbwesend, li.feiertag:not(.anwesend)"));
 
     for (const element of listElements) {
       element.classList.remove("borderBottom")
