@@ -56,10 +56,11 @@
                 <input type="text" id="teamInput" class="text team" name="addFeiertagTitel" placeholder="Feiertag Hinzufügen" oninput='checkContent(this)'>
                 <input type="date" placeholder="Datum" class="input" name="addFeiertagDatum" required>
                 <p></p>
-                <div style="display: flex;">
-                  <label for="addHalberTag">Halber Tag</label>
+                <label class="switch">
+                  <label class="textR" for="halberTag">Halbtag</label>
                   <input type="checkbox" id="addHalberTag" value="nameeinesfeiertagesdenniejemandverwendenwird" name="addHalberTag">
-                </div>  
+                  <span class="slider round"></span>
+                </label>
                 <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
             </div>
         <% } %> 
