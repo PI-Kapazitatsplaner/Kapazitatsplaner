@@ -9,7 +9,7 @@ RUN npm config set strict-ssl false
 RUN npm config set timeout 6000
 RUN mkdir -p /node_modules
 RUN npm config set registry https://swwnexusp0:18443/nexus/repository/npm-all/
-RUN npm install
+RUN npm install --only=prod
 COPY . .
 EXPOSE 3000
 CMD ["npm", "start"]
