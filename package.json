@@ -12,7 +12,7 @@
     "predev": "npm run startTestDb && npm run pretest-dev",
     "dev": "tsnd --respawn --rs ./src/app.ts",
     "devf": "tsnd --respawn --rs ./src/app.ts",
-    "prestart": "npx prisma db push  --accept-data-loss --force-reset && npx prisma generate && npx prisma db seed",
+    "prestart": "npx prisma db push && npx prisma generate && npx prisma db seed",
     "start": "ts-node-transpile-only ./src/app.ts",
     "docker": "docker build . -t ejs-prisma-ts/poc && docker run -p 8080:3000 -d ejs-prisma-ts/poc && echo \"Container Port mapped to \"http://localhost:8080/\"",
     "prisma:push": "prisma db push",
@@ -20,7 +20,7 @@
     "prisma:generate": "prisma generate",
     "ps": "prisma studio",
     "prisma:studio": "prisma studio",
-    "cys" : "cross-env mockKeycloak=true npm run dev",
+    "cys": "cross-env mockKeycloak=true npm run dev",
     "cyr": "cypress run",
     "cyo": "cypress open"
   },
@@ -49,6 +49,7 @@
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "keycloak-connect": "^18.0.0",
+    "ssl-root-cas": "^1.3.1",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"

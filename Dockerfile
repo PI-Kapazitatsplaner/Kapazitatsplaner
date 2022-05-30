@@ -8,6 +8,7 @@ RUN npm config set cafile /cert/Suva_Proxy_ICA_1.crt --global
 RUN npm config set strict-ssl false
 RUN npm config set timeout 6000
 RUN mkdir -p /node_modules
+RUN npm config set registry https://swwnexusp0:18443/nexus/repository/npm-all/
 RUN npm install
 COPY . .
 EXPOSE 3000

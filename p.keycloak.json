@@ -1,0 +1,9 @@
+{
+    "realm": "staging",
+    "auth-server-url": "https://auth.wuersch.cloud/auth/",
+    "ssl-required": "external",
+    "resource": "suva-ppk",
+    "confidential-port": 0,
+    "public-client": true
+}
+
