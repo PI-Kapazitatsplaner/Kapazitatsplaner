@@ -12,7 +12,7 @@
     "predev": "npm run startTestDb && npm run pretest-dev",
     "dev": "tsnd --respawn --rs ./src/app.ts",
     "devf": "tsnd --respawn --rs ./src/app.ts",
-    "prestart": "npx prisma db push && npx prisma generate && npx prisma db seed",
+    "setup-db": "npx prisma db push && npx prisma generate && npx prisma db seed",
     "start": "ts-node-transpile-only ./src/app.ts",
     "docker": "docker build . -t ejs-prisma-ts/poc && docker run -p 8080:3000 -d ejs-prisma-ts/poc && echo \"Container Port mapped to \"http://localhost:8080/\"",
     "prisma:push": "prisma db push",
