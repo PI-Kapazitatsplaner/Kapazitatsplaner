@@ -11,7 +11,7 @@ RUN npm config set timeout 6000
 RUN mkdir -p /node_modules
 #RUN npm config set registry https://swwnexusp0:18443/nexus/repository/npm-all/
 RUN npm install --only=prod
-RUN npm run setup-db
+#RUN npm run setup-db
 COPY . .
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["sleep", "1000"]
