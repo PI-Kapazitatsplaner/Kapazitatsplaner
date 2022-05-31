@@ -94,13 +94,13 @@
                 verwendet.</span></h2>
             <div class="number-input percent-input">
               <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-                max="100" name="productivity" onchange="checkPercentage()" value="<%- productivity[i] %>" type="number">
+                max="100" name="productivity" onchange="checkInput()" value="<%- productivity[i] %>" type="number">
               <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
               <button
-                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkInput(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="plus" type="button"></button>
               <button
-                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkInput(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="minus" type="button"></button>
               <script>
                 function scaleInputSize(input) {
@@ -116,7 +116,13 @@
       <% if(addTeam){ %>
         <div class="element teamBar addTeam" id="addTeam">
           <div class="teamSection">
-            <input type="text" id="teamInput" class="text team" name="newTeam" placeholder="Team Hinzufügen" oninput='checkContent(this)'>
+            <select name="newTeam" id="teams" class="dropdown text" onchange="checkInput()">
+              <option id="teamSelect" class="text selectItems firstSelectItem">Wähle ein Team</option>
+              <% for(const team of allTeams){ %>
+                <option class="text selectItems" value="<%- team.teamName %> "><%- team.teamName %></option>
+              <% } %>  
+            </select>
+
           </div>
           <div class="percentageSection">
             <h2 class="tooltip"><label for="productivity">
@@ -151,20 +157,9 @@
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
-  function checkContent(teamInput){
-    var saveBtn = document.getElementById('saveBtn');
-      if(teamInput.value.length > 0){
-      saveBtn.classList.remove('disableBtn');
-      saveBtn.disabled = false;
-      } 
-      else {
-        saveBtn.classList.add('disableBtn');
-        saveBtn.disabled = true;
-      }
-  }
 
   function scaleInputSize(input) {
-    checkPercentage();
+    checkInput();
     input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
   }
 
@@ -172,39 +167,28 @@
     scaleInputSize(document.querySelector('.percent-input input'));
   }
 
-  function checkPercentage(){
+  function checkInput(){
     let percentageInputs = document.getElementsByClassName("percent")
     let totalPercentage = 0;
-
-    for(const percentageInput of percentageInputs){
-      console.log(percentageInput.value);
+    
+    
+      for(const percentageInput of percentageInputs){
       totalPercentage += Number(percentageInput.value)
-    }
-    if(totalPercentage > 100){
-      document.getElementById("saveBtn").disabled = true;
-      document.getElementById("saveBtn").classList.add("disableBtn");
-    }
-    else{
-      document.getElementById("saveBtn").disabled = false;
-      document.getElementById("saveBtn").classList.remove("disableBtn");
-    }
-  }
-
-  function switchTheme(theme) {
-    if (theme === "light") {
-      setColors("light");
-    } else if (theme === "dark") {
-      setColors("dark");
-    } else if (theme === "browser") {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setColors("dark");
-      } else {
-        setColors("light");
       }
-    }
+      if(totalPercentage > 100){
+        document.getElementById("saveBtn").disabled = true;
+        document.getElementById("saveBtn").classList.add("disableBtn");
+      }
+      else{
+        document.getElementById("saveBtn").disabled = false;
+        document.getElementById("saveBtn").classList.remove("disableBtn");
+      }
+    
+
+    
   }
 
-  checkPercentage();
+  checkInput();
 </script>
 <%- include('colorScript') %>
 

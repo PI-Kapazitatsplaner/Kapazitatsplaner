@@ -218,7 +218,6 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         });
       }
       }
-      console.log(sprintsInPi)
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,
         header,

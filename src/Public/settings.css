@@ -175,7 +175,7 @@
 .teamBar:hover {
     background-color: var(--team-hover);
 }
-.teamBar:hover .number-input input[type=number] {
+.teamBar:hover .number-input input[type=number], .teamBar:hover .dropdown {
     background-color: var(--team-hover);
 }
 .team{
@@ -197,6 +197,18 @@
 }
 .addTeam:hover .team {
     background-color: var(--team-hover);
+}
+.dropdown{
+    background-color: var(--background2);
+    height: 30px;
+    font-size: 24px;
+    border: none;
+}
+.selectItems{
+    font-size: 18px;
+}
+.firstSelectItem{
+    display: none;
 }
 
 

@@ -65,6 +65,7 @@ router.get("/add", async (req, res) => {
   if (req.headers.referer?.includes("mein_kalender")) {
     parent = 1;
   }
+  const allTeams = await prisma.team.findMany();
   res.render("settings", {
     prefersWhiteMode: req.user.prefersWhiteMode,
     productivity: userTeamPercentage,
@@ -73,6 +74,7 @@ router.get("/add", async (req, res) => {
     teams: userTeams,
     parent,
     addTeam: true,
+    allTeams,
   });
 });
 
@@ -165,17 +167,12 @@ async function saveSettings(req: any) {
     });
   }
   
-
-  if (req.body.newTeam) {
-    const team = await prisma.team.upsert({
+  if(req.body.newTeam) {
+    const team = await prisma.team.findUnique({
       where: {
-        teamName: req.body.newTeam,
-      },
-      update: {},
-      create: {
-        teamName: req.body.newTeam,
-      },
-    });
+        teamName: req.body.newTeam.trim(),
+      }
+    })
     if (team && user_teams.map((ut) => ut.teamId).includes(team.id) === false) {
       await prisma.user_Team.create({
         data: {
