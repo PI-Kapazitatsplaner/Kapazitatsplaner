@@ -116,8 +116,8 @@
       <% if(addTeam){ %>
         <div class="element teamBar addTeam" id="addTeam">
           <div class="teamSection">
-            <select name="newTeam" id="teams" class="dropdown text" onchange="checkInput()">
-              <option id="teamSelect" class="text selectItems firstSelectItem">Wähle ein Team</option>
+            <select name="newTeam" id="teamSelect" class="dropdown text" onchange="checkInput()">
+              <option class="text selectItems firstSelectItem" value="0">Wähle ein Team</option>
               <% for(const team of allTeams){ %>
                 <option class="text selectItems" value="<%- team.teamName %> "><%- team.teamName %></option>
               <% } %>  
@@ -171,6 +171,23 @@
     let percentageInputs = document.getElementsByClassName("percent")
     let totalPercentage = 0;
     
+    if(<%- addTeam %>){
+      let dropdown = document.getElementById("teamSelect");
+      console.log(dropdown.value);
+
+      for(const percentageInput of percentageInputs){
+      totalPercentage += Number(percentageInput.value)
+      }
+      if(totalPercentage > 100 || dropdown.value == 0){
+        document.getElementById("saveBtn").disabled = true;
+        document.getElementById("saveBtn").classList.add("disableBtn");
+      }
+      else if(dropdown != "Wähle ein Team"){
+        document.getElementById("saveBtn").disabled = false;
+        document.getElementById("saveBtn").classList.remove("disableBtn");
+      }
+    }
+    else{
     
       for(const percentageInput of percentageInputs){
       totalPercentage += Number(percentageInput.value)
@@ -183,7 +200,7 @@
         document.getElementById("saveBtn").disabled = false;
         document.getElementById("saveBtn").classList.remove("disableBtn");
       }
-    
+    }
 
     
   }

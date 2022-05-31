@@ -202,7 +202,8 @@
     background-color: var(--background2);
     height: 30px;
     font-size: 24px;
-    border: none;
+    border: var(--text) 1px solid;
+    border-radius: 4px;
 }
 .selectItems{
     font-size: 18px;

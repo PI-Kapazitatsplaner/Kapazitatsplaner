@@ -44,7 +44,7 @@
                 <input type="date" placeholder="datum" name="feiertagDatum" class="input" value="<%- getFormattedDate(feiertag.datum) %>">
                 <p></p>
                 <label class="switch">
-                  <label class="textR" for="halberTag">Halbtag</label>
+                  <label class="text textR" for="halberTag">Halbtag</label>
                   <input type="checkbox" id="halberTag" value="<%= feiertag.titel %>" name="halberTag" <% if(feiertag.halberTag === true){ %>checked<% } %>>
                   <span class="slider round"></span>
                 </label>
@@ -57,7 +57,7 @@
                 <input type="date" placeholder="Datum" class="input" name="addFeiertagDatum" required>
                 <p></p>
                 <label class="switch">
-                  <label class="textR" for="halberTag">Halbtag</label>
+                  <p class="text textR">Halbtag</p>
                   <input type="checkbox" id="addHalberTag" value="nameeinesfeiertagesdenniejemandverwendenwird" name="addHalberTag">
                   <span class="slider round"></span>
                 </label>
