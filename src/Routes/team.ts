@@ -123,6 +123,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         const daysInSprint = Math.abs(
           (sprint.von.getTime() - sprint.bis.getTime()) / (1000 * 3600 * 24),
         ) + 1;
+        //Jeder Team member
         for (const member of teamMembers) {
           const abwesenheiten = await getAbwesenheitenInDateRange(
             sprint.von,
@@ -200,10 +201,10 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           (vorgaengerVelocity +
           (umgesetzteStorypoints[umgesetzteStorypoints.length - 1] / kapazitaetProSprint[kapazitaetProSprint.length - 1] * 100)) / 2
         );
+        
         velocitiesProSprint.push(velocity);
         vorgaengerVelocity = velocity;
       }
-
 
       if (currentUserTeam) {
         usersTeams.push({
@@ -216,8 +217,8 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           umgesetzteStorypoints: umgesetzteStorypoints.map((k) =>isNaN(k) ? 0 : k),
         });
       }
-
-    }
+      }
+      console.log(sprintsInPi)
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,
         header,
@@ -225,6 +226,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         params: req.params,
         userTeams: usersTeams,
         noTeam: false,
+        sprints: sprintsInPi,
       });
     } else {
       res.render("team_kalender", {
@@ -233,6 +235,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         prefersWhiteMode: req.user.prefersWhiteMode,
         params: req.params,
         noTeam: true,
+        sprints: sprintsInPi,
       });
     }
   } else {

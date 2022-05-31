@@ -40,17 +40,41 @@
         <tbody>
           <tr>
             <th class="name firstElement borderTL"><%- team.teamName %></th>
-            <th>Sprint 1</th>
-            <th>Sprint 2</th>
-            <th>Sprint 3</th>
-            <th>Sprint 4</th>
-            <th>Sprint 5</th>
-            <th class="borderTR">Sprint 6</th>
+            <th class="ttContainer tooltip">Sprint 1  
+              <span class="tooltiptext">
+                Der Sprint dauert vom <%- getFormattedDate(sprints[0].von) %> bis zum <%- getFormattedDate(sprints[0].bis) %> 
+              </span>
+            </th>
+            <th class="ttContainer tooltip">Sprint 2
+              <span class="tooltiptext">
+                Der Sprint dauert vom <%- getFormattedDate(sprints[1].von) %> bis zum <%- getFormattedDate(sprints[1].bis) %> 
+              </span>
+            </th>
+            <th class="ttContainer tooltip">Sprint 3
+              <span class="tooltiptext">
+                Der Sprint dauert vom <%- getFormattedDate(sprints[2].von) %> bis zum <%- getFormattedDate(sprints[2].bis) %> 
+              </span>
+            </th>
+            <th class="ttContainer tooltip">Sprint 4
+              <span class="tooltiptext">
+                Der Sprint dauert vom <%- getFormattedDate(sprints[3].von) %> bis zum <%- getFormattedDate(sprints[3].bis) %> 
+              </span>
+            </th>
+            <th class="ttContainer tooltip">Sprint 5
+              <span class="tooltiptext">
+                Der Sprint dauert vom <%- getFormattedDate(sprints[4].von) %> bis zum <%- getFormattedDate(sprints[4].bis) %> 
+              </span>
+            </th>
+            <th class="borderTR ttContainer tooltip">Sprint 6
+              <span class="tooltiptext">
+                Der Sprint dauert vom <%- getFormattedDate(sprints[5].von) %> bis zum <%- getFormattedDate(sprints[5].bis) %> 
+              </span>
+            </th>
           </tr>
           <% for(const member of team.teamMembers){ %>
           <tr>
             <td class="text firstElement tooltip">
-              <p class="text ttContainer"><%- member.user.firstname + ' ' + member.user.lastname%>
+              <p class=" ttContainer"><%- member.user.firstname + ' ' + member.user.lastname%>
                 <span class="tooltiptext">
                   <%- member.user.firstname %> hat ein Pensum von <%- (7 - (member.user.standardAbwesenheiten.length)) * 20 %> % und ist dabei zu <%- member.productivityPercentage %>% am Entwickeln
                 </span>
@@ -116,6 +140,12 @@
     <% } %>
   </div>
 </body>
+<% function getFormattedDate(date){
+  let day;
+  
+  return String(date.getUTCDate() + 1) + "." + String(date.getUTCMonth() + 1) + "." + String(date.getUTCFullYear())
+  
+} %>
 <script>
   function updateYear(yearInput) {
     location.href = "/team_kalender/" + yearInput.value + "/PI-01";
