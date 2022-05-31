@@ -22,7 +22,14 @@ router.get("/:parent/:year", async (req, res) => {
 });
 
 router.get("/:parent/:year/add", async (req, res) => {
-    const feiertage = await prisma.feiertag.findMany({});
+  const feiertage = await prisma.feiertag.findMany({
+    where: {
+      datum: {
+        gte: new Date(req.params.year + "-01-01"),
+        lte: new Date(req.params.year + "-12-31"),
+      },
+    }
+  });
     res.render("feiertage_verwaltung", {
       prefersWhiteMode: req.user.prefersWhiteMode,
       parent: req.params.parent,
@@ -72,7 +79,7 @@ router.post("/:parent/:year", async (req, res) => {
       data: {
         titel: req.body.addFeiertagTitel,
         datum: req.body.addFeiertagDatum + "T00:00:00.000Z",
-        halberTag: req.body.halberTag instanceof Array ? req.body.halberTag.includes("nameeinesfeiertagesdenniejemandverwendenwird") : req.body.halberTag === "nameeinesfeiertagesdenniejemandverwendenwird",
+        halberTag: req.body.addHalberTag instanceof Array ? req.body.addHalberTag.includes("nameeinesfeiertagesdenniejemandverwendenwird") : req.body.addHalberTag === "nameeinesfeiertagesdenniejemandverwendenwird",
       }
     });
   }  
