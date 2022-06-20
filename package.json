@@ -12,7 +12,7 @@
     "predev": "npm run startTestDb && npm run pretest-dev",
     "dev": "tsnd --respawn --rs ./src/app.ts",
     "devf": "tsnd --respawn --rs ./src/app.ts",
-    "setup-db": "npx prisma db push && npx prisma generate && npx prisma db seed",
+    "setup-db": "prisma db push && prisma generate && prisma db seed",
     "start": "ts-node-transpile-only ./src/app.ts",
     "docker": "docker build . -t ejs-prisma-ts/poc && docker run -p 8080:3000 -d ejs-prisma-ts/poc && echo \"Container Port mapped to \"http://localhost:8080/\"",
     "prisma:push": "prisma db push",
@@ -41,6 +41,7 @@
   "homepage": "https://github.com/PI-Kapazitatsplaner/Kapazitaetsplaner#readme",
   "dependencies": {
     "@prisma/client": "^3.14.0",
+    "@prisma/engines": "^3.15.0-15.84752d910f217b828f862e884b6b7858dca7c76c",
     "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
@@ -53,8 +54,6 @@
     "typescript": "^4.6.4"
   },
   "devDependencies": {
-    "ts-jest": "^27.1.4",
-    "cypress": "^9.6.1",
     "@types/chai": "^4.3.1",
     "@types/config": "^0.0.41",
     "@types/cookie-parser": "^1.4.3",
@@ -69,9 +68,11 @@
     "chai": "^4.3.6",
     "concurrently": "^7.2.0",
     "cross-env": "^7.0.3",
+    "cypress": "^9.6.1",
     "jest": "^27.5.1",
     "prisma": "^3.14.0",
     "supertest": "^6.2.3",
+    "ts-jest": "^27.1.4",
     "ts-node-dev": "^1.1.8"
   }
 }
