@@ -8,7 +8,6 @@ export default async function enrichUser(
 ) {
   let content;
   if (process.env.NODE_ENV === "test" || process.env.mockKeycloak === "true") {
-    console.log("Mocking Userenricher");
     content = {
       sub: getTestUserSub(),
       name: "mock",

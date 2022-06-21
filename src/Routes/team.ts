@@ -1,7 +1,7 @@
 import express from "express";
 import prisma from "../prisma/client";
 import sendFileIfParamEqualsName from "../middleware/fileSender/fileSender";
-import { AbwesenheitsTyp, User } from "@prisma/client";
+import { AbwesenheitsTyp, Pi, User } from "@prisma/client";
 
 interface Member {
   user: User;
@@ -46,7 +46,6 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         },
       },
     });
-
     //Sprints finden
     const sprintsInPi = await prisma.sprint.findMany({
       where: {
@@ -108,14 +107,54 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
                 kapazitaetProSprint: [],
               });
             }
-        }  
-      let vorgaengerVelocity = 80;
+        } 
+        //Get Previous PI
+        let previousPi: Pi | null = null;
+        if(pi){
+          previousPi = await prisma.pi.findUnique({
+            where: {
+              piKey:{
+                iteration: pi.iteration - 1 === 0 ? 4 : pi.iteration - 1,
+                year: pi.iteration - 1 === 0 ? pi.year - 1 : pi.year,
+              }
+            }
+          });
+        }
+
+        //Get Previous Sprint
+        let vorgaengerSprintId;
+        if(previousPi){
+          vorgaengerSprintId = await prisma.sprint.findUnique({
+            where: {
+              sprintKey: {
+                piId: previousPi.id,
+                sprintNumber: 6
+              }
+            }
+          }).then(sprint => sprint?.id);
+        }
+        console.log(vorgaengerSprintId);
+        
+        
+        let vorgaengerVelocity: number = 80
+        if(pi && team && vorgaengerSprintId){
+          vorgaengerVelocity = await prisma.sprintTeam.findUnique({
+            where: {
+              sprintTeamKey: {
+                teamId: team.teamId,
+                sprintId: vorgaengerSprintId,
+              }
+            }
+          }).then(sprint => sprint?.endVelocity || 80);  
+        }
+        
 
       const kapazitaetProSprint: number[] = [];
       const tageProSprint: number[] = [];
       const velocitiesProSprint: number[] = [];
       const umgesetzteStorypoints: number[] = [];
 
+      let sprintNumber = 1;
       //Tage pro Sprint berechnen
       for (const sprint of sprintsInPi) {
         let totalDaysInTeam = 0;
@@ -189,21 +228,49 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
             },
           },
         }).then((res) => res?.umgesetzteStorypoints);
-        if (umgesetzteStorypointsInSprint) {
+
+        let velocity = vorgaengerVelocity;
+        
+        if (umgesetzteStorypointsInSprint !== undefined && umgesetzteStorypointsInSprint !== null) {
+          if(kapazitaetProSprint[kapazitaetProSprint.length - 1] > 0){
+            velocity = Math.round(
+              (sprintNumber * vorgaengerVelocity +
+              (umgesetzteStorypointsInSprint / kapazitaetProSprint[kapazitaetProSprint.length - 1] * 100)) / (sprintNumber + 1)
+            );
+          }
           umgesetzteStorypoints.push(umgesetzteStorypointsInSprint);
         } else {
           umgesetzteStorypoints.push(
-            kapazitaetProSprint[kapazitaetProSprint.length - 1],
+            0
           );
         }
-        
-        const velocity = Math.round(
-          (vorgaengerVelocity +
-          (umgesetzteStorypoints[umgesetzteStorypoints.length - 1] / kapazitaetProSprint[kapazitaetProSprint.length - 1] * 100)) / 2
-        );
-        
+                
         velocitiesProSprint.push(velocity);
         vorgaengerVelocity = velocity;
+        
+        if(sprintNumber === 6){
+          console.log(sprint.id);
+          console.log(team.teamId);
+          
+          await prisma.sprintTeam.upsert({
+            where: {
+              sprintTeamKey: {
+                sprintId: sprint.id,
+                teamId: team.teamId,
+              },
+            },
+            create: {
+              sprintId: sprint.id,
+              teamId: team.teamId,
+              endVelocity: velocity,
+            },
+            update: {
+              endVelocity: velocity,
+            },
+          });
+        }
+
+        sprintNumber++
       }
 
       if (currentUserTeam) {

@@ -40,7 +40,6 @@ model Pi {
   planungVon DateTime?
   planungBis DateTime?
   sprint     Sprint[]
-
   @@unique(fields: [year, iteration], name: "piKey")
 }
 
@@ -77,7 +76,8 @@ model SprintTeam {
   SprintTeamId          Int    @id @default(autoincrement())
   sprintId              Int
   teamId                Int
-  umgesetzteStorypoints Float
+  umgesetzteStorypoints Float?
+  endVelocity           Int?
   sprint                Sprint @relation(fields: [sprintId], references: [id])
   team                  Team   @relation(fields: [teamId], references: [id])
 

@@ -52,6 +52,9 @@
 .mainContent .velocityBoard tr:nth-child(even) {
   background-color: var(--background2);
 }
+.mainContent .velocityBoard tr:nth-child(odd) form div input {
+  background-color: var(--background);
+}
 
 .velocityBoard tbody tr .borderTop {
   border-top: var(--text) solid 1px;
