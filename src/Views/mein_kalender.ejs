@@ -53,13 +53,12 @@
              __append(" abwesend") 
           }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'halbAbwesend')){
             __append("halbAbwesend")
-          }else{
-            if(isStandardAbwesenheit()){
-              __append("abwesend")
-            }
-            if(isFeiertag() || isHalberFeiertag()){
+          }else if(calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i && abwesenheit.typ === 'anwesend')){
+            if(isFeiertag() || isHalberFeiertag() || isStandardAbwesenheit()){
               __append("anwesend")
-            }
+            }            
+          }else if(isStandardAbwesenheit()){
+              __append("abwesend")
           } 
           if(isWeekend()){
             __append(" weekend")
@@ -72,9 +71,15 @@
           if(isFeiertag()){
             __append(" feiertag")
           }
+          if(isFeiertag() && !calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i)){
+            __append(" abwesend")
+          }
           if(isHalberFeiertag()){
-            __append(" feiertag halbAbwesend")
+            __append(" feiertag")
           }  
+          if(isHalberFeiertag() && !calendar.abwesenheitenInMonth.some(abwesenheit => abwesenheit.date === i)){
+            __append(" halbAbwesend")
+          }
         }
         function isSecondRow() {
           return Math.ceil((i+ calendar.fillerDays) / 7) % 2 === 0
