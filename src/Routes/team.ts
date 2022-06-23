@@ -132,9 +132,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
               }
             }
           }).then(sprint => sprint?.id);
-        }
-        console.log(vorgaengerSprintId);
-        
+        }        
         
         let vorgaengerVelocity: number = 80
         if(pi && team && vorgaengerSprintId){
@@ -249,9 +247,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         vorgaengerVelocity = velocity;
         
         if(sprintNumber === 6){
-          console.log(sprint.id);
-          console.log(team.teamId);
-          
+        
           await prisma.sprintTeam.upsert({
             where: {
               sprintTeamKey: {

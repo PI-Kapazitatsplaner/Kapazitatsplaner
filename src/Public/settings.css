@@ -280,3 +280,11 @@
 .showAddTeam{
     visibility: visible !important;
 }
+.colorSwitch{
+    display: flex;
+    align-items: center;
+}
+.colorSwitch p{
+    padding-left: 0;
+    margin-left: 0;
+}

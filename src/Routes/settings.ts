@@ -119,9 +119,9 @@ async function saveSettings(req: any) {
     );
   }
   let prefersWhiteMode;
-  if (req.body.theme === "light") {
+  if (req.body.theme === undefined) { //Lightmode
     prefersWhiteMode = true;
-  } else if (req.body.theme === "dark") {
+  } else if (req.body.theme === "false") { //Darkmode
     prefersWhiteMode = false;
   }
   await prisma.user.update({

@@ -26,6 +26,7 @@
 }
 .mainContent .velocityBoard .borderBL {
   border-bottom-left-radius: 8px;
+  border-left: none;
 }
 .mainContent .velocityBoard .borderBR {
   border-bottom-right-radius: 8px;
@@ -116,4 +117,9 @@
 .ttContainer::after{ 
   content: "?";
   vertical-align: super;
+}
+.date{
+  margin: 0;
+  padding: 0;
+  font-size: 17px;
 }

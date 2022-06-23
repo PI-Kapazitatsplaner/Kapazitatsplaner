@@ -35,14 +35,18 @@
         <div class="line linecol"></div>
       </div>
       <div class="element">
-        <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
-        <input type="radio" name="theme" value="dark" <% if(prefersWhiteMode === false) { __append("checked='checked'") } %>>
-        <p class="text" style="display: inline-block;">Dunkel</p></input>
-        <input type="radio" name="theme" value="light" <% if(prefersWhiteMode === true) { __append("checked='checked'") } %>>
-        <p class="text" style="display: inline-block;">Hell</p></input>
+        <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der ganzen Applikation verwendet.</span></h2>
+        <div class="colorSwitch">
+          <p class="text">Darkmode</p>
+          <label class="switch">
+            <input type="checkbox" id="colorMode" value="false" name="theme" <% if(prefersWhiteMode === false) {%>checked<% } %>> <!-- checked when darkmode-->
+            <span class="slider round"></span>
+          </label>
+        </div>
+        
       </div>
       <div class="element">
-        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
+        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ definiert werden.</span></h2>
         <div class="days">
           <div class="day">
             <input type="checkbox" id="monday" name="standardAbwesenheiten" value="1" <% if(standardAbwesenheiten.includes(1)){__append("checked")}%>>

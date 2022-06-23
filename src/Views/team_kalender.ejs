@@ -40,12 +40,12 @@
         <tbody>
           <tr>
             <th class="name firstElement borderTL"><%- team.teamName %></th>
-            <th>Sprint 1 <br> <%- getFormattedDateWOYear(sprints[0].von) + " - " + getFormattedDateWOYear(sprints[0].bis) %></th>
-            <th>Sprint 2 <br> <%- getFormattedDateWOYear(sprints[1].von) + " - " + getFormattedDateWOYear(sprints[1].bis) %></th>
-            <th>Sprint 3 <br> <%- getFormattedDateWOYear(sprints[2].von) + " - " + getFormattedDateWOYear(sprints[2].bis) %></th>
-            <th>Sprint 4 <br> <%- getFormattedDateWOYear(sprints[3].von) + " - " + getFormattedDateWOYear(sprints[3].bis) %></th>
-            <th>Sprint 5 <br> <%- getFormattedDateWOYear(sprints[4].von) + " - " + getFormattedDateWOYear(sprints[4].bis) %></th>
-            <th class="borderTR">Sprint 6 <br> <%- getFormattedDateWOYear(sprints[5].von) + " - " + getFormattedDateWOYear(sprints[5].bis) %></th>
+            <th>Sprint 1 <br> <p class="date"><%- getFormattedDateWOYear(sprints[0].von) + " - " + getFormattedDateWOYear(sprints[0].bis) %></p></th>
+            <th>Sprint 2 <br> <p class="date"><%- getFormattedDateWOYear(sprints[1].von) + " - " + getFormattedDateWOYear(sprints[1].bis) %></p></th>
+            <th>Sprint 3 <br> <p class="date"><%- getFormattedDateWOYear(sprints[2].von) + " - " + getFormattedDateWOYear(sprints[2].bis) %></p></th>
+            <th>Sprint 4 <br> <p class="date"><%- getFormattedDateWOYear(sprints[3].von) + " - " + getFormattedDateWOYear(sprints[3].bis) %></p></th>
+            <th>Sprint 5 <br> <p class="date"><%- getFormattedDateWOYear(sprints[4].von) + " - " + getFormattedDateWOYear(sprints[4].bis) %></p></th>
+            <th class="borderTR">Sprint 6 <br> <p class="date"><%- getFormattedDateWOYear(sprints[5].von) + " - " + getFormattedDateWOYear(sprints[5].bis) %></p></th>
           </tr>
           
           <% for(const member of team.teamMembers){ %>
@@ -98,7 +98,7 @@
             <td class="text"><%= team.velocitiesProSprint[team.velocitiesProSprint.length -1] %>%</td>
           </tr>
           <tr>
-            <td style="border: 0;"></td>
+            <td class="borderBL"></td>
             <td style="border: 0;"></td>
             <td style="border: 0;"></td>
             <td style="border: 0;"></td>

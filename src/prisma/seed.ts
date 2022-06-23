@@ -19,6 +19,7 @@ const main = async () => {
                 lastname: "Hänggi",
                 preferencesWhiteMode: false,
                 standardAbwesenheiten: [0, 2, 6],
+                role: "dev"
             },
             {
                 sub: '4296e3d8-a609-4ffa-b27a-3106ed7a5126', //gif
@@ -26,6 +27,7 @@ const main = async () => {
                 lastname: "Federspiel",
                 preferencesWhiteMode: true,
                 standardAbwesenheiten: [0, 3],
+                role: "admin"
             }
         ]
     });

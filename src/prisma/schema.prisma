@@ -15,6 +15,7 @@ model User {
   firstname              String
   lastname               String
   team                   User_Team[]
+  role                   String?
 }
 
 model Abwesenheit {
