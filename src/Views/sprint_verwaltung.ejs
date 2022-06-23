@@ -57,7 +57,7 @@
 
       <input onchange="validate()" placeholder="Ende" <% if(sprints !== undefined){ %> value="<%- getFormattedDate(sprints.find(sprint => sprint.sprintNumber === d)?.bis) %>" <% } %> name="ende" type="date" class="input text thirdColumn">
 
-      <p class="ttContainer">?<span class="tooltiptext fourthColumn">Der Datumsbereich ist ungültig!</span></p>
+      <p style="padding-left: 5px" class="ttContainer">?<span class="tooltiptext fourthColumn">Der Datumsbereich ist ungültig!</span></p>
 
       <% if(d == 6){ %>
       <p class="content_text text planungstageText">Planungstage</p>
