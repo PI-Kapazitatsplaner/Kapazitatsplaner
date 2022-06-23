@@ -22,9 +22,20 @@ router.get('/:year?/:month?', sendFileIfParamEqualsName, async (req, res) => {
             standardAbwesenheiten: req.user.standardAbwesenheiten,
             feiertage: await getFeiertageInMonth(date, false),
             halbeFeiertage: await getFeiertageInMonth(date, true)
-        }        
+        } 
+        const user = await prisma.user.findUnique({
+            where:{
+                sub: req.user.sub
+            }
+        });
         const header = { currSite: 2, username: req.user.name };
-        res.render("mein_kalender", { header, prefersWhiteMode: req.user.prefersWhiteMode, anzAbwesenheiten: req.user.standardAbwesenheiten.length ,calendar, csrfToken: req.csrfToken() });
+        res.render("mein_kalender", { 
+            header, 
+            prefersWhiteMode: req.user.prefersWhiteMode, 
+            anzAbwesenheiten: req.user.standardAbwesenheiten.length ,
+            calendar,
+            role: user?.role, 
+            csrfToken: req.csrfToken() });
     }
     else {
         if (year !== undefined && Number(year) >= 2020 && Number(year) < 2100) {

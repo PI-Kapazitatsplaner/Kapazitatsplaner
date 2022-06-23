@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request } from 'express';
 import createError from 'http-errors';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -13,7 +13,7 @@ import sprint_settingsRouter from "./Routes/sprint_settings";
 import feiertageRouter from "./Routes/feiertage";
 import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
-
+import { Request } from 'express';
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;

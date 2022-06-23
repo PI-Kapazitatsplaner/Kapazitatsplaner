@@ -4,32 +4,42 @@ import express from "express";
 let router = express.Router();
 
 router.get("/:parent/:year", async (req, res) => {
-  const feiertage = await prisma.feiertag.findMany({
-    where: {
-      datum: {
-        gte: new Date(req.params.year + "-01-01"),
-        lte: new Date(req.params.year + "-12-31"),
-      },
-    }
-  });
-  res.render("feiertage_verwaltung", {
-    prefersWhiteMode: req.user.prefersWhiteMode,
-    parent: req.params.parent,
-    feiertage: feiertage,
-    addFeiertag: false,
-    params: req.params,
-  });
+  if(req.user.role == "dev"){
+    res.send("No Access")
+  }
+  else{
+    const feiertage = await prisma.feiertag.findMany({
+      where: {
+        datum: {
+          gte: new Date(req.params.year + "-01-01"),
+          lte: new Date(req.params.year + "-12-31"),
+        },
+      }
+    });
+    res.render("feiertage_verwaltung", {
+      prefersWhiteMode: req.user.prefersWhiteMode,
+      parent: req.params.parent,
+      feiertage: feiertage,
+      addFeiertag: false,
+      params: req.params,
+    });
+  }
+  
 });
 
 router.get("/:parent/:year/add", async (req, res) => {
-  const feiertage = await prisma.feiertag.findMany({
-    where: {
-      datum: {
-        gte: new Date(req.params.year + "-01-01"),
-        lte: new Date(req.params.year + "-12-31"),
-      },
-    }
-  });
+  if(req.user.role == "dev"){
+    res.send("No Access")
+  }
+  else{
+    const feiertage = await prisma.feiertag.findMany({
+      where: {
+        datum: {
+          gte: new Date(req.params.year + "-01-01"),
+          lte: new Date(req.params.year + "-12-31"),
+        },
+      }
+    });
     res.render("feiertage_verwaltung", {
       prefersWhiteMode: req.user.prefersWhiteMode,
       parent: req.params.parent,
@@ -37,6 +47,7 @@ router.get("/:parent/:year/add", async (req, res) => {
       addFeiertag: true,
       params: req.params,
     });
+  }
 });
 
 router.get("/:parent/:year/delete/:id", async (req, res) => {

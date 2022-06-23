@@ -52,6 +52,11 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         piId: pi?.id,
       },
     });
+    const user = await prisma.user.findUnique({
+      where:{
+          sub: req.user.sub
+      }
+    });
 
   //Find Teams to current user
   const currentUserTeams = await prisma.user_Team.findMany({
@@ -281,6 +286,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         });
       }
       }
+      
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,
         header,
@@ -288,6 +294,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         params: req.params,
         userTeams: usersTeams,
         noTeam: false,
+        role: user?.role,
         sprints: sprintsInPi,
       });
     } else {
@@ -297,6 +304,7 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         prefersWhiteMode: req.user.prefersWhiteMode,
         params: req.params,
         noTeam: true,
+        role: user?.role,
         sprints: sprintsInPi,
       });
     }

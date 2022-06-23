@@ -44,6 +44,7 @@ declare namespace Express {
       familyName: string;
       email: string;
       standardAbwesenheiten: number[];
+      role: string?;
     };
   }
 }

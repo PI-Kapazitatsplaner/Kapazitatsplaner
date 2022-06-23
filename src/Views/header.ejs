@@ -1,7 +1,9 @@
 <div class="bar">
     <button class="text" type="submit" onclick="location.href='/logout'">Logout(<%= header.username %>)</button>
     <button class="text" type="submit" onclick="location.href='/settings'">Settings</button>
-    <button class="text" onclick="location.href='/sprint_verwaltung/2022/PI-01'">Termine verwalten</button>
+    <%if (role == "admin"){ %> 
+        <button class="text" onclick="location.href='/sprint_verwaltung/2022/PI-01'">Termine verwalten</button>
+    <% } %> 
 </div>
 
 <div class="head">
