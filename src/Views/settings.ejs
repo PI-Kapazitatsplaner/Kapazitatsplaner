@@ -98,7 +98,7 @@
                 verwendet.</span></h2>
             <div class="number-input percent-input">
               <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-                max="100" name="productivity" onchange="checkInput()" value="<%- productivity[i] %>" type="number">
+                max="100" name="productivity" onchange="checkInput(); scaleInputSize(this)" value="<%- productivity[i] %>" type="number">
               <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
               <button
                 onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkInput(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
@@ -106,11 +106,6 @@
               <button
                 onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkInput(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="minus" type="button"></button>
-              <script>
-                function scaleInputSize(input) {
-                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-                }
-              </script>
             </div>
           </div>
           <i onclick="location.href='/settings/delete/' + '<%- teams[i].teamName %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
@@ -134,8 +129,8 @@
               </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
                 verwendet.</span></h2>
             <div class="number-input percent-input">
-              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-                max="100" name="newPercentage" value="0" type="number">
+              <input oninput="scaleInputSize(this);" onchange="scaleInputSize(this)" onloadstart="scaleInputSize(this);" class="percent" min="0"
+                max="100" name="newPercentage" value="100" type="number">
               <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
               <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
               <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>

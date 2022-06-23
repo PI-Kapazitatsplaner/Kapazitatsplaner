@@ -131,9 +131,6 @@
   margin-right: 1%;
   border-radius: 4px;
 }
-
-
-
 .firstColumn{
   grid-column: 1 / span 1;
 }
@@ -157,6 +154,8 @@
 .termineNav a:hover{
   color: var(--text-hover);
 }
+
+::-webkit-calendar-picker-indicator { filter: brightness(0) contrast(100%) invert(92%) sepia(8%) saturate(0%) hue-rotate(249deg) brightness(95%) contrast(84%);; }
 
 @media screen and (max-width: 1546px) {
   .grid{
