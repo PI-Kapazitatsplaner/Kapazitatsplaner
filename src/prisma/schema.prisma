@@ -78,7 +78,10 @@ model SprintTeam {
   sprintId              Int
   teamId                Int
   umgesetzteStorypoints Float?
+  kapazitaetProSprint   Int?
+  tageProSprint         Int?
   endVelocity           Int?
+  sprintDone            Boolean @default(false)
   sprint                Sprint @relation(fields: [sprintId], references: [id])
   team                  Team   @relation(fields: [teamId], references: [id])
 
