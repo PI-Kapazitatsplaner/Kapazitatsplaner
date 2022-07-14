@@ -57,4 +57,5 @@ Die zusätzlichen Anforderungen wurden nicht umgesetzt, da wir es nicht für nö
 ![](docImgs/komponenten-diagramm.png)
 # Datenmodell
 ![](docImgs/prisma-erd.svg)
+Erstellt mit <a href="https://prisma-erd.simonknott.de/">Prisma ERD generator</a>
 # Reflexion
