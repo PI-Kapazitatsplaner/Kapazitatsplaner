@@ -36,11 +36,11 @@ Zusätliche features währen:
 Die weiteren Schritte währen: Dass ganze Projekt in der Suva zu deployen und die Applikation im grösseren Rahmen zu testen. Dazu fallen (hoffentlich möglichst wenige) Bugs an, welche gefixt werden müssen. Dies wird aber in der Rösslimatt gemacht und nicht mehr im Basislehrjahr in Adligenswil.
 
 # Einleitung
+Im 4. Semester der Informatikerausbildung haben wir im Rahmen des Basislehrjahres ein Projekt umgesetzt. Nach einem Meeting mit den Praxisbildnern haben wir uns für einen Kapazitätsplaner im Web entschieden. Wir haben uns dafür entschiedne, weil die Kapazitätsplanung momentan im Excel gemacht wird und es bis dato noch keine Lösung im Web dafür gibt.
+
+Das Ziel war es die bestehenden Funktionen des Excels ins Web zu bringen. Dabei sollte auf keine Features des Excels verzichtet werden sollen.
+
 Für die Realisierung des Kapazitätsplaner haben wir uns ein Scrumboard aufgesetzt, welches wir zu Beginn des Semesters mit den ersten Features befüllt haben. Zudem haben wir auch die Sprints geplant und Einladungen für die jeweiligen Reviews verschickt.
-
-Während der Umsetzungsphase mussten wir viele Entscheidungen treffen bezüglich den umzusetzenden Features. Dies haben wir meistens in den Reviews mit den Praxisbildner getan. Dabei kam zustande, dass wir z.B. das Feature: die Kalender der Teammitglieder sehen, nicht umgesetzt haben. Während des Entscheidungsprozesses wurde schnell Einigkeit erzeugt. Die zusammenarbeit mit den Praxisbildner, sowie unter den Entwicklern verlief durch das Projekt durch hervorragend. Dies war ein entscheidender Faktor dafür, wie schnell wir voran gekommen sind. Ein weiterer Faktor dafür war der Arbeitsort. Wir hatten stehts die Möglichkeit im Homeoffice oder vor Ort zu arbeiten, wie es uns am besten passt. Somit kamen wir am Arbeiten an den individuellen Arbeitsplätzen sehr schnell voran und konnten uns dann für Pairprogramming Sessions vor Ort treffen. Die Dailys hielten wir oft über Remote. Diese Faktoren halfen uns dabei das Projekt gegen Ende des Semesters fertigzustellen.
-
-
 
 # Umgesetzte Anforderungen
 Wir konnten während dem Semester alle grundlegenden Anforderungen umsetzen. Diese währen:
@@ -59,3 +59,4 @@ Die zusätzlichen Anforderungen wurden nicht umgesetzt, da wir es nicht für nö
 ![](docImgs/prisma-erd.svg)
 Erstellt mit <a href="https://prisma-erd.simonknott.de/">Prisma ERD generator</a>
 # Reflexion
+Wir sind zufrieden mit unserer Arbeit im letzten Semester. Wir sind besonders stolz auf unsere zusammenarbeit. Wir haben immer zusammen die besten entscheidungen getroffen und wir haben unsere arbeit gut aufgeteilt. Gut funktioniert hat auch die Absprache mit dem Homeoffice. Während Rouven lieber im Homeoffice gearbeitet hat, war Gian öfters vor Ort um möglichst effizient zu sein. Wenn Rouven trotzdem vor Ort war, erledigten wir meistens grössere arbeiten im Pair programming, welches auch hervorragend geklappt hat. Im Pair programming war besonders spannend zu sehen, wie die andere Person ein problem angeht. Trotz all dem gibt es auch einige Dinge, welche wir hätten verbessern können. Das wäre die Auswahl vom Stack. Dank unsererm Stack konnten schon sehr früh Ergebnisse erzielt werden, welche sich sehen lassen konnten. Gegen Ende des Projektes wurde es aber zunehmend schwieriger sich im Programmcode zurechtzufinden weil mit der Menge an Code das Projekt etwas unübersichtlich geworden ist.
