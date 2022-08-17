@@ -2,13 +2,13 @@
     <button class="text" type="submit" onclick="location.href='/logout'">Logout(<%= header.username %>)</button>
     <button class="text" type="submit" onclick="location.href='/settings'">Settings</button>
     <%if (role == "admin"){ %> 
-        <button class="text" onclick="location.href='/sprint_verwaltung/2022/PI-01'">Termine verwalten</button>
+        <button class="text" onclick="location.href='/sprint_verwaltung'">Termine verwalten</button>
     <% } %> 
 </div>
 
 <div class="head">
     <img src="/images/suva_logo.png" alt="" class="logo">
-    <div class="titles">   
+    <header class="titles">   
         <% if (header.currSite == 1) { %>
             <%# Team Kalender %>
             <p><a href="/mein_kalender" class="title text">Mein Kalender</a></p>
