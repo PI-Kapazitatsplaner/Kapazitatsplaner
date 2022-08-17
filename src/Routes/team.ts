@@ -1,7 +1,10 @@
 import express from "express";
 import prisma from "../prisma/client";
 import sendFileIfParamEqualsName from "../middleware/fileSender/fileSender";
-import { AbwesenheitsTyp, User } from "@prisma/client";
+import { AbwesenheitsTyp, Pi, SprintTeam, User } from "@prisma/client";
+import sprints from "../prisma/data/sprints";
+import { use } from "chai";
+import { arrayBuffer } from "stream/consumers";
 
 interface Member {
   user: User;
@@ -46,22 +49,34 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         },
       },
     });
-
     //Sprints finden
     const sprintsInPi = await prisma.sprint.findMany({
       where: {
         piId: pi?.id,
       },
     });
+    const user = await prisma.user.findUnique({
+      where:{
+          sub: req.user.sub
+      }
+    });
 
-  //Find Teams to current user
-  const currentUserTeams = await prisma.user_Team.findMany({
+    //Find Teams to current user
+    const currentUserTeams = await prisma.user_Team.findMany({
       where: {
         userSub: req.user.sub,
       },
-    });
+    });    
+
     if (currentUserTeams) {
       let usersTeams: Team[] = [];
+
+      //Get Feiertage
+      const feiertage = await prisma.feiertag.findMany({}).then((feiertage) => {
+        return feiertage.map((feiertag) => {
+          return feiertag.datum.getTime()
+        });
+      })
 
       for (const team of currentUserTeams) {
           //Get Team name to id
@@ -101,102 +116,216 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
                 kapazitaetProSprint: [],
               });
             }
-        }  
-      let vogaengerVelocity = 80;
+        } 
+        //Get Previous PI
+        let previousPi: Pi | null = null;
+        if(pi){
+          previousPi = await prisma.pi.findUnique({
+            where: {
+              piKey:{
+                iteration: pi.iteration - 1 === 0 ? 4 : pi.iteration - 1,
+                year: pi.iteration - 1 === 0 ? pi.year - 1 : pi.year,
+              }
+            }
+          });
+        }
+
+        //Get Previous Sprint
+        let vorgaengerSprintId;
+        if(previousPi){
+          vorgaengerSprintId = await prisma.sprint.findUnique({
+            where: {
+              sprintKey: {
+                piId: previousPi.id,
+                sprintNumber: 6
+              }
+            }
+          }).then(sprint => sprint?.id);
+        }        
+        
+        let vorgaengerVelocity: number = 80
+        if(pi && team && vorgaengerSprintId){
+          vorgaengerVelocity = await prisma.sprintTeam.findUnique({
+            where: {
+              sprintTeamKey: {
+                teamId: team.teamId,
+                sprintId: vorgaengerSprintId,
+              }
+            }
+          }).then(sprint => sprint?.endVelocity || 80);  
+        }
+        
 
       const kapazitaetProSprint: number[] = [];
       const tageProSprint: number[] = [];
       const velocitiesProSprint: number[] = [];
       const umgesetzteStorypoints: number[] = [];
 
+      let sprintNumber = 1;
+
       //Tage pro Sprint berechnen
       for (const sprint of sprintsInPi) {
-        let totalDaysInTeam = 0;
-        let daysWithUserProductivity = 0;
-        const daysInSprint = Math.abs(
-          (sprint.von.getTime() - sprint.bis.getTime()) / (1000 * 3600 * 24),
-        ) + 1;
-        for (const member of teamMembers) {
-          const abwesenheiten = await getAbwesenheitenInDateRange(
-            sprint.von,
-            sprint.bis,
-            member.user.sub,
-          );
-          let usersDaysInSprint = daysInSprint;
-          for (
-            const date = new Date(sprint.von);
-            date <= sprint.bis;
-            date.setDate(date.getDate() + 1)
-          ) {
-            if (member.user.standardAbwesenheiten.includes(date.getDay())) {
-              if (abwesenheiten) {
-                usersDaysInSprint = abwesenheiten.filter((a) =>
-                    a.date == date.getTime() && a.typ === "anwesend"
-                  ).length !== 0
-                  ? usersDaysInSprint
-                  : usersDaysInSprint - 1;
-                usersDaysInSprint = abwesenheiten.filter((a) =>
-                    a.date == date.getTime() && a.typ === "halbAbwesend"
-                  ).length !== 0
-                  ? usersDaysInSprint + 0.5
-                  : usersDaysInSprint;
-              } else {
-                usersDaysInSprint--;
-              }
-            } else {
-              if (abwesenheiten) {
-                usersDaysInSprint = abwesenheiten.filter((a) =>
-                    a.date == date.getTime() && a.typ === "abwesend"
-                  ).length !== 0
-                  ? usersDaysInSprint - 1
-                  : usersDaysInSprint;
-                usersDaysInSprint = abwesenheiten.filter((a) =>
-                    a.date == date.getTime() && a.typ === "halbAbwesend"
-                  ).length !== 0
-                  ? usersDaysInSprint - 0.5
-                  : usersDaysInSprint;
-              }
+        const sprintTeam = await prisma.sprintTeam.findUnique({
+          where:{
+            sprintTeamKey:{
+              sprintId: sprint.id,
+              teamId: team.teamId
             }
           }
-          member.anwesendeTageProSprint.push(usersDaysInSprint);
-          totalDaysInTeam += usersDaysInSprint;
-          daysWithUserProductivity += Math.round(
-            usersDaysInSprint * (member.productivityPercentage / 100) * 2,
-          ) / 2;
-
-        }
-        tageProSprint.push(totalDaysInTeam);
-        kapazitaetProSprint.push(
-          Math.round(daysWithUserProductivity * (vogaengerVelocity / 100)),
-        );
+        });
 
         let umgesetzteStorypointsInSprint = undefined;
 
-        umgesetzteStorypointsInSprint = await prisma.sprintTeam.findUnique({
-          where: {
-            sprintTeamKey: {
-              sprintId: sprint.id,
-              teamId: team.teamId,
-            },
-          },
-        }).then((res) => res?.umgesetzteStorypoints);
-        if (umgesetzteStorypointsInSprint) {
-          umgesetzteStorypoints.push(umgesetzteStorypointsInSprint);
-        } else {
-          umgesetzteStorypoints.push(
-            kapazitaetProSprint[kapazitaetProSprint.length - 1],
+
+          let totalDaysInTeam = 0;
+          let daysWithUserProductivity = 0;
+          const daysInSprint = Math.abs(
+            (sprint.von.getTime() - sprint.bis.getTime()) / (1000 * 3600 * 24),
+          ) + 1;
+          //Jeder Team member
+          for (const member of teamMembers) {
+            const abwesenheiten = await getAbwesenheitenInDateRange(
+              sprint.von,
+              sprint.bis,
+              member.user.sub,
+            );
+            let usersDaysInSprint = daysInSprint;
+            for (
+              const date = new Date(sprint.von);
+              date <= sprint.bis;
+              date.setDate(date.getDate() + 1)
+            ) {            
+              if (member.user.standardAbwesenheiten.includes(date.getDay()) || 
+                feiertage.includes(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 1, 0 ,0).getTime())) {
+                if (abwesenheiten) {
+                  usersDaysInSprint = abwesenheiten.filter((a) =>
+                      a.date == date.getTime() && a.typ === "anwesend"
+                    ).length !== 0
+                    ? usersDaysInSprint
+                    : usersDaysInSprint - 1;
+                  usersDaysInSprint = abwesenheiten.filter((a) =>
+                      a.date == date.getTime() && a.typ === "halbAbwesend"
+                    ).length !== 0
+                    ? usersDaysInSprint + 0.5
+                    : usersDaysInSprint;
+                } else {
+                  usersDaysInSprint--;
+                }
+              } else {
+                if (abwesenheiten) {
+                  usersDaysInSprint = abwesenheiten.filter((a) =>
+                      a.date == date.getTime() && a.typ === "abwesend"
+                    ).length !== 0
+                    ? usersDaysInSprint - 1
+                    : usersDaysInSprint;
+                  usersDaysInSprint = abwesenheiten.filter((a) =>
+                      a.date == date.getTime() && a.typ === "halbAbwesend"
+                    ).length !== 0
+                    ? usersDaysInSprint - 0.5
+                    : usersDaysInSprint;
+                }
+              }
+            }
+            member.anwesendeTageProSprint.push(usersDaysInSprint);
+            
+            totalDaysInTeam += usersDaysInSprint;
+            daysWithUserProductivity += Math.round(
+              usersDaysInSprint * (member.productivityPercentage / 100) * 2,
+            ) / 2;
+
+          }
+
+
+          if(sprintTeam 
+            && sprintTeam.kapazitaetProSprint !== undefined 
+            && sprintTeam.kapazitaetProSprint !== null 
+            && sprintTeam.tageProSprint !== undefined 
+            && sprintTeam.tageProSprint !== null
+            && sprintTeam.umgesetzteStorypoints !== undefined
+            && sprintTeam.umgesetzteStorypoints !== null){
+            kapazitaetProSprint.push(sprintTeam.kapazitaetProSprint);
+            tageProSprint.push(sprintTeam.tageProSprint);
+            umgesetzteStorypointsInSprint = sprintTeam.umgesetzteStorypoints;
+          }else{
+
+          tageProSprint.push(totalDaysInTeam);
+       
+
+          kapazitaetProSprint.push(
+            Math.round(daysWithUserProductivity * (vorgaengerVelocity / 100)),
           );
-        }
         
-        const velocity = Math.round(
-          (vogaengerVelocity +
-          (umgesetzteStorypoints[umgesetzteStorypoints.length - 1] / kapazitaetProSprint[kapazitaetProSprint.length - 1] * 100)) / 2
-        );
-        velocitiesProSprint.push(velocity);
-        vogaengerVelocity = velocity;
+
+          umgesetzteStorypointsInSprint = await prisma.sprintTeam.findUnique({
+            where: {
+              sprintTeamKey: {
+                sprintId: sprint.id,
+                teamId: team.teamId,
+              },
+            },
+          }).then((res) => res?.umgesetzteStorypoints);
+        }
+          let velocity = vorgaengerVelocity;
+          
+          if (umgesetzteStorypointsInSprint !== undefined && umgesetzteStorypointsInSprint !== null) {
+            if(kapazitaetProSprint[kapazitaetProSprint.length - 1] > 0){
+              velocity = Math.round(
+                (sprintNumber * vorgaengerVelocity +
+                (umgesetzteStorypointsInSprint / kapazitaetProSprint[kapazitaetProSprint.length - 1] * 100)) / (sprintNumber + 1)
+              );
+            }
+            umgesetzteStorypoints.push(umgesetzteStorypointsInSprint);
+          } else {
+            umgesetzteStorypoints.push(
+              0
+            );
+          }
+                  
+          velocitiesProSprint.push(velocity);
+          vorgaengerVelocity = velocity;
+          
+          if(sprintNumber === 6){
+            await prisma.sprintTeam.upsert({
+              where: {
+                sprintTeamKey: {
+                  sprintId: sprint.id,
+                  teamId: team.teamId,
+                },
+              },
+              create: {
+                sprintId: sprint.id,
+                teamId: team.teamId,
+                endVelocity: velocity,
+              },
+              update: {
+                endVelocity: velocity,
+              },
+            });
+          }          
+          if(sprint.bis < new Date() && sprintTeam?.umgesetzteStorypoints){
+            await prisma.sprintTeam.upsert({
+              where: {
+                sprintTeamKey: {
+                  sprintId: sprint.id,
+                  teamId: team.teamId,
+                },
+              },
+              create:{
+                sprintId: sprint.id,
+                teamId: team.teamId,
+                endVelocity: velocity,
+                kapazitaetProSprint: kapazitaetProSprint[sprintNumber - 1],
+                tageProSprint: Math.round(tageProSprint[sprintNumber - 1]),
+              },
+              update:{
+                endVelocity: velocity,
+                kapazitaetProSprint: kapazitaetProSprint[sprintNumber - 1],
+                tageProSprint: Math.round(tageProSprint[sprintNumber - 1]),
+              }
+            });
+          }
+        sprintNumber++
       }
-
-
       if (currentUserTeam) {
         usersTeams.push({
           teamId: currentUserTeam.id,
@@ -208,8 +337,8 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
           umgesetzteStorypoints: umgesetzteStorypoints.map((k) =>isNaN(k) ? 0 : k),
         });
       }
-
-    }
+      }
+      
       res.render("team_kalender", {
         piIsDefined: pi === null ? false : true,
         header,
@@ -217,6 +346,8 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         params: req.params,
         userTeams: usersTeams,
         noTeam: false,
+        role: user?.role,
+        sprints: sprintsInPi,
       });
     } else {
       res.render("team_kalender", {
@@ -225,6 +356,8 @@ router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
         prefersWhiteMode: req.user.prefersWhiteMode,
         params: req.params,
         noTeam: true,
+        role: user?.role,
+        sprints: sprintsInPi,
       });
     }
   } else {

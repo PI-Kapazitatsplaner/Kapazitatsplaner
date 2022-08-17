@@ -35,14 +35,18 @@
         <div class="line linecol"></div>
       </div>
       <div class="element">
-        <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der Ganzen Applikation verwendet.</span></h2>
-        <input type="radio" name="theme" value="dark" <% if(prefersWhiteMode === false) { __append("checked='checked'") } %>>
-        <p class="text" style="display: inline-block;">Dunkel</p></input>
-        <input type="radio" name="theme" value="light" <% if(prefersWhiteMode === true) { __append("checked='checked'") } %>>
-        <p class="text" style="display: inline-block;">Hell</p></input>
+        <h2 class="tooltip"><label for="theme">Color Theme</label><span class="tooltiptext">Das Color Theme wird in der ganzen Applikation verwendet.</span></h2>
+        <div class="colorSwitch">
+          <p class="text">Darkmode</p>
+          <label class="switch">
+            <input type="checkbox" id="colorMode" value="false" name="theme" <% if(prefersWhiteMode === false) {%>checked<% } %>> <!-- checked when darkmode-->
+            <span class="slider round"></span>
+          </label>
+        </div>
+        
       </div>
       <div class="element">
-        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ erfasst werden.</span></h2>
+        <h2 class="tooltip">Standard Abwesenheit<span class="tooltiptext">Mit einem Klick auf einen Tag der Liste kann dieser als Standard Abwesenheit🏖️ definiert werden.</span></h2>
         <div class="days">
           <div class="day">
             <input type="checkbox" id="monday" name="standardAbwesenheiten" value="1" <% if(standardAbwesenheiten.includes(1)){__append("checked")}%>>
@@ -85,7 +89,7 @@
       <% for(let i = 0; i < teams.length; i++){ %>
         <div class="element teamBar">
           <div class="teamSection">
-            <h2 class="text team"><%- teams[i].teamName %></h2>
+            <h2 class="text"><%- teams[i].teamName %></h2>
           </div>
           <div class="percentageSection">
             <h2 class="tooltip"><label for="productivity">
@@ -94,19 +98,14 @@
                 verwendet.</span></h2>
             <div class="number-input percent-input">
               <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-                max="100" name="productivity" onchange="checkPercentage()" value="<%- productivity[i] %>" type="number">
+                max="100" name="productivity" onchange="checkInput(); scaleInputSize(this)" value="<%- productivity[i] %>" type="number">
               <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
               <button
-                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); checkInput(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="plus" type="button"></button>
               <button
-                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkPercentage(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); checkInput(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));"
                 class="minus" type="button"></button>
-              <script>
-                function scaleInputSize(input) {
-                  input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
-                }
-              </script>
             </div>
           </div>
           <i onclick="location.href='/settings/delete/' + '<%- teams[i].teamName %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
@@ -116,7 +115,13 @@
       <% if(addTeam){ %>
         <div class="element teamBar addTeam" id="addTeam">
           <div class="teamSection">
-            <input type="text" id="teamInput" class="text team" name="newTeam" placeholder="Team Hinzufügen" oninput='checkContent(this)'>
+            <select name="newTeam" id="teamSelect" class="dropdown text" onchange="checkInput()">
+              <option class="text selectItems firstSelectItem" value="0">Wähle ein Team</option>
+              <% for(const team of allTeams){ %>
+                <option class="text selectItems" value="<%- team.teamName %> "><%- team.teamName %></option>
+              <% } %>  
+            </select>
+
           </div>
           <div class="percentageSection">
             <h2 class="tooltip"><label for="productivity">
@@ -124,8 +129,8 @@
               </label><span class="tooltiptext">Die Entwicklungskapazität wird bei der Berechnung der Velocity
                 verwendet.</span></h2>
             <div class="number-input percent-input">
-              <input oninput="scaleInputSize(this);" onloadstart="scaleInputSize(this);" class="percent" min="0"
-                max="100" name="newPercentage" value="0" type="number">
+              <input oninput="scaleInputSize(this);" onchange="scaleInputSize(this)" onloadstart="scaleInputSize(this);" class="percent" min="0"
+                max="100" name="newPercentage" value="100" type="number">
               <span onclick="this.parentNode.querySelector('input[type=number]').focus();">%</span>
               <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="plus" type="button"></button>
               <button onclick="this.parentNode.querySelector('input[type=number]').stepDown(); scaleInputSize(this.parentNode.querySelector('input[type=number]'));" class="minus" type="button"></button>
@@ -135,30 +140,25 @@
         </div>
       <% } %> 
       <div class="settingsButtons">
-        <button type="button" class="addBtn" onclick="location.href='/settings/add'">+</button>
+        <button type="button" class="addBtn" onclick="addTeam()">+</button>
         <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
       </div>     
     </form>
   </div>
 </body>
 <script>
+
+  function addTeam(){
+    document.getElementById("settingsForm").action = "/settings/add";
+    document.getElementById("settingsForm").submit();
+  }
+
   var arrow = document.getElementById('arrow');
   arrow.classList.add('arrow-dark');
   arrow.classList.remove('arrow');
-  function checkContent(teamInput){
-    var saveBtn = document.getElementById('saveBtn');
-      if(teamInput.value.length > 0){
-      saveBtn.classList.remove('disableBtn');
-      saveBtn.disabled = false;
-      } 
-      else {
-        saveBtn.classList.add('disableBtn');
-        saveBtn.disabled = true;
-      }
-  }
 
   function scaleInputSize(input) {
-    checkPercentage();
+    checkInput();
     input.parentNode.style.gridTemplateColumns = ((input.value.length + 1) * 2) + 'ch auto 64px';
   }
 
@@ -166,38 +166,45 @@
     scaleInputSize(document.querySelector('.percent-input input'));
   }
 
-  function checkPercentage(){
+  function checkInput(){
     let percentageInputs = document.getElementsByClassName("percent")
     let totalPercentage = 0;
+    
+    if(<%- addTeam %>){
+      let dropdown = document.getElementById("teamSelect");
+      console.log(dropdown.value);
 
-    for(const percentageInput of percentageInputs){
+      for(const percentageInput of percentageInputs){
       totalPercentage += Number(percentageInput.value)
-    }
-    if(totalPercentage > 100){
-      document.getElementById("saveBtn").disabled = true;
-      document.getElementById("saveBtn").classList.add("disableBtn");
-    }
-    else{
-      document.getElementById("saveBtn").disabled = false;
-      document.getElementById("saveBtn").classList.remove("disableBtn");
-    }
-  }
-
-  function switchTheme(theme) {
-    if (theme === "light") {
-      setColors("light");
-    } else if (theme === "dark") {
-      setColors("dark");
-    } else if (theme === "browser") {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setColors("dark");
-      } else {
-        setColors("light");
+      }
+      if(totalPercentage > 100 || dropdown.value == 0){
+        document.getElementById("saveBtn").disabled = true;
+        document.getElementById("saveBtn").classList.add("disableBtn");
+      }
+      else if(dropdown != "Wähle ein Team"){
+        document.getElementById("saveBtn").disabled = false;
+        document.getElementById("saveBtn").classList.remove("disableBtn");
       }
     }
+    else{
+    
+      for(const percentageInput of percentageInputs){
+      totalPercentage += Number(percentageInput.value)
+      }
+      if(totalPercentage > 100){
+        document.getElementById("saveBtn").disabled = true;
+        document.getElementById("saveBtn").classList.add("disableBtn");
+      }
+      else{
+        document.getElementById("saveBtn").disabled = false;
+        document.getElementById("saveBtn").classList.remove("disableBtn");
+      }
+    }
+
+    
   }
 
-  checkPercentage();
+  checkInput();
 </script>
 <%- include('colorScript') %>
 

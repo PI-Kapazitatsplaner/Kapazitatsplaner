@@ -1,6 +1,4 @@
-.titleL {
-    color: var(--suva-color-primary) !important;
-}
+
 
 .nav {
     display: flex;
@@ -10,9 +8,7 @@
     margin-right: 5%;
 }
 
-.nav .titleR {
-    margin-left: auto;
-}
+
 
 .arrow {
     height: 30px;
@@ -179,10 +175,10 @@
 .teamBar:hover {
     background-color: var(--team-hover);
 }
-.teamBar:hover .number-input input[type=number] {
+.teamBar:hover .number-input input[type=number], .teamBar:hover .dropdown {
     background-color: var(--team-hover);
 }
-.addTeam .team{
+.team{
     background:
         linear-gradient(var(--line), var(--line)) left bottom 5px /60% 1px no-repeat;
     background-color: var(--background2);
@@ -190,7 +186,7 @@
     outline: none;
 
     font-family: sans-serif;
-    font-size: 29px;
+    font-size: 20px;
     height: 3rem;
     text-align: left;
     background-color: var(--background2);
@@ -201,6 +197,19 @@
 }
 .addTeam:hover .team {
     background-color: var(--team-hover);
+}
+.dropdown{
+    background-color: var(--background2);
+    height: 30px;
+    font-size: 24px;
+    border: var(--text) 1px solid;
+    border-radius: 4px;
+}
+.selectItems{
+    font-size: 18px;
+}
+.firstSelectItem{
+    display: none;
 }
 
 
@@ -270,4 +279,12 @@
 }
 .showAddTeam{
     visibility: visible !important;
+}
+.colorSwitch{
+    display: flex;
+    align-items: center;
+}
+.colorSwitch p{
+    padding-left: 0;
+    margin-left: 0;
 }

@@ -8,42 +8,50 @@ var currentTime = new Date();
 
 //Read
 router.get("/:year/:pi", sendFileIfParamEqualsName, async (req, res) => {
-  if(req.params.pi.length > 1){
-    req.params.pi = req.params.pi.slice(4,5);
+  if(req.user.role == "dev"){
+    res.send("No Access")
   }
-  if (
-    Number(req.params.year) >= 2020 &&
-    Number(req.params.year) <= 2100 &&
-    (Number(req.params.pi) <= 4 && Number(req.params.pi) >= 1)
-  ) {
-    //PI nach Parameter suchen
-    const pi = await prisma.pi.findUnique({
-      where: {
-        piKey: {
-          year: Number(req.params.year),
-          iteration: Number(req.params.pi),
-        },
-      },
-    });
-    let sprintsInPi;
-    if (pi !== null) {
-      //Sprints Finden
-      sprintsInPi = await prisma.sprint.findMany({
+  else{
+    let parent = 2;
+    if (req.headers.referer?.includes("mein_kalender")){ parent = 1; }    
+    if(req.params.pi.length > 1){
+      req.params.pi = req.params.pi.slice(4,5);
+    }
+    if (
+      Number(req.params.year) >= 2020 &&
+      Number(req.params.year) <= 2100 &&
+      (Number(req.params.pi) <= 4 && Number(req.params.pi) >= 1)
+    ) {
+      //PI nach Parameter suchen
+      const pi = await prisma.pi.findUnique({
         where: {
-          piId: pi.id,
+          piKey: {
+            year: Number(req.params.year),
+            iteration: Number(req.params.pi),
+          },
         },
       });
+      let sprintsInPi;
+      if (pi !== null) {
+        //Sprints Finden
+        sprintsInPi = await prisma.sprint.findMany({
+          where: {
+            piId: pi.id,
+          },
+        });
+      }
+      res.render("sprint_verwaltung", {
+        params: req.params,
+        sprints: sprintsInPi,
+        pi: pi,
+        prefersWhiteMode: req.user.prefersWhiteMode,
+        parent,
+      });
+    } else {
+      res.redirect(
+        "/sprint_verwaltung/" + currentTime.getFullYear() + "/PI-01",
+      );
     }
-    res.render("sprint_verwaltung", {
-      params: req.params,
-      sprints: sprintsInPi,
-      pi: pi,
-      prefersWhiteMode: req.user.prefersWhiteMode,
-    });
-  } else {
-    res.redirect(
-      "/sprint_verwaltung/" + currentTime.getFullYear() + "/PI-01",
-    );
   }
 });
 //Update

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request } from 'express';
 import createError from 'http-errors';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -10,8 +10,10 @@ import settingsRouter from "./Routes/settings"
 import userRouter from "./Routes/user";
 import teamRouter from "./Routes/team";
 import sprint_settingsRouter from "./Routes/sprint_settings";
+import feiertageRouter from "./Routes/feiertage";
 import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
+import { Request } from 'express';
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -46,14 +48,12 @@ app.use(userEnricher);
 
 //Routers
 app.use('/', indexRouter);
-app.use('/a', (req, res) => { console.log("a" + new Date()); res.send('Hello World!') });
-
-app.use('/b', (req, res) => { console.log("b" + new Date()); res.send('Hello World!') });
 
 app.use('/settings', csrfProtection ,settingsRouter);
 app.use('/mein_kalender', csrfProtection ,userRouter);
 app.use('/team_kalender', teamRouter);
 app.use('/sprint_verwaltung', sprint_settingsRouter);
+app.use('/feiertage_verwaltung', feiertageRouter);
 
 app.use(function (req, res, next) {
     next(createError(404));

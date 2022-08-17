@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="/Images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/common.css">
+  <link rel="stylesheet" href="/settings.css">
+  <link rel="stylesheet" href="/numberInput.css">
+  <link rel="stylesheet" href="/sprint_verwaltung.css">
+  <link rel="stylesheet" href="/feiertage_verwaltung.css">
+  <script src="/controller.js"></script>
+  <title>Sprint Verwaltung</title>
+</head>
+
+<body id="body" class="content">
+  <div class="nav">
+    <% if (parent == 1){ %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/mein_kalender'">
+    <% }else if (parent == 2) { %>
+      <img class="arrow" id="arrow" src="/Images/arrow_back.png" alt="" onclick="location.href='/team_kalender'">
+    <% } %>
+    <div class="titleR termineNav">
+      <h2><a href="/sprint_verwaltung/2022/PI-01" class="text">Sprint Verwaltung</a></h1>
+      <h1><a href="" class="text">Feiertage Verwaltung</a></h2>
+    </div>
+  </div>
+  <div class="mainContent" id="mainContent">
+      <div class="number-input year-select">
+        <input oninput="updateYear(this)" min="0" name="quantity" max="2100" value="<%- params.year %>" type="number">
+        <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+        <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateYear(this.parentNode.querySelector('input[type=number]'))"></button>
+      </div>
+      <form action="/feiertage_verwaltung/<%- parent %>/<%- params.year %> " method="post" id="feiertageForm">
+        <% for (const feiertag of feiertage) { %>
+            <div class="feiertagBar">
+                <h2 class="text"><%- feiertag.titel %></h2>
+                <input type="date" placeholder="datum" name="feiertagDatum" class="input" value="<%- getFormattedDate(feiertag.datum) %>">
+                <p></p>
+                <label class="switch">
+                  <label class="text textR" for="halberTag">Halbtag</label>
+                  <input type="checkbox" id="halberTag" value="<%= feiertag.titel %>" name="halberTag" <% if(feiertag.halberTag === true){ %>checked<% } %>>
+                  <span class="slider round"></span>
+                </label>
+                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year%>/delete/' + '<%- feiertag.id %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+            </div>
+        <% } %> 
+        <% if(addFeiertag){ %>
+            <div class="feiertagBar">
+                <input type="text" id="teamInput" class="text team" name="addFeiertagTitel" placeholder="Feiertag Hinzufügen" oninput='checkContent(this)'>
+                <input type="date" placeholder="Datum" class="input" name="addFeiertagDatum" required>
+                <p></p>
+                <label class="switch">
+                  <p class="text textR">Halbtag</p>
+                  <input type="checkbox" id="addHalberTag" value="nameeinesfeiertagesdenniejemandverwendenwird" name="addHalberTag">
+                  <span class="slider round"></span>
+                </label>
+                <i onclick="location.href='/feiertage_verwaltung/<%- parent %>/<%- params.year %>'" class="fa fa-trash text binIcon" aria-hidden="true"></i>
+            </div>
+        <% } %> 
+        <div class="feiertageButtons">
+            <button type="button" class="addBtn" onclick="addFeiertag()">+</button>
+            <button class="saveBtn" id="saveBtn" type="submit">Sichern</button>
+        </div>  
+      </form>
+  </div>
+  <% function getFormattedDate(date){
+    return new Date(date.getFullYear(),date.getMonth(),date.getDate(),4).toISOString().split("T")[0];
+    } %>
+    
+</body>
+<script>
+  function addFeiertag(){
+    document.getElementById("feiertageForm").action = "/feiertage_verwaltung/<%- parent %>/<%- params.year %>/add";
+    document.getElementById("feiertageForm").submit();
+  }
+  function updateYear(yearInput) {
+    location.href = "/feiertage_verwaltung/" + "<%- parent %>/" + yearInput.value;
+  }
+</script>
+<%- include('colorScript') %>
+</html>

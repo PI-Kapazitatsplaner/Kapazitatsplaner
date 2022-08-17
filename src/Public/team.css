@@ -26,6 +26,7 @@
 }
 .mainContent .velocityBoard .borderBL {
   border-bottom-left-radius: 8px;
+  border-left: none;
 }
 .mainContent .velocityBoard .borderBR {
   border-bottom-right-radius: 8px;
@@ -51,6 +52,9 @@
 }
 .mainContent .velocityBoard tr:nth-child(even) {
   background-color: var(--background2);
+}
+.mainContent .velocityBoard tr:nth-child(odd) form div input {
+  background-color: var(--background);
 }
 
 .velocityBoard tbody tr .borderTop {
@@ -113,4 +117,9 @@
 .ttContainer::after{ 
   content: "?";
   vertical-align: super;
+}
+.date{
+  margin: 0;
+  padding: 0;
+  font-size: 17px;
 }

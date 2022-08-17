@@ -40,31 +40,32 @@
         <tbody>
           <tr>
             <th class="name firstElement borderTL"><%- team.teamName %></th>
-            <th>Sprint 1</th>
-            <th>Sprint 2</th>
-            <th>Sprint 3</th>
-            <th>Sprint 4</th>
-            <th>Sprint 5</th>
-            <th class="borderTR">Sprint 6</th>
+            <th>Sprint 1 <br> <p class="date"><%- getFormattedDateWOYear(sprints[0].von) + " - " + getFormattedDateWOYear(sprints[0].bis) %></p></th>
+            <th>Sprint 2 <br> <p class="date"><%- getFormattedDateWOYear(sprints[1].von) + " - " + getFormattedDateWOYear(sprints[1].bis) %></p></th>
+            <th>Sprint 3 <br> <p class="date"><%- getFormattedDateWOYear(sprints[2].von) + " - " + getFormattedDateWOYear(sprints[2].bis) %></p></th>
+            <th>Sprint 4 <br> <p class="date"><%- getFormattedDateWOYear(sprints[3].von) + " - " + getFormattedDateWOYear(sprints[3].bis) %></p></th>
+            <th>Sprint 5 <br> <p class="date"><%- getFormattedDateWOYear(sprints[4].von) + " - " + getFormattedDateWOYear(sprints[4].bis) %></p></th>
+            <th class="borderTR">Sprint 6 <br> <p class="date"><%- getFormattedDateWOYear(sprints[5].von) + " - " + getFormattedDateWOYear(sprints[5].bis) %></p></th>
           </tr>
+          
           <% for(const member of team.teamMembers){ %>
           <tr>
             <td class="text firstElement tooltip">
-              <p class="text ttContainer"><%- member.user.firstname + ' ' + member.user.lastname%>
+              <p class=" ttContainer"><%- member.user.firstname + ' ' + member.user.lastname%>
                 <span class="tooltiptext">
                   <%- member.user.firstname %> hat ein Pensum von <%- (7 - (member.user.standardAbwesenheiten.length)) * 20 %> % und ist dabei zu <%- member.productivityPercentage %>% am Entwickeln
                 </span>
               </p>
             </td>
             <% for(const dayInSprint of member.anwesendeTageProSprint){ %>
-            <td class="text"><%= dayInSprint%> </td>
+            <td class="text"><%= Math.round(dayInSprint*2)/2%> </td>
             <% } %>
           </tr>
           <% } %>
           <tr>
             <td class="text borderTop firstElement">Totale Tage</td>
             <% for(const tps of team.tageProSprint){ %>
-            <td class="text borderTop"><%= tps %></td>
+            <td class="text borderTop"><%= Math.round(tps*2)/2 %></td>
             <% } %>
           </tr>
           <tr>
@@ -79,10 +80,10 @@
             <td class="text">
               <form action="/team_kalender/<%- params.year %>/<%- params.pi %>/<%= i %>" method="post">
                 <div class="number-input usp-select">
-                  <input class="text" step="0.5" min="0" onchange="updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>)" name="usp" value="<%- team.umgesetzteStorypoints[i - 1] %>" type="number">
-                  <button type="button" class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>);"></button>
-                  <button type="button" class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateUps(this,<%- team.umgesetzteStorypoints[i - 1] %>);"></button>
-                  <button class="save">Save</button>
+                  <input class="text" step="0.5" min="0" onchange="updateUps(this)" name="usp" value="<%- team.umgesetzteStorypoints[i - 1] %>" type="number">
+                  <button type="button" class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateUps(this);"></button>
+                  <button type="button" class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateUps(this);"></button>
+                  <button class="save"></button>
                 </div>
                   <input type="hidden" name="teamId" value="<%- team.teamId %>">
               </form>
@@ -97,7 +98,7 @@
             <td class="text"><%= team.velocitiesProSprint[team.velocitiesProSprint.length -1] %>%</td>
           </tr>
           <tr>
-            <td style="border: 0;"></td>
+            <td class="borderBL"></td>
             <td style="border: 0;"></td>
             <td style="border: 0;"></td>
             <td style="border: 0;"></td>
@@ -116,19 +117,25 @@
     <% } %>
   </div>
 </body>
+<% function getFormattedDate(date){  
+  return String(date.getUTCDate() + 1) + "." + String(date.getUTCMonth() + 1) + "." + String(date.getUTCFullYear())
+  
+  }
+
+  function getFormattedDateWOYear(date){
+    return String(date.getUTCDate() + 1) + "." + String(date.getUTCMonth() + 1) + ".";
+  }
+  
+ %>
 <script>
   function updateYear(yearInput) {
     location.href = "/team_kalender/" + yearInput.value + "/PI-01";
   }
 
-  function updateUps(uspInput, oldUsp) {
-    const newUsp = uspInput.parentNode.querySelector('input[type=number]').value;
-    if(newUsp != oldUsp){
-        uspInput.parentNode.querySelector('button.save').style.visibility = "visible";
-    } else {
-        uspInput.parentNode.querySelector('button.save').style.visibility = "hidden";
-    }
+  function updateUps(uspInput) {
+    uspInput.parentNode.parentNode.submit()
   }
+
 </script>
 <%- include('colorScript') %>
 </html>

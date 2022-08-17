@@ -19,6 +19,7 @@ const main = async () => {
                 lastname: "Hänggi",
                 preferencesWhiteMode: false,
                 standardAbwesenheiten: [0, 2, 6],
+                role: "dev"
             },
             {
                 sub: '4296e3d8-a609-4ffa-b27a-3106ed7a5126', //gif
@@ -26,6 +27,7 @@ const main = async () => {
                 lastname: "Federspiel",
                 preferencesWhiteMode: true,
                 standardAbwesenheiten: [0, 3],
+                role: "admin"
             }
         ]
     });
@@ -72,8 +74,28 @@ const main = async () => {
             },
         ]
     });
+    await prisma.feiertag.createMany({
+        data: [
+          {
+            titel: "Nationalfeiertag",
+            datum: new Date(2022, 7, 1),
+          },
+          {
+            titel: "Weihnachten",
+            datum: new Date(2022, 11, 25),
+          },
+          {
+            titel: "Heiligabend",
+            datum: new Date(2022, 11, 24),
+            halberTag: true,
+          }
+        ]
+    });
+
     await prisma.pi.createMany({ data: piData });
     await prisma.sprint.createMany({ data: sprintData });
+
+
 
 };
 

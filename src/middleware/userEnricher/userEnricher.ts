@@ -8,7 +8,6 @@ export default async function enrichUser(
 ) {
   let content;
   if (process.env.NODE_ENV === "test" || process.env.mockKeycloak === "true") {
-    console.log("Mocking Userenricher");
     content = {
       sub: getTestUserSub(),
       name: "mock",
@@ -42,6 +41,7 @@ export default async function enrichUser(
     email: content.email,
     prefersWhiteMode: user.preferencesWhiteMode,
     standardAbwesenheiten: user.standardAbwesenheiten,
+    role: user.role,
   }
   next();
 }
